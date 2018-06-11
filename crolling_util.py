@@ -4,9 +4,16 @@ from bs4 import BeautifulSoup
 import openpyxl
 import os
 
+# 래쉬가드
+# 비키니
+# 비치웨어
+# 비치원피스
+# 신혼여행커플룩
+# 모노키니
+file_path = 'D:\d_04python'
 now = datetime.datetime.now()
 nowStr = str(now).replace('-','').replace(' ','_').replace(':','').replace('.','_')
-dirlist = sorted(os.listdir('D:\d_04python'), reverse=True)
+dirlist = sorted(os.listdir(file_path), reverse=True)
 print('File Name:'+nowStr)
 
 def get_strArr(strArr, strArrKey):
@@ -23,8 +30,9 @@ def get_strArr_sub(strArr, strArrKey, strArrKeySub):
 def get_rank(strArr, sIdx, eIdx):
     rankData = {}
     for dir in dirlist:
-        if dir.find('xlsx') > 0:
-            wb = openpyxl.load_workbook(dir)
+        file = file_path+'/'+dir
+        if file.find('xlsx') > 0:
+            wb = openpyxl.load_workbook(file)
             ws = wb.active
             for row in ws.rows:
                 name = row[0].value
