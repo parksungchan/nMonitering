@@ -4,12 +4,6 @@ from bs4 import BeautifulSoup
 import openpyxl
 import os
 
-# 래쉬가드
-# 비키니
-# 비치웨어
-# 비치원피스
-# 신혼여행커플룩
-# 모노키니
 file_path = 'D:\d_04python'
 now = datetime.datetime.now()
 nowStr = str(now).replace('-','').replace(' ','_').replace(':','').replace('.','_')
@@ -38,8 +32,10 @@ def get_rank(strArr, sIdx, eIdx):
                 name = row[0].value
                 pc = row[1].value
                 mb = row[2].value
+                if name in rankData:
+                    continue
                 rankData[name] = {'pc': pc, 'mb': mb}
-            break
+
 
     with open(nowStr + ".txt", "a") as myfile:
         for strTxt in strArr:
@@ -67,23 +63,25 @@ def get_rank(strArr, sIdx, eIdx):
                     if tagImg:
                         # print(tagImg)
                         ct = tagImg.contents[1]
+                        imgName = ct.get('alt')
                         pageurl = tagImg.attrs['href']
                         tagImgIdx = tag.text.find('FLYBEACH')
                         tagImgIdxH = tag.text.find('플라이비치')
                         if tagImgIdx > -1:
                             adIdx = str(tag).find('ad _itemSection')
                             if adIdx > 0:
-                                pStr = 'FLYBEACH   Page(광고):' + str(pg) + '    (' + str(ct) + ')' + pageurl
+                                pStr = 'FLYBEACH   Page(광고):' + str(pg) + '    (' + str(imgName) + ')' + pageurl
                             else:
-                                pStr = 'FLYBEACH   Page:' + str(pg) + '    (' + str(ct) + ')' + pageurl
+                                pStr = 'FLYBEACH   Page:' + str(pg) + '    (' + str(imgName) + ')' + pageurl
                             print(pStr)
                             myfile.write(pStr + '\n')
                         elif tagImgIdxH > -1:
                             adIdx = str(tag).find('ad _itemSection')
                             if adIdx > 0:
-                                pStr = '플라이비치 Page(광고):' + str(pg) + '    (' + str(ct) + ')' + pageurl
+                                pStr = '플라이비치 Page(광고):' + str(pg) + '    (' + str(imgName) + ')' + pageurl
                             else:
-                                pStr = '플라이비치 Page:' + str(pg) + '    (' + str(ct) + ')' + pageurl
+                                pStr = '플라이비치 Page:' + str(pg) + '    (' + str(imgName) + ')' + pageurl
                             print(pStr)
                             myfile.write(pStr + '\n')
                         idx += 1
+
