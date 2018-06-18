@@ -2,13 +2,13 @@ import datetime
 import requests
 from bs4 import BeautifulSoup
 import openpyxl
-import os
+import os, shutil
 
 file_path = 'D:\d_04python'
 now = datetime.datetime.now()
 nowStr = str(now).replace('-','').replace(' ','_').replace(':','').replace('.','_')
 dirlist = sorted(os.listdir(file_path), reverse=True)
-print('File Name:'+nowStr)
+print('Start:'+nowStr)
 
 def get_strArr(strArr, strArrKey):
     for strStr in strArrKey:
@@ -37,7 +37,7 @@ def get_rank(strArr, sIdx, eIdx):
                 rankData[name] = {'pc': pc, 'mb': mb}
 
 
-    with open(nowStr + ".txt", "a") as myfile:
+    with open(file_path+"/log/"+nowStr + ".txt", "a") as myfile:
         for strTxt in strArr:
             rd = {}
             if strTxt in rankData:
@@ -85,3 +85,7 @@ def get_rank(strArr, sIdx, eIdx):
                             myfile.write(pStr + '\n')
                         idx += 1
 
+    end = datetime.datetime.now()
+    endStr = str(end).replace('-', '').replace(' ', '_').replace(':', '').replace('.', '_')
+    print('End:' + endStr)
+    print('Sub:' + str(end - now))
