@@ -1,17 +1,24 @@
 import crolling_util as crolling_util
 
 sIdx = 1
-eIdx = 1
+eIdx = 10
 strArr = []
 # strArr.append('모노키니')
 # ########################################################################################################################
 # # 대표키워드
 # ########################################################################################################################
-# strArrKey = ['래쉬가드', '커플래쉬가드', '비키니', '수영복', '모노키니', '비치웨어']
-# strArr = crolling_util.get_strArr(strArr, strArrKey)
-#
-# strArrKey = ['신혼여행커플룩', '비치원피스']
-# strArr = crolling_util.get_strArr(strArr, strArrKey)
+# eIdx = 100
+# # strArrKey = ['비치웨어']
+# # strArr = crolling_util.get_strArr(strArr, strArrKey)
+# #
+# # strArrKey = ['커플래쉬가드', '래쉬가드']
+# # strArr = crolling_util.get_strArr(strArr, strArrKey)
+# #
+# # strArrKey = ['모노키니', '비키니', '수영복']
+# # strArr = crolling_util.get_strArr(strArr, strArrKey)
+# #
+# # strArrKey = ['비치원피스', '신혼여행커플룩']
+# # strArr = crolling_util.get_strArr(strArr, strArrKey)
 # #######################################################################################################################
 # 래쉬가드
 # #######################################################################################################################
