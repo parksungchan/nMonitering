@@ -4,11 +4,16 @@ from bs4 import BeautifulSoup
 import openpyxl
 import os, shutil
 
-file_path = 'D:\d_04python'
+file_path = 'D:\d_05_python'
 now = datetime.datetime.now()
 nowStr = str(now).replace('-','').replace(' ','_').replace(':','').replace('.','_')
 dirlist = sorted(os.listdir(file_path), reverse=True)
 print('Start:'+nowStr)
+
+def make_dir(dir):
+    if not os.path.exists(dir):
+        os.makedirs(dir)
+    return dir
 
 def get_strArr(strArr, strArrKey):
     for strStr in strArrKey:
@@ -36,7 +41,7 @@ def get_rank(strArr, sIdx, eIdx):
                     continue
                 rankData[name] = {'pc': pc, 'mb': mb}
 
-
+    make_dir(file_path+"/log")
     with open(file_path+"/log/"+nowStr + ".txt", "a") as myfile:
         for strTxt in strArr:
             rd = {}
