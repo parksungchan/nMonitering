@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import openpyxl
 import os, shutil
 
-file_path = 'D:\d_05_python'
+file_path = os.path.dirname(os.path.abspath(__file__))
 now = datetime.datetime.now()
 nowStr = str(now).replace('-','').replace(' ','_').replace(':','').replace('.','_')
 dirlist = sorted(os.listdir(file_path), reverse=True)
