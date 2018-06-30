@@ -71,8 +71,9 @@ def get_rank(strArr, sIdx, eIdx):
             myfile.write(pStr1 + '\n')
             myfile.write(pStr2 + '\n')
             myfile.write(pStr1 + '\n')
-            idx = 1
+
             for pg in range(sIdx, eIdx):
+                idx = 1
                 soup = get_soup(strTxt, pg)
                 for tag in soup.select('li'):
                     tagImg = tag.find(class_='img')
@@ -81,22 +82,28 @@ def get_rank(strArr, sIdx, eIdx):
                         ct = tagImg.contents[1]
                         imgName = ct.get('alt')
                         pageurl = tagImg.attrs['href']
-                        tagImgIdx = tag.text.find('FLYBEACH')
-                        tagImgIdxH = tag.text.find('플라이비치')
-                        if tagImgIdx > -1:
-                            adIdx = str(tag).find('ad _itemSection')
-                            if adIdx > 0:
-                                pStr = 'FLYBEACH   Page(광고):' + str(pg) + '    (' + str(imgName) + ')' + pageurl
-                            else:
-                                pStr = 'FLYBEACH   Page:' + str(pg) + '    (' + str(imgName) + ')' + pageurl
-                            print(pStr)
-                            myfile.write(pStr + '\n')
-                        elif tagImgIdxH > -1:
-                            adIdx = str(tag).find('ad _itemSection')
-                            if adIdx > 0:
-                                pStr = '플라이비치 Page(광고):' + str(pg) + '    (' + str(imgName) + ')' + pageurl
-                            else:
-                                pStr = '플라이비치 Page:' + str(pg) + '    (' + str(imgName) + ')' + pageurl
+
+                        adIdx = str(tag).find('ad _itemSection')
+                        if adIdx > 0:
+                            site = '(광고)'
+                        else:
+                            site = ''
+
+                        runFlag = 'Y'
+                        fbIdx = tag.text.find('FLYBEACH')
+                        fbsIdxH = tag.text.find('플라이비치')
+                        if fbIdx > -1:
+                            site += 'FLYBEACH    '
+                        elif fbsIdxH > -1:
+                            site += '플라이비치  '
+                        else:
+                            runFlag = 'N'
+                        if runFlag == 'Y':
+                            pStr = site
+                            pStr += 'Page:' + println(str(pg), 5)
+                            pStr += 'INDEX:' + println(str(idx), 5)
+                            pStr += 'MID:' + println(tag.attrs['data-nv-mid'], 20)
+                            pStr += '(' + str(imgName) + ')     ' + pageurl
                             print(pStr)
                             myfile.write(pStr + '\n')
                         idx += 1
