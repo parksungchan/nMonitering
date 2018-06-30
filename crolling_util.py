@@ -160,6 +160,10 @@ def get_rank_product(strKey, findArr, sIdx, eIdx):
                                 break
 
                         idx += 1
+
+                if pg % 20 == 0:
+                    print('Process Page:' + str(pg))
+
                 if searchFlag == 'Y':
                     break
 
