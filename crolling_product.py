@@ -1,7 +1,7 @@
 import crolling_util as crolling_util
 
 sIdx = 1
-eIdx = 100
+eIdx = 10
 strType = []
 strArr = []
 
@@ -29,11 +29,11 @@ OP = ['신혼여행커플룩', '커플비치웨어', '비치웨어', '비치원�
 
 strArr = ['왕뽕 하이웨스트']
 crolling_util.get_rank_product(strArr, VK, sIdx, eIdx)
+#
+# strArr = ['R53', 'R52']
+# crolling_util.get_rank_product(strArr, RG, sIdx, eIdx)
 
-strArr = ['R53', 'R52']
-crolling_util.get_rank_product(strArr, RG, sIdx, eIdx)
-
-strArr = ['신혼여행커플룩', '비치원피스']
-crolling_util.get_rank_product(strArr, OP, sIdx, eIdx)
+# strArr = ['신혼여행커플룩', '비치원피스']
+# crolling_util.get_rank_product(strArr, OP, sIdx, eIdx)
 
 
