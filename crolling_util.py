@@ -125,17 +125,29 @@ def get_rank_product(strKey, findArr, sIdx, eIdx, pagePrintCnt):
     make_dir(file_path + "/logMain")
 
     with open(file_path + "/logMain/" + nowStr + ".txt", "a") as myfile:
-        pStr1 = 'Key:$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$'
-        pStr2 = 'Key:' + str(strKey)
+        pStr1 = 'Find Text:============================================================================================'
+        pStr2 = 'Find Text:' + str(strKey)
         print(pStr1)
         print(pStr2)
         print(pStr1)
+        print('')
         myfile.write('Start:' + nowStr + '\n')
         myfile.write(pStr1 + '\n')
         myfile.write(pStr2 + '\n')
         myfile.write(pStr1 + '\n')
+        myfile.write('\n')
 
         for strTxt in findArr:
+            pStr1 = 'Key:$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$'
+            pStr2 = 'Key:' + strTxt + '( ' + str(rankData[strTxt]) + ')'
+            print(pStr1)
+            print(pStr2)
+            print(pStr1)
+            myfile.write('Start:' + nowStr + '\n')
+            myfile.write(pStr1 + '\n')
+            myfile.write(pStr2 + '\n')
+            myfile.write(pStr1 + '\n')
+
             searchFlag = 'N'
             for pg in range(sIdx, eIdx):
                 soup = get_soup(strTxt, pg)
@@ -163,11 +175,9 @@ def get_rank_product(strKey, findArr, sIdx, eIdx, pagePrintCnt):
                             adIdx = str(tag).find('ad _itemSection')
                             if adIdx < 1 and site is not None:
                                 pStr = site
-                                pStr += 'Key:' + println(strKey,10)
                                 pStr += 'Page:' + println(str(pg), 5)
                                 pStr += 'INDEX:' + println(str(idx), 5)
                                 pStr += 'MID:'+println(tag.attrs['data-nv-mid'], 20)
-                                pStr += println(strTxt + '( '+ str(rankData[strTxt]) +')', 60)
                                 pStr += '(' + str(imgName) + ')     ' + pageurl
                                 searchFlag = 'Y'
                                 print(pStr)
