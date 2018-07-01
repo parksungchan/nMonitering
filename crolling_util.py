@@ -125,6 +125,8 @@ def get_rank_product(strKey, findArr, sIdx, eIdx, pagePrintCnt):
     make_dir(file_path + "/logMain")
 
     with open(file_path + "/logMain/" + nowStr + ".txt", "a") as myfile:
+        print('')
+        myfile.write('\n')
         pStr1 = 'Find Text:============================================================================================'
         pStr2 = 'Find Text:' + str(strKey)
         print(pStr1)
