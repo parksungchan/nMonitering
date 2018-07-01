@@ -29,6 +29,11 @@ def get_strArr_sub(strArr, strArrKey, strArrKeySub):
             strArr.append(strR + strRS)
     return strArr
 
+def add_key(kMain, kSub):
+    for ks in kSub:
+        kMain.append(ks)
+    return kMain
+
 def get_rank_key_count():
     rankData = {}
     for dir in dirlist:
@@ -115,13 +120,13 @@ def get_rank(strArr, sIdx, eIdx):
         myfile.write('End:' + endStr+ '\n')
         myfile.write('Sub:' + str(end - now)+ '\n')
 
-def get_rank_product(strKeyArr, findArr, sIdx, eIdx):
+def get_rank_product(strKey, findArr, sIdx, eIdx, pagePrintCnt):
     rankData = get_rank_key_count()
     make_dir(file_path + "/logMain")
 
     with open(file_path + "/logMain/" + nowStr + ".txt", "a") as myfile:
         pStr1 = 'Key:$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$'
-        pStr2 = 'Key:' + str(strKeyArr)
+        pStr2 = 'Key:' + str(strKey)
         print(pStr1)
         print(pStr2)
         print(pStr1)
@@ -143,35 +148,36 @@ def get_rank_product(strKeyArr, findArr, sIdx, eIdx):
                         ct = tagImg.contents[1]
                         imgName = ct.get('alt')
                         pageurl = tagImg.attrs['href']
-                        for strKey in strKeyArr:
-                            tagImgIdx = tag.text.find(strKey)
 
-                            if tagImgIdx > -1:
-                                fbIdx = tag.text.find('FLYBEACH')
-                                fbsIdxH = tag.text.find('플라이비치')
-                                site = None
-                                if fbIdx > -1:
-                                    site = 'FLYBEACH    '
-                                elif fbsIdxH > -1:
-                                    site = '플라이비치  '
+                        tagImgIdx = tag.text.find(strKey)
 
-                                adIdx = str(tag).find('ad _itemSection')
-                                if adIdx < 1 and site is not None:
-                                    pStr = site
-                                    pStr += 'Key:' + println(strKey,10)
-                                    pStr += 'Page:' + println(str(pg), 5)
-                                    pStr += 'INDEX:' + println(str(idx), 5)
-                                    pStr += 'MID:'+println(tag.attrs['data-nv-mid'], 20)
-                                    pStr += println(strTxt + '( '+ str(rankData[strTxt]) +')', 60)
-                                    pStr += '(' + str(imgName) + ')     ' + pageurl
-                                    searchFlag = 'Y'
-                                    print(pStr)
-                                    myfile.write(pStr + '\n')
-                                    break
+                        if tagImgIdx > -1:
+                            fbIdx = tag.text.find('FLYBEACH')
+                            fbsIdxH = tag.text.find('플라이비치')
+                            site = None
+                            if fbIdx > -1:
+                                site = 'FLYBEACH    '
+                            elif fbsIdxH > -1:
+                                site = '플라이비치  '
+
+                            adIdx = str(tag).find('ad _itemSection')
+                            if adIdx < 1 and site is not None:
+                                pStr = site
+                                pStr += 'Key:' + println(strKey,10)
+                                pStr += 'Page:' + println(str(pg), 5)
+                                pStr += 'INDEX:' + println(str(idx), 5)
+                                pStr += 'MID:'+println(tag.attrs['data-nv-mid'], 20)
+                                pStr += println(strTxt + '( '+ str(rankData[strTxt]) +')', 60)
+                                pStr += '(' + str(imgName) + ')     ' + pageurl
+                                searchFlag = 'Y'
+                                print(pStr)
+                                myfile.write(pStr + '\n')
+                                searchFlag = 'Y'
+                                break
 
                         idx += 1
 
-                if pg % 20 == 0:
+                if pg % pagePrintCnt == 0:
                     print('Process Page:' + str(pg))
 
                 if searchFlag == 'Y':
