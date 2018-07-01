@@ -139,9 +139,9 @@ def get_rank_product(strKey, findArr, sIdx, eIdx, pagePrintCnt):
 
         for strTxt in findArr:
             pStr1 = 'Key:$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$'
-            if rankData[strTxt] in rankData.keys():
+            try:
                 pStr2 = 'Key:' + strTxt + '( ' + str(rankData[strTxt]) + ')'
-            else:
+            except:
                 pStr2 = 'Key:' + strTxt + '( )'
             print(pStr1)
             print(pStr2)
