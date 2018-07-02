@@ -29,11 +29,6 @@ def get_strArr_sub(strArr, strArrKey, strArrKeySub):
             strArr.append(strR + strRS)
     return strArr
 
-def add_key(kMain, kSub):
-    for ks in kSub:
-        kMain.append(ks)
-    return kMain
-
 def get_rank_key_count():
     rankData = {}
     for dir in dirlist:
@@ -57,11 +52,11 @@ def get_soup(strTxt, pg):
     soup = BeautifulSoup(html, 'html.parser')
     return soup
 
-def get_rank(strArr, sIdx, eIdx):
+def get_rank(strArr, sIdx, eIdx, logPath):
     rankData = get_rank_key_count()
 
-    make_dir(file_path+"/log")
-    with open(file_path+"/log/"+nowStr + ".txt", "a") as myfile:
+    make_dir(file_path + '/' + logPath)
+    with open(file_path + '/' + logPath + '/' + nowStr + ".txt", "a") as myfile:
         for strTxt in strArr:
             rd = {}
             if strTxt in rankData:
@@ -120,11 +115,11 @@ def get_rank(strArr, sIdx, eIdx):
         myfile.write('End:' + endStr+ '\n')
         myfile.write('Sub:' + str(end - now)+ '\n')
 
-def get_rank_product(strKey, findArr, sIdx, eIdx, pagePrintCnt):
+def get_rank_product(strKey, findArr, sIdx, eIdx, pagePrintCnt, logPath):
     rankData = get_rank_key_count()
-    make_dir(file_path + "/logMain")
+    make_dir(file_path + '/'+logPath)
 
-    with open(file_path + "/logMain/" + nowStr + ".txt", "a") as myfile:
+    with open(file_path + '/' + logPath + '/' + nowStr + ".txt", "a") as myfile:
         print('')
         myfile.write('\n')
         pStr1 = 'Find Text:============================================================================================'
@@ -132,7 +127,6 @@ def get_rank_product(strKey, findArr, sIdx, eIdx, pagePrintCnt):
         print(pStr1)
         print(pStr2)
         print(pStr1)
-        print('')
         myfile.write('Start:' + nowStr + '\n')
         myfile.write(pStr1 + '\n')
         myfile.write(pStr2 + '\n')
@@ -198,9 +192,9 @@ def get_rank_product(strKey, findArr, sIdx, eIdx, pagePrintCnt):
                 if searchFlag == 'Y':
                     break
 
-        end = datetime.datetime.now()
-        endStr = str(end).replace('-', '').replace(' ', '_').replace(':', '').replace('.', '_')
-        print('End:' + endStr)
-        print('Sub:' + str(end - now))
-        myfile.write('End:' + endStr + '\n')
-        myfile.write('Sub:' + str(end - now) + '\n')
+        # end = datetime.datetime.now()
+        # endStr = str(end).replace('-', '').replace(' ', '_').replace(':', '').replace('.', '_')
+        # print('End:' + endStr)
+        # print('Sub:' + str(end - now))
+        # myfile.write('End:' + endStr + '\n')
+        # myfile.write('Sub:' + str(end - now) + '\n')
