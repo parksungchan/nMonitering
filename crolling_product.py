@@ -13,8 +13,11 @@ strArr = []
 strArr = 'R54'
 crolling_util.get_rank_product(strArr, crolling.BW_CP, sIdx, eIdx, pagePrintCnt, logPath)
 
-# 래쉬가드추천 ( 여성레쉬가드 ) FB1168_R52
 # 여성레쉬가드 래쉬가드 FB1168_R55
+strArr = 'R55'
+crolling_util.get_rank_product(strArr, crolling.BW_TOP, sIdx, eIdx, pagePrintCnt, logPath)
+
+# 래쉬가드추천 ( 여성레쉬가드 ) FB1168_R52
 strArr = 'R52'
 crolling_util.get_rank_product(strArr, crolling.BW_TOP, sIdx, eIdx, pagePrintCnt, logPath)
 ########################################################################################################################
