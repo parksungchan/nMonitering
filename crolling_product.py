@@ -45,6 +45,9 @@ crolling_util.get_rank_product(strArr, VK, sIdx, eIdx, pagePrintCnt)
 strArr = 'R54'
 crolling_util.get_rank_product(strArr, BW_CP, sIdx, eIdx, pagePrintCnt)
 
+strArr = 'R55'
+crolling_util.get_rank_product(strArr, BW_TOP, sIdx, eIdx, pagePrintCnt)
+
 # strArr = ['신혼여행커플룩', '비치원피스']
 # crolling_util.get_rank_product(strArr, OP, sIdx, eIdx)
 
