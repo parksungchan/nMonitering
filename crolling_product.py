@@ -1,8 +1,8 @@
 import crolling_util as crolling_util
 
 sIdx = 1
-eIdx = 100
-pagePrintCnt = 20
+eIdx = 30
+pagePrintCnt = 50
 strType = []
 strArr = []
 # 스포츠/레저 > 수영 > 비치웨어 > 커플비치웨어
@@ -38,22 +38,32 @@ OP = ['비치웨어', '비치원피스']
 # 신혼여행커플룩 허니문커플룩
 # [플라이비치] 비치원피스 여름원피스
 
-strArr = 'R55'
+# 래쉬가드추천 ( 여성레쉬가드 ) FB1168_R52
+strArr = 'R52'
 crolling_util.get_rank_product(strArr, BW_TOP, sIdx, eIdx, pagePrintCnt)
 
+# 여성레쉬가드 래쉬가드 FB1168_R55
+strArr = 'FB1168'
+crolling_util.get_rank_product(strArr, BW_TOP, sIdx, eIdx, pagePrintCnt)
 
+# 커플레쉬가드 커플수영복 FB1168_R54
 strArr = 'R54'
 crolling_util.get_rank_product(strArr, BW_CP, sIdx, eIdx, pagePrintCnt)
-
-
+########################################################################################################################
+# 왕뽕 하이웨스트 비키니 모노키니 FB1168_R57
 strArr = '왕뽕 하이웨스트'
 crolling_util.get_rank_product(strArr, VK, sIdx, eIdx, pagePrintCnt)
 
+# 왕뽕 원피스수영복 모노키니 FB1168_R56
+strArr = 'FB1168'
+crolling_util.get_rank_product(strArr, VK_OP, sIdx, eIdx, pagePrintCnt)
+########################################################################################################################
+# 신혼여행커플룩 허니문커플룩
+# [플라이비치] 신혼여행커플룩 허니문커플룩
+# [플라이비치]신혼여행커플룩,허니문웨어
+strArr = '신혼여행커플룩'
+crolling_util.get_rank_product(strArr, BW_CP, sIdx, eIdx, pagePrintCnt)
 
 
-
-
-# strArr = ['신혼여행커플룩', '비치원피스']
-# crolling_util.get_rank_product(strArr, OP, sIdx, eIdx)
 
 
