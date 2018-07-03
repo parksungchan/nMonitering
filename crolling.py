@@ -60,11 +60,11 @@ BW_TOP = add_key(BW_TOP, BW_TOP6)
 BW_TOP = add_key(BW_TOP, BW_TOP7)
 
 key = []
-# key = add_key(key, VK)
-# key = add_key(key, VK_OP)
+key = add_key(key, VK)
+key = add_key(key, VK_OP)
 key = add_key(key, BW_CP)
-# key = add_key(key, BW_TOP)
-# key = add_key(key, OP)
+key = add_key(key, BW_TOP)
+key = add_key(key, OP)
 ########################################################################################################################
 logNvPath = 'logNv'
 logProPath = 'logPro'
