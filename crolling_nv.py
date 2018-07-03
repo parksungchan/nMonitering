@@ -3,7 +3,7 @@ import crolling as crolling
 import crolling_util as crolling_util
 
 logKeyPath = 'logNv'
-pageFlag = True # True :page import, False:key import
+pageFlag = False # True :page import, False:key import
 
 sIdx = 1
 eIdx = 20

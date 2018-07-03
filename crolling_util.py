@@ -7,7 +7,7 @@ import crolling as crolling
 
 def println(strTxt, cnt):
     if len(strTxt) > cnt:
-        cnt = len(strTxt)
+        cnt = len(strTxt)+1
     return (strTxt + " " * cnt)[:cnt]
 
 def make_dir(dir):
@@ -56,13 +56,14 @@ def get_soup(strTxt, pg):
 
 def print_find_text(strKey, myfile):
     pStr1 = '============================================================================================'
-    pStr2 = ' - ' + str(strKey)
+    pStr2 = str(strKey)
+    pStr3 = '--------------------------------------------------------------------------------------------'
     print(pStr1)
     print(pStr2)
-    print(pStr1)
+    print(pStr3)
     myfile.write(pStr1 + '\n')
     myfile.write(pStr2 + '\n')
-    myfile.write(pStr1 + '\n')
+    myfile.write(pStr3 + '\n')
 
 def find_page(strTxt, pg, myfile, searchArr, itemKeyArr):
     idx = 0
@@ -95,25 +96,18 @@ def find_page(strTxt, pg, myfile, searchArr, itemKeyArr):
 
             if site is not None and itemFlag == 'Y':
                 pStr = site
-                rd = ''
-                if strTxt in rankData.keys():
-                    rd = str(rankData[strTxt])
-                pStr += 'Key:' + println(strTxt + '( ' + rd + ')', 45)
+                # rd = ''
+                # if strTxt in rankData.keys():
+                #     rd = str(rankData[strTxt])
+                # pStr += 'Key:' + println(strTxt + '( ' + rd + ')', 45)
                 pStr += println(str(imgName),25)
                 pStr += 'Page:' + println(str(pg), 5)
                 pStr += 'INDEX:' + println(str(idx), 5)
                 pStr += 'MID:' + println(tag.attrs['data-nv-mid'], 20)
                 pStr += '      ' + pageurl
                 searchArr.append({'item':imgName, 'contents':pStr})
-
-                exFlag = 'N'
-                for exKey in crolling.EX:
-                    if imgName.find(exKey) > -1:
-                        exFlag = 'Y'
-
-                if exFlag == 'N':
-                    print(pStr)
-                    myfile.write(pStr + '\n')
+                print(pStr)
+                myfile.write(pStr + '\n')
 
 def get_rank_common(sIdx, eIdx, findKeyArr, itemKeyArr = None, logPath = 'logKey', pageFlag = True):
     now = datetime.datetime.now()
@@ -128,24 +122,31 @@ def get_rank_common(sIdx, eIdx, findKeyArr, itemKeyArr = None, logPath = 'logKey
                     find_page(strTxt, pg, myfile, searchArr, itemKeyArr)
         else:
             for strTxt in findKeyArr:
-                print_find_text(str(strTxt), myfile)
+                rd = ''
+                if strTxt in rankData.keys():
+                    rd = str(rankData[strTxt])
+                strTxtPrint = strTxt + '( ' + rd + ')'
+                print_find_text(str(strTxtPrint), myfile)
                 for pg in range(sIdx, eIdx + 1):
                     find_page(strTxt, pg, myfile, searchArr, itemKeyArr)
 
-        print('')
-        print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-        print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-        print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-        myfile.write('\n')
-        myfile.write('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$' + '\n')
-        myfile.write('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$' + '\n')
-        myfile.write('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$' + '\n')
-        for itemKey in itemKeyArr:
-            print_find_text(itemKey, myfile)
-            for search in searchArr:
-                if search['item'].find(itemKey) > -1:
-                    print(search['contents'])
-                    myfile.write(search['contents'] + '\n')
+                print('')
+                myfile.write('\n')
+
+        # print('')
+        # print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+        # print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+        # print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+        # myfile.write('\n')
+        # myfile.write('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$' + '\n')
+        # myfile.write('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$' + '\n')
+        # myfile.write('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$' + '\n')
+        # for itemKey in itemKeyArr:
+        #     print_find_text(itemKey, myfile)
+        #     for search in searchArr:
+        #         if search['item'].find(itemKey) > -1:
+        #             print(search['contents'])
+        #             myfile.write(search['contents'] + '\n')
 
 
 
