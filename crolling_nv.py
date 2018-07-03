@@ -3,7 +3,6 @@ import crolling as crolling
 import crolling_util as crolling_util
 
 logKeyPath = 'logNv'
-pageFlag = False # True :page import, False:key import
 
 sIdx = 1
 eIdx = 20
@@ -34,7 +33,7 @@ for keyJson in crolling.keyNv:
     print('검색명=' + keyJson['key'] + '상품명=' + keyJson['mid1'] + '구매처=' + keyJson['mid2'] + '페이지=1')
 print('')
 
-crolling_util.get_rank_common(sIdx, eIdx, findKeyArr, itemKeyArr, logKeyPath, pageFlag)
+crolling_util.get_rank_common(sIdx, eIdx, findKeyArr, itemKeyArr, logKeyPath)
 
 print('')
 end = datetime.datetime.now()

@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import openpyxl
 import os, shutil
+from multiprocessing import Pool
 import crolling as crolling
 
 def println(strTxt, cnt):
@@ -109,44 +110,25 @@ def find_page(strTxt, pg, myfile, searchArr, itemKeyArr):
                 print(pStr)
                 myfile.write(pStr + '\n')
 
-def get_rank_common(sIdx, eIdx, findKeyArr, itemKeyArr = None, logPath = 'logKey', pageFlag = True):
+def get_rank_common(sIdx, eIdx, findKeyArr, itemKeyArr = None, logPath = 'logKey'):
     now = datetime.datetime.now()
     nowStr = str(now).replace('-', '').replace(' ', '_').replace(':', '').replace('.', '_')
     make_dir(file_path + '/' + logPath)
+
     with open(file_path + '/' + logPath + '/' + nowStr + ".txt", "a") as myfile:
         searchArr = []
-        if pageFlag:
+        for strTxt in findKeyArr:
+            rd = ''
+            if strTxt in rankData.keys():
+                rd = str(rankData[strTxt])
+            strTxtPrint = strTxt + '( ' + rd + ')'
+            print_find_text(str(strTxtPrint), myfile)
             for pg in range(sIdx, eIdx + 1):
-                print_find_text(str(pg)+' Page', myfile)
-                for strTxt in findKeyArr:
-                    find_page(strTxt, pg, myfile, searchArr, itemKeyArr)
-        else:
-            for strTxt in findKeyArr:
-                rd = ''
-                if strTxt in rankData.keys():
-                    rd = str(rankData[strTxt])
-                strTxtPrint = strTxt + '( ' + rd + ')'
-                print_find_text(str(strTxtPrint), myfile)
-                for pg in range(sIdx, eIdx + 1):
-                    find_page(strTxt, pg, myfile, searchArr, itemKeyArr)
+                find_page(strTxt, pg, myfile, searchArr, itemKeyArr)
 
-                print('')
-                myfile.write('\n')
+            print('')
+            myfile.write('\n')
 
-        # print('')
-        # print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-        # print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-        # print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-        # myfile.write('\n')
-        # myfile.write('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$' + '\n')
-        # myfile.write('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$' + '\n')
-        # myfile.write('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$' + '\n')
-        # for itemKey in itemKeyArr:
-        #     print_find_text(itemKey, myfile)
-        #     for search in searchArr:
-        #         if search['item'].find(itemKey) > -1:
-        #             print(search['contents'])
-        #             myfile.write(search['contents'] + '\n')
 
 
 
