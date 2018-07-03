@@ -16,7 +16,7 @@ print('Start:'+nowStr)
 print('')
 
 findKeyArr = crolling.key # 검색 키워드
-itemKeyArr = [] # 찾고자 하는 제품 키워드
+itemKeyArr = crolling.key # 찾고자 하는 제품 키워드
 crolling_util.get_rank_common(sIdx, eIdx, findKeyArr, itemKeyArr, logKeyPath, pageFlag)
 
 print('')
