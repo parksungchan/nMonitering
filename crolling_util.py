@@ -105,8 +105,15 @@ def find_page(strTxt, pg, myfile, searchArr, itemKeyArr):
                 pStr += 'MID:' + println(tag.attrs['data-nv-mid'], 20)
                 pStr += '      ' + pageurl
                 searchArr.append({'item':imgName, 'contents':pStr})
-                print(pStr)
-                myfile.write(pStr + '\n')
+
+                exFlag = 'N'
+                for exKey in crolling.EX:
+                    if imgName.find(exKey) > -1:
+                        exFlag = 'Y'
+
+                if exFlag == 'N':
+                    print(pStr)
+                    myfile.write(pStr + '\n')
 
 def get_rank_common(sIdx, eIdx, findKeyArr, itemKeyArr = None, logPath = 'logKey', pageFlag = True):
     now = datetime.datetime.now()

@@ -27,6 +27,8 @@ itemKeyArr = [] # 찾고자 하는 제품 키워드
 # 왕뽕 하이웨스트 비키니 모노키니 FB1168_R57
 # 왕뽕 원피스수영복 모노키니 FB1168_R56
 # 비치원피스 비치웨어 FB1168_R58
+# [플라이비치] 비치원피스 여름원피스
+
 findKeyArr = crolling.key # 검색 키워드
 itemKeyArr = ['FB1168', '왕뽕 하이웨스트', '신혼여행커플룩 허니문커플룩', '[플라이비치] 신혼여행커플룩 허니문커플룩']
 crolling_util.get_rank_common(sIdx, eIdx, findKeyArr, itemKeyArr, logKeyPath, pageFlag)
