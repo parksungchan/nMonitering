@@ -69,7 +69,7 @@ def print_find_text(strKey, myfile):
     myfile.write(pStr2 + '\n')
     myfile.write(pStr3 + '\n')
 
-def find_page(strTxt, pg, myfile, searchArr, itemKeyArr):
+def find_page(strTxt, pg, myfile, searchArr, itemKeyArr, logPath):
     idx = 0
     soup = get_soup(strTxt, pg)
     for tag in soup.select('li'):
@@ -90,20 +90,18 @@ def find_page(strTxt, pg, myfile, searchArr, itemKeyArr):
 
             if site is not None and adIdx > 0:
                 site = '(광고)' + site
+                if logPath == 'logNv' or logPath == 'logSum':
+                    site = None
 
             itemFlag = 'Y'
             for itemKey in itemKeyArr:
                 itemFlag = 'N'
-                if imgName.find(itemKey)>-1:
+                if tag.attrs['data-nv-mid'].find(itemKey) > -1:
                     itemFlag = 'Y'
                     break
 
             if site is not None and itemFlag == 'Y':
                 pStr = site
-                # rd = ''
-                # if strTxt in rankData.keys():
-                #     rd = str(rankData[strTxt])
-                # pStr += 'Key:' + println(strTxt + '( ' + rd + ')', 45)
                 pStr += println(str(imgName),25)
                 pStr += 'Page:' + println(str(pg), 5)
                 pStr += 'INDEX:' + println(str(idx), 5)
@@ -112,6 +110,9 @@ def find_page(strTxt, pg, myfile, searchArr, itemKeyArr):
                 searchArr.append({'item':imgName, 'contents':pStr})
                 print(pStr)
                 myfile.write(pStr + '\n')
+
+    if pg % crolling.pagePrintCnt == 0:
+        print('Process Page:' + str(pg))
 
 def get_rank_common(sIdx, eIdx, findKeyArr, itemKeyArr = None, logPath = 'logKey'):
     now = datetime.datetime.now()
@@ -127,7 +128,7 @@ def get_rank_common(sIdx, eIdx, findKeyArr, itemKeyArr = None, logPath = 'logKey
             strTxtPrint = strTxt + '( ' + rd + ')'
             print_find_text(str(strTxtPrint), myfile)
             for pg in range(sIdx, eIdx + 1):
-                find_page(strTxt, pg, myfile, searchArr, itemKeyArr)
+                find_page(strTxt, pg, myfile, searchArr, itemKeyArr, logPath)
 
             print('')
             myfile.write('\n')

@@ -5,7 +5,7 @@ import crolling_util as crolling_util
 logKeyPath = 'logSum'
 
 sIdx = 1
-eIdx = 100
+eIdx = 30
 ########################################################################################################################
 # Main Function
 ########################################################################################################################
@@ -14,21 +14,22 @@ nowStr = str(now).replace('-','').replace(' ','_').replace(':','').replace('.','
 print('Start:'+nowStr)
 print('')
 
-findKeyArr = [] # 검색 키워드
-itemKeyArr = [] # 찾고자 하는 제품 키워드
+findKeyJson = {}
+for keyJson in crolling.keySum:
+    if keyJson['id'] in findKeyJson:
+        findKeyJson[keyJson['id']]['mid1'].append(keyJson['mid1'])
+    else:
+        findKeyJson[keyJson['id']] = {'key': keyJson['key'], 'mid1':[keyJson['mid1']]}
+print('')
 
-# 커플레쉬가드 커플수영복 FB1168_R54
-# 신혼여행커플룩 허니문커플룩
-# [플라이비치] 신혼여행커플룩 허니문커플룩
-# [플라이비치]신혼여행커플룩,허니문웨어
-# 여성레쉬가드 래쉬가드 FB1168_R55
-# 래쉬가드추천 ( 여성레쉬가드 ) FB1168_R52
-# 왕뽕 하이웨스트 비키니 모노키니 FB1168_R57
-# 왕뽕 원피스수영복 모노키니 FB1168_R56
-# 비치원피스 비치웨어 FB1168_R58
-# [플라이비치] 비치원피스 여름원피스
+for fkey in findKeyJson:
+    findKeyArr= findKeyJson[fkey]['key']
+    itemKeyArr= findKeyJson[fkey]['mid1']
+    crolling_util.get_rank_common(sIdx, eIdx, findKeyArr, itemKeyArr, logKeyPath)
 
-findKeyArr = crolling.key # 검색 키워드
-itemKeyArr = ['FB1168', '왕뽕 하이웨스트', '신혼여행커플룩 허니문커플룩', '[플라이비치] 신혼여행커플룩 허니문커플룩']
-crolling_util.get_rank_common(sIdx, eIdx, findKeyArr, itemKeyArr, logKeyPath)
+print('')
+end = datetime.datetime.now()
+endStr = str(end).replace('-', '').replace(' ', '_').replace(':', '').replace('.', '_')
+print('End:' + endStr)
+print('Sub:' + str(end - now))
 
