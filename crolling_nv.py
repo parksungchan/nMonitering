@@ -14,7 +14,12 @@ nowStr = str(now).replace('-','').replace(' ','_').replace(':','').replace('.','
 print('Start:'+nowStr)
 print('')
 for keyJson in crolling.keyNv:
-    print(keyJson)
+    pStr  = crolling_util.println('Key:' + keyJson['key'], 30)
+    pStr += crolling_util.println('Name:' + keyJson['name'], 40)
+    pStr += crolling_util.println('Mid1:' + keyJson['mid1'], 30)
+    pStr += crolling_util.println('Mid2:' + keyJson['mid2'], 30)
+    pStr += keyJson['cnt']
+    print(pStr)
 print('')
 
 findKeyArr = [] # 검색 키워드
@@ -24,10 +29,7 @@ for keyJson in crolling.keyNv:
         None
     else:
         findKeyArr.append(keyJson['key'])
-    if keyJson['item'] in itemKeyArr:
-        None
-    else:
-        itemKeyArr.append(keyJson['item'])
+
     if keyJson['mid2'] == '':
         keyJson['mid2'] = '사용안함'
     print('검색명=' + keyJson['key'] + '상품명=' + keyJson['mid1'] + '구매처=' + keyJson['mid2'] + '페이지=1')
