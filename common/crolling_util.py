@@ -5,6 +5,11 @@ import openpyxl
 import os
 import crolling as crolling
 
+prj_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+log_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+'/log'
+rank_path = prj_path
+rank_list = sorted(os.listdir(rank_path), reverse=True)
+
 def println(strTxt, cnt):
     if len(strTxt) > cnt:
         cnt = len(strTxt)+1
@@ -19,9 +24,6 @@ def make_dir(dir):
         os.makedirs(dir)
     return dir
 
-file_path = os.path.dirname(os.path.abspath(__file__))
-dirlist = sorted(os.listdir(file_path), reverse=True)
-
 def get_strArr(strArr, strArrKey):
     for strStr in strArrKey:
         strArr.append(strStr)
@@ -35,8 +37,8 @@ def get_strArr_sub(strArr, strArrKey, strArrKeySub):
 
 def get_rank_key_count():
     rankData = {}
-    for dir in dirlist:
-        file = file_path + '/' + dir
+    for dir in rank_list:
+        file = rank_path + '/' + dir
         if file.find('xlsx') > 0:
             wb = openpyxl.load_workbook(file)
             ws = wb.active
@@ -117,9 +119,9 @@ def find_page(strTxt, pg, myfile, searchArr, itemKeyArr, logPath):
 def get_rank_common(sIdx, eIdx, findKeyArr, itemKeyArr = None, logPath = 'logKey'):
     now = datetime.datetime.now()
     nowStr = str(now).replace('-', '').replace(' ', '_').replace(':', '').replace('.', '_')
-    make_dir(file_path + '/' + logPath)
+    make_dir(log_path + '/' + logPath)
 
-    with open(file_path + '/' + logPath + '/' + nowStr + ".txt", "a") as myfile:
+    with open(log_path + '/' + logPath + '/' + nowStr + ".txt", "a") as myfile:
         searchArr = []
         for strTxt in findKeyArr:
             rd = ''
