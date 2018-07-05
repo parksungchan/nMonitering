@@ -1,6 +1,6 @@
 import datetime, os
 import crolling as crolling
-import crolling_util as crolling_util
+from common import crolling_util as crolling_util
 
 logPath = 'logKey'
 sIdx = 1
