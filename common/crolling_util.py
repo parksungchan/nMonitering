@@ -62,9 +62,9 @@ def get_soup_pwlinkMain(strTxt):
     soup = BeautifulSoup(html, 'lxml')
     return soup
 
-def get_soup_pwlinkSub(strTxt):
+def get_soup_pwlinkSub(strTxt, pg):
     headers = {'User-Agent':'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36'}
-    url = 'https://ad.search.naver.com/search.naver?where=ad&query=' + strTxt
+    url = 'https://ad.search.naver.com/search.naver?where=ad&query=' + strTxt+'&pagingIndex='+str(pg)
     html = requests.get(url, headers=headers).text
     soup = BeautifulSoup(html, 'lxml')
     return soup
@@ -242,12 +242,12 @@ def get_rank_pwlink(findKeyArr, db):
                     idx += 1
 
         if findFlag == 'N':
-            get_rank_pwlink_sub(findKey, db)
+            get_rank_pwlink_sub(findKey, 1, db)
 
-def get_rank_pwlink_sub(findKey, db):
+def get_rank_pwlink_sub(findKey, pg, db):
     pStr = ' - Sub Add Page...........................................................................................'
     print(pStr)
-    soup = get_soup_pwlinkSub(findKey)
+    soup = get_soup_pwlinkSub(findKey, pg)
 
     idx = 1
     for tag in soup.select('li'):
@@ -264,8 +264,14 @@ def get_rank_pwlink_sub(findKey, db):
                     , 'item': tagTit.contents[0], 'item_desc': tagdsc.text}
                 insert_history_pwlink(db, input_data)
                 print(pStr)
+                return
         idx += 1
 
+    if pg >= 3:
+        return
+    else:
+        pg += 1
+        get_rank_pwlink_sub(findKey, pg, db)
 
 # def find_page_multi(strTxt, sIdx, eIdx): # 블로그의 게시글 링크들을 가져옵니다.
 #     data = []
