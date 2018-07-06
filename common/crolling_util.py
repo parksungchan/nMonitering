@@ -5,6 +5,7 @@ import openpyxl
 import os
 import crolling as crolling
 import pymysql
+import selenium
 
 def println(strTxt, cnt):
     if len(strTxt) > cnt:
@@ -273,6 +274,8 @@ def get_rank_pwlink_sub(findKey, pg, db):
         pg += 1
         get_rank_pwlink_sub(findKey, pg, db)
 
+def get_rank_pwimg(findKeyArr, db):
+    None
 # def find_page_multi(strTxt, sIdx, eIdx): # 블로그의 게시글 링크들을 가져옵니다.
 #     data = []
 #     for pg in range(sIdx, eIdx + 1):

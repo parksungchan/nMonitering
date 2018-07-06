@@ -27,7 +27,7 @@ if db is not None:
     print('Start:'+nowStr)
     print('')
     findKeyArr = crolling.key
-    findKeyArr = ['레쉬가드','래시가드']
+    # findKeyArr = ['레쉬가드','래시가드']
     crolling_util.get_rank_pwlink(findKeyArr, db)
 
     print('')
