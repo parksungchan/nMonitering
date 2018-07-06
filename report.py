@@ -49,10 +49,10 @@ nowTimeStr = nowTime.strftime("%Y-%m-%d %H:%M:%S")
 find_key = '래쉬가드'
 mid1='14705104256'
 
-sql = "update flybeach.history "
-sql += "set page=" + str(9) + ", last_update_date='" + nowTimeStr + "' "
-sql += "where update_date=%s and find_key=%s and mid1=%s "
-curs.execute(sql, (upStr, find_key, mid1))
+# sql = "update flybeach.history "
+# sql += "set page=" + str(9) + ", last_update_date='" + nowTimeStr + "' "
+# sql += "where update_date=%s and find_key=%s and mid1=%s "
+# curs.execute(sql, (upStr, find_key, mid1))
 
 # disconnect from server
 db.close()
