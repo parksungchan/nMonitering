@@ -117,6 +117,44 @@ def insert_history(db, input_data):
     # except Exception as e:
     #     print(e)
 
+def insert_history_pwlink(db, input_data):
+    if db is None:
+        return
+    # try:
+    find_key = input_data['find_key']
+    main_sub = input_data['main_sub']
+    idx = input_data['idx']
+    item = input_data['item']
+    item_desc = input_data['item_desc']
+
+    now = datetime.date.today()
+    upStr = now.strftime("%Y-%m-%d")
+
+    nowTime = datetime.datetime.now()
+    nowTimeStr = nowTime.strftime("%Y-%m-%d %H:%M:%S")
+    # nowDate = datetime.datetime(2009, 5, 5)
+    curs = db.cursor()
+    sql = "select * from flybeach.history_pwlink "
+    sql += "where update_date=%s and find_key=%s and idx=%s "
+    curs.execute(sql, (upStr, find_key, idx))
+    rows = curs.fetchall()
+
+    if len(rows) > 0:
+        #Update
+        sql = "update flybeach.history_pwlink "
+        sql += "set main_sub='" + main_sub + "', idx=" + str(idx) + ", last_update_date='" + nowTimeStr + "' "
+        sql += "where update_date=%s and find_key=%s "
+        curs.execute(sql, (upStr, find_key))
+    else:
+        # Insert
+        sql = "insert into flybeach.history_pwlink(find_key, main_sub, idx, item, item_desc, update_date) "
+        sql += "values (%s, %s, %s, %s, %s, %s)"
+        curs.execute(sql, (find_key, main_sub, idx, item, item_desc, upStr))
+
+    db.commit()
+    # except Exception as e:
+    #     print(e)
+
 def find_page(findKey, pg, db):
     idx = 0
     soup = get_soup(findKey, pg)
@@ -170,49 +208,45 @@ def get_rank_common(sIdx, eIdx, findKeyArr, db):
         print('')
 
 
-def get_rank_pwlink(findKeyArr, itemKeyArr = None, logPath = 'logPw'):
-    now = datetime.datetime.now()
-    nowStr = str(now).replace('-', '').replace(' ', '_').replace(':', '').replace('.', '_')
-    make_dir(crolling.log_path + '/' + logPath)
+def get_rank_pwlink(findKeyArr, db):
     rankData = get_rank_key_count()
-    with open(crolling.log_path + '/' + logPath + '/' + nowStr + ".txt", "a") as myfile:
-        searchArr = []
-        for findKey in findKeyArr:
-            rd = ''
-            if findKey in rankData.keys():
-                rd = str(rankData[findKey])
-            strTxtPrint = findKey + '( ' + rd + ')'
-            print_find_text(str(strTxtPrint), myfile)
+    for findKey in findKeyArr:
+        rd = ''
+        if findKey in rankData.keys():
+            rd = str(rankData[findKey])
+        strTxtPrint = findKey + '( ' + rd + ')'
+        print_find_text(str(strTxtPrint))
 
-            idx = 1
-            findFlag = 'N'
-            soup = get_soup_pwlinkMain(findKey)
-            for tag in soup.select('li'):
-                tagInner = tag.find(class_='inner')
-                tagTit = tag.find(class_='lnk_tit')
-                tagdsc = tag.find(class_='ad_dsc')
-                if tagTit:
-                    id = tagTit.parent.parent.parent.parent.attrs['id']
-                    if id == 'power_link_body' or id == 'biz_site_body':
-                        if tagTit.attrs['onclick'].find('www.flybeach.co.kr') > -1:
-                            pStr = 'INDEX:' + println(str(idx), 10)
-                            pStr += println(tagTit.contents[0], 60)
-                            pStr += println(tagdsc.text,90)
-                            site = tagTit.attrs['onclick']
-                            pStr += site[site.find('urlencode'):]
-                            print(pStr)
-                            myfile.write(pStr + '\n')
-                            findFlag = 'Y'
-                            break
-                        idx += 1
+        idx = 1
+        findFlag = 'N'
+        soup = get_soup_pwlinkMain(findKey)
+        for tag in soup.select('li'):
+            tagInner = tag.find(class_='inner')
+            tagTit = tag.find(class_='lnk_tit')
+            tagdsc = tag.find(class_='ad_dsc')
+            if tagTit:
+                id = tagTit.parent.parent.parent.parent.attrs['id']
+                if id == 'power_link_body' or id == 'biz_site_body':
+                    if tagTit.attrs['onclick'].find('www.flybeach.co.kr') > -1:
+                        pStr = 'INDEX:' + println(str(idx), 10)
+                        pStr += println(tagTit.contents[0], 60)
+                        pStr += println(tagdsc.text,90)
+                        site = tagTit.attrs['onclick']
+                        pStr += site[site.find('urlencode'):]
+                        print(pStr)
+                        findFlag = 'Y'
+                        input_data = {'find_key': findKey, 'main_sub': 'main', 'idx': idx
+                                        , 'item': tagTit.contents[0], 'item_desc': tagdsc.text }
+                        insert_history_pwlink(db, input_data)
+                        break
+                    idx += 1
 
-            if findFlag == 'N':
-                get_rank_pwlink_sub(findKey, myfile)
+        if findFlag == 'N':
+            get_rank_pwlink_sub(findKey, db)
 
-def get_rank_pwlink_sub(findKey, myfile):
+def get_rank_pwlink_sub(findKey, db):
     pStr = ' - Sub Add Page...........................................................................................'
     print(pStr)
-    myfile.write(pStr + '\n')
     soup = get_soup_pwlinkSub(findKey)
 
     idx = 1
@@ -226,8 +260,10 @@ def get_rank_pwlink_sub(findKey, myfile):
                 pStr += println(' '+tagTit.text, 60)
                 pStr += println(tagdsc.text, 90)
                 pStr += println(tagUrl.text, 90)
+                input_data = {'find_key': findKey, 'main_sub': 'main', 'idx': idx
+                    , 'item': tagTit.contents[0], 'item_desc': tagdsc.text}
+                insert_history_pwlink(db, input_data)
                 print(pStr)
-                myfile.write(pStr + '\n')
         idx += 1
 
 
