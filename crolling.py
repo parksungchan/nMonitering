@@ -1,8 +1,10 @@
 import os
+import openpyxl
 pagePrintCnt = 50
 prj_path = os.path.dirname(os.path.abspath(__file__))
 log_path = prj_path+'/log'
 common_path = prj_path+'/common'
+data_path = prj_path+'/data'
 
 key_value_file = common_path + '/' + 'key_value.py'
 if not os.path.exists(key_value_file):
@@ -23,6 +25,47 @@ def add_key(keyArrArr):
         for key in keyArr:
             kMain.append(key)
     return kMain
+
+def get_rank_key_count():
+    rankData = {}
+    rank_list = sorted(os.listdir(data_path), reverse=True)
+    for dir in rank_list:
+        file = data_path + '/' + dir
+        if file.find('xlsx') > 0 and file.find('연관키워드') > 0:
+            wb = openpyxl.load_workbook(file)
+            ws = wb.active
+            for row in ws.rows:
+                name = row[0].value
+                pc = row[1].value
+                mb = row[2].value
+                if name in rankData:
+                    continue
+                rankData[name] = {'pc': pc, 'mb': mb}
+    return rankData
+
+rankData = get_rank_key_count()
+
+def get_rank_key_pwlink():
+    pwLinkDataPc = []
+    pwLinkDataMb = []
+    rank_list = sorted(os.listdir(data_path), reverse=True)
+    for dir in rank_list:
+        file = data_path + '/' + dir
+        if file.find('pwLinkData.xlsx') > 0:
+            wb = openpyxl.load_workbook(file)
+            ws = wb.active
+            for row in ws.rows:
+                pc_mb = row[0].value
+                name = row[1].value
+                if pc_mb == '플라이비치':
+                    if name in pwLinkDataPc:
+                        continue
+                    pwLinkDataPc.append(name)
+                else:
+                    if name in pwLinkDataMb:
+                        continue
+                    pwLinkDataMb.append(name)
+    return pwLinkDataPc, pwLinkDataMb
 ########################################################################################################################
 # 스포츠/레저 > 수영 > 여성수영복 > 비키니
 VK = ['왕뽕비키니', '하이웨스트비키니', '비키니']
