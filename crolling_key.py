@@ -1,5 +1,7 @@
 import datetime
 import pymysql
+import crolling as crolling
+from common import crolling_util as crolling_util
 from common import key_value as key_value
 sIdx = 1
 eIdx = 20
@@ -17,8 +19,7 @@ except:
     db = None
 
 if db is not None:
-    import crolling as crolling
-    from common import crolling_util as crolling_util
+
     ########################################################################################################################
     # Main Function 13.00
     ########################################################################################################################

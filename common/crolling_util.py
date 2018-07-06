@@ -5,7 +5,7 @@ import openpyxl
 import os
 import crolling as crolling
 import pymysql
-import selenium
+# import selenium
 
 def println(strTxt, cnt):
     if len(strTxt) > cnt:
