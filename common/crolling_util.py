@@ -5,11 +5,6 @@ import openpyxl
 import os
 import crolling as crolling
 
-prj_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-log_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+'/log'
-rank_path = prj_path
-rank_list = sorted(os.listdir(rank_path), reverse=True)
-
 def println(strTxt, cnt):
     if len(strTxt) > cnt:
         cnt = len(strTxt)+1
@@ -37,8 +32,9 @@ def get_strArr_sub(strArr, strArrKey, strArrKeySub):
 
 def get_rank_key_count():
     rankData = {}
+    rank_list = sorted(os.listdir(crolling.common_path), reverse=True)
     for dir in rank_list:
-        file = rank_path + '/' + dir
+        file = crolling.common_path + '/' + dir
         if file.find('xlsx') > 0:
             wb = openpyxl.load_workbook(file)
             ws = wb.active
@@ -133,9 +129,9 @@ def find_page(strTxt, pg, myfile, searchArr, itemKeyArr, logPath):
 def get_rank_common(sIdx, eIdx, findKeyArr, itemKeyArr = None, logPath = 'logKey'):
     now = datetime.datetime.now()
     nowStr = str(now).replace('-', '').replace(' ', '_').replace(':', '').replace('.', '_')
-    make_dir(log_path + '/' + logPath)
+    make_dir(crolling.log_path + '/' + logPath)
 
-    with open(log_path + '/' + logPath + '/' + nowStr + ".txt", "a") as myfile:
+    with open(crolling.log_path + '/' + logPath + '/' + nowStr + ".txt", "a") as myfile:
         searchArr = []
         for findKey in findKeyArr:
             rd = ''
@@ -152,9 +148,9 @@ def get_rank_common(sIdx, eIdx, findKeyArr, itemKeyArr = None, logPath = 'logKey
 def get_rank_pwlink(findKeyArr, itemKeyArr = None, logPath = 'logPw'):
     now = datetime.datetime.now()
     nowStr = str(now).replace('-', '').replace(' ', '_').replace(':', '').replace('.', '_')
-    make_dir(log_path + '/' + logPath)
+    make_dir(crolling.log_path + '/' + logPath)
 
-    with open(log_path + '/' + logPath + '/' + nowStr + ".txt", "a") as myfile:
+    with open(crolling.log_path + '/' + logPath + '/' + nowStr + ".txt", "a") as myfile:
         searchArr = []
         for findKey in findKeyArr:
             rd = ''

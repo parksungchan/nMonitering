@@ -1,4 +1,9 @@
+import os
 pagePrintCnt = 50
+prj_path = os.path.dirname(os.path.abspath(__file__))
+log_path = prj_path+'/log'
+common_path = prj_path+'/common'
+
 class searchArrList:
     dict = {"list":[]}
 
