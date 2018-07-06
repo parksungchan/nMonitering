@@ -1,5 +1,5 @@
 # pip install PyMySQL
-import pymysql, os
+import pymysql, os, datetime, time
 import crolling
 common_path = crolling.common_path
 key_value_file = common_path + '/' + 'key_value.py'
@@ -12,14 +12,6 @@ if not os.path.exists(key_value_file):
         f.write("db=''\n")
         f.write("charset='utf8mb4'\n")
 from common import key_value as key_value
-print(key_value.host)
-print(key_value.port)
-print(key_value.user)
-print(key_value.password)
-print(key_value.db)
-print(key_value.charset)
-
-print(key_value.host)
 
 import urllib
 import pymysql
@@ -36,18 +28,37 @@ db = pymysql.connect(host=key_value.host
                      , autocommit=True)
 
 # prepare a cursor object using cursor() method
-cursor = db.cursor()
+curs = db.cursor()
 
 # execute SQL query using execute() method.
-cursor.execute("SELECT VERSION()")
+curs.execute("SELECT VERSION()")
 
 # Fetch a single row using fetchone() method.
-data = cursor.fetchone()
+data = curs.fetchone()
 
 print("Database version : %s " % data)
 
+
+now = datetime.date.today()
+upStr = now.strftime("%Y-%m-%d")
+
+nowTime = datetime.datetime.now()
+nowTimeStr = nowTime.strftime("%Y-%m-%d %H:%M:%S")
+# nowTimeStr = time.strftime("%Y-%m-%d %H:%M:%S")
+# nowTimeStr = STR_TO_DATE(nowTime)
+find_key = '래쉬가드'
+mid1='14705104256'
+
+sql = "update flybeach.history "
+sql += "set page=" + str(9) + ", last_update_date='" + nowTimeStr + "' "
+sql += "where update_date=%s and find_key=%s and mid1=%s "
+curs.execute(sql, (upStr, find_key, mid1))
+
 # disconnect from server
 db.close()
+
+
+
 
 # # Connect to the database
 # conn = pymysql.connect(host=key_value.host,

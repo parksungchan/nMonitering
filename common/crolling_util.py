@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import openpyxl
 import os
 import crolling as crolling
+import pymysql
 
 def println(strTxt, cnt):
     if len(strTxt) > cnt:
@@ -32,9 +33,9 @@ def get_strArr_sub(strArr, strArrKey, strArrKeySub):
 
 def get_rank_key_count():
     rankData = {}
-    rank_list = sorted(os.listdir(crolling.common_path), reverse=True)
+    rank_list = sorted(os.listdir(crolling.prj_path), reverse=True)
     for dir in rank_list:
-        file = crolling.common_path + '/' + dir
+        file = crolling.prj_path + '/' + dir
         if file.find('xlsx') > 0:
             wb = openpyxl.load_workbook(file)
             ws = wb.active
@@ -46,8 +47,6 @@ def get_rank_key_count():
                     continue
                 rankData[name] = {'pc': pc, 'mb': mb}
     return rankData
-
-rankData = get_rank_key_count()
 
 def get_soup(strTxt, pg):
     url = 'https://search.shopping.naver.com/search/all.nhn?origQuery=' + strTxt
@@ -70,20 +69,57 @@ def get_soup_pwlinkSub(strTxt):
     soup = BeautifulSoup(html, 'lxml')
     return soup
 
-def print_find_text(strKey, myfile):
+def print_find_text(strKey):
     pStr1 = '============================================================================================'
     pStr2 = str(strKey)
     pStr3 = '--------------------------------------------------------------------------------------------'
     print(pStr1)
     print(pStr2)
     print(pStr3)
-    myfile.write(pStr1 + '\n')
-    myfile.write(pStr2 + '\n')
-    myfile.write(pStr3 + '\n')
 
-def find_page(strTxt, pg, myfile, searchArr, itemKeyArr, logPath):
+def insert_history(db, input_data):
+    if db is None:
+        return
+    # try:
+    find_key = input_data['find_key']
+    ad = input_data['ad']
+    site = input_data['site']
+    item = input_data['item']
+    page = input_data['page']
+    idx = input_data['idx']
+    mid1 = input_data['mid1']
+    url = input_data['url']
+    now = datetime.date.today()
+    upStr = now.strftime("%Y-%m-%d")
+
+    nowTime = datetime.datetime.now()
+    nowTimeStr = nowTime.strftime("%Y-%m-%d %H:%M:%S")
+    # nowDate = datetime.datetime(2009, 5, 5)
+    curs = db.cursor()
+    sql = "select * from flybeach.history "
+    sql += "where update_date=%s and find_key=%s and mid1=%s and ad=%s "
+    curs.execute(sql, (upStr, find_key, mid1, ad))
+    rows = curs.fetchall()
+
+    if len(rows) > 0:
+        #Update
+        sql = "update flybeach.history "
+        sql += "set page=" + str(9) + ", last_update_date='" + nowTimeStr + "' "
+        sql += "where update_date=%s and find_key=%s and mid1=%s "
+        curs.execute(sql, (upStr, find_key, mid1))
+    else:
+        # Insert
+        sql = "insert into flybeach.history(find_key, ad, site, item, page, idx, mid1, url, update_date) "
+        sql += "values (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        curs.execute(sql, (find_key, ad, site, item, page, idx, mid1, url, upStr))
+
+    db.commit()
+    # except Exception as e:
+    #     print(e)
+
+def find_page(findKey, pg, db):
     idx = 0
-    soup = get_soup(strTxt, pg)
+    soup = get_soup(findKey, pg)
     for tag in soup.select('li'):
         tagImg = tag.find(class_='img')
         if tagImg:
@@ -96,60 +132,49 @@ def find_page(strTxt, pg, myfile, searchArr, itemKeyArr, logPath):
             adIdx = str(tag).find('ad _itemSection')
             site = None
             if fbIdx > -1:
-                site = 'FLYBEACH    '
+                site = 'FLYBEACH'
             elif fbsIdxH > -1:
-                site = '플라이비치  '
+                site = '플라이비치'
 
+            ad = ''
             if site is not None and adIdx > 0:
-                site = '(광고)' + site
-                if logPath == 'logNv' or logPath == 'logSum':
-                    site = None
+                ad = '(광고)'
 
-            itemFlag = 'Y'
-            for itemKey in itemKeyArr:
-                itemFlag = 'N'
-                if tag.attrs['data-nv-mid'].find(itemKey) > -1:
-                    itemFlag = 'Y'
-                    break
-
-            if site is not None and itemFlag == 'Y':
-                pStr = site
+            if site is not None:
+                pStr = ad
+                pStr += site
                 pStr += println(str(imgName),25)
                 pStr += 'Page:' + println(str(pg), 5)
                 pStr += 'INDEX:' + println(str(idx), 5)
                 pStr += 'MID:' + println(tag.attrs['data-nv-mid'], 20)
                 pStr += '      ' + pageurl
-                searchArr.append({'item':imgName, 'contents':pStr})
+                input_data = {'find_key':findKey, 'ad':ad, 'site':site, 'item':str(imgName), 'page':pg, 'idx':idx
+                                , 'mid1':tag.attrs['data-nv-mid'], 'url':pageurl}
+                insert_history(db, input_data)
                 print(pStr)
-                myfile.write(pStr + '\n')
 
     if pg % crolling.pagePrintCnt == 0:
         print('Process Page:' + str(pg))
 
-def get_rank_common(sIdx, eIdx, findKeyArr, itemKeyArr = None, logPath = 'logKey'):
-    now = datetime.datetime.now()
-    nowStr = str(now).replace('-', '').replace(' ', '_').replace(':', '').replace('.', '_')
-    make_dir(crolling.log_path + '/' + logPath)
+def get_rank_common(sIdx, eIdx, findKeyArr, db):
+    rankData = get_rank_key_count()
+    for findKey in findKeyArr:
+        rd = ''
+        if findKey in rankData.keys():
+            rd = str(rankData[findKey])
+        strTxtPrint = findKey + '( ' + rd + ')'
+        print_find_text(str(strTxtPrint))
+        for pg in range(sIdx, eIdx + 1):
+            find_page(findKey, pg, db)
 
-    with open(crolling.log_path + '/' + logPath + '/' + nowStr + ".txt", "a") as myfile:
-        searchArr = []
-        for findKey in findKeyArr:
-            rd = ''
-            if findKey in rankData.keys():
-                rd = str(rankData[findKey])
-            strTxtPrint = findKey + '( ' + rd + ')'
-            print_find_text(str(strTxtPrint), myfile)
-            for pg in range(sIdx, eIdx + 1):
-                find_page(findKey, pg, myfile, searchArr, itemKeyArr, logPath)
+        print('')
 
-            print('')
-            myfile.write('\n')
 
 def get_rank_pwlink(findKeyArr, itemKeyArr = None, logPath = 'logPw'):
     now = datetime.datetime.now()
     nowStr = str(now).replace('-', '').replace(' ', '_').replace(':', '').replace('.', '_')
     make_dir(crolling.log_path + '/' + logPath)
-
+    rankData = get_rank_key_count()
     with open(crolling.log_path + '/' + logPath + '/' + nowStr + ".txt", "a") as myfile:
         searchArr = []
         for findKey in findKeyArr:

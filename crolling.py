@@ -4,6 +4,16 @@ prj_path = os.path.dirname(os.path.abspath(__file__))
 log_path = prj_path+'/log'
 common_path = prj_path+'/common'
 
+key_value_file = common_path + '/' + 'key_value.py'
+if not os.path.exists(key_value_file):
+    with open(key_value_file, 'w') as f:
+        f.write("host='0.0.0.0'\n")
+        f.write("port=3307\n")
+        f.write("user='hee'\n")
+        f.write("password=''\n")
+        f.write("db=''\n")
+        f.write("charset='utf8mb4'\n")
+
 class searchArrList:
     dict = {"list":[]}
 
