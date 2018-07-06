@@ -246,7 +246,7 @@ def get_rank_pwlink(findKeyArr, db):
             get_rank_pwlink_sub(findKey, 1, db)
 
 def get_rank_pwlink_sub(findKey, pg, db):
-    pStr = ' - Sub Add Page...........................................................................................'
+    pStr = ' - Sub Page:' + str(pg) + '............................................................................'
     print(pStr)
     soup = get_soup_pwlinkSub(findKey, pg)
 
@@ -261,7 +261,7 @@ def get_rank_pwlink_sub(findKey, pg, db):
                 pStr += println(' '+tagTit.text, 60)
                 pStr += println(tagdsc.text, 90)
                 pStr += println(tagUrl.text, 90)
-                input_data = {'find_key': findKey, 'main_sub': 'main', 'idx': idx
+                input_data = {'find_key': findKey, 'main_sub': 'sub', 'idx': idx
                     , 'item': tagTit.contents[0], 'item_desc': tagdsc.text}
                 insert_history_pwlink(db, input_data)
                 print(pStr)
