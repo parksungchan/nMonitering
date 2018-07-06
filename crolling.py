@@ -2,10 +2,17 @@ import os
 import openpyxl
 pagePrintCnt = 50
 prj_path = os.path.dirname(os.path.abspath(__file__))
-log_path = prj_path+'/log'
+def make_dir(dir):
+    if not os.path.exists(dir):
+        os.makedirs(dir)
+    return dir
+
+down_path = 'C:\\Users\\chan\\Downloads'
 common_path = prj_path+'/common'
 data_path = prj_path+'/data'
-
+keyword_pc_path = make_dir(data_path + '/keywordPC')
+keyword_mb_path = make_dir(data_path + '/keywordMB')
+keyword_r_path = make_dir(data_path + '/keywordR')
 key_value_file = common_path + '/' + 'key_value.py'
 if not os.path.exists(key_value_file):
     with open(key_value_file, 'w') as f:
@@ -26,11 +33,11 @@ def add_key(keyArrArr):
             kMain.append(key)
     return kMain
 
-def get_rank_key_count():
+def get_rank_keywordR():
     rankData = {}
-    rank_list = sorted(os.listdir(data_path), reverse=True)
+    rank_list = sorted(os.listdir(keyword_r_path), reverse=True)
     for dir in rank_list:
-        file = data_path + '/' + dir
+        file = keyword_r_path + '/' + dir
         if file.find('xlsx') > 0 and file.find('연관키워드') > 0:
             wb = openpyxl.load_workbook(file)
             ws = wb.active
@@ -43,7 +50,7 @@ def get_rank_key_count():
                 rankData[name] = {'pc': pc, 'mb': mb}
     return rankData
 
-rankData = get_rank_key_count()
+# rankData = get_rank_key_count()
 
 def get_rank_key_pwlink():
     pwLinkDataPc = []
