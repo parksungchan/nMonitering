@@ -1,4 +1,6 @@
-
 delete from history_pwlink
-
-commit 
+;
+delete from history
+;
+commit
+;
