@@ -1,20 +1,10 @@
 import datetime, pymysql
 import crolling as crolling
 from common import crolling_util as crolling_util
-from common import key_value as key_value
+
 sIdx = 1
 eIdx = 20
-try:
-    db = pymysql.connect(host=key_value.host
-                         , port=key_value.port
-                         , user=key_value.user
-                         , passwd=key_value.password
-                         , db=key_value.db
-                         , charset=key_value.charset
-                         , autocommit=True)
-except:
-    print('db connection error............................................')
-    db = None
+db, rowsKey, rowsKeyR, rankKey, rankKeyR = crolling_util.get_keyword_list()
 ########################################################################################################################
 # Main Function
 ########################################################################################################################
@@ -32,24 +22,18 @@ for keyJson in crolling.keyNv:
 print('')
 
 findKeyArr = [] # 검색 키워드
-itemKeyArr = [] # 찾고자 하는 제품 키워드
 for keyJson in crolling.keyNv:
     if keyJson['key'] in findKeyArr:
         None
     else:
         findKeyArr.append(keyJson['key'])
 
-    if keyJson['mid1'] in itemKeyArr:
-        None
-    else:
-        itemKeyArr.append(keyJson['mid1'])
-
     if keyJson['mid2'] == '':
         keyJson['mid2'] = '사용안함'
     print('검색명=' + keyJson['key'] + '상품명=' + keyJson['mid1'] + '구매처=' + keyJson['mid2'] + '페이지=' + keyJson['cnt'])
 print('')
 
-crolling_util.get_rank_common(sIdx, eIdx, findKeyArr, db)
+crolling_util.get_rank_common(sIdx, eIdx, findKeyArr, rankKey, rankKeyR, db)
 
 print('')
 end = datetime.datetime.now()

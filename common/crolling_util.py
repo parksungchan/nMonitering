@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import os
 import crolling as crolling
 import pymysql
+from common import key_value as key_value
 # import selenium
 
 def println(strTxt, cnt):
@@ -66,6 +67,40 @@ def print_find_text(strKey):
     print(pStr1)
     print(pStr2)
     print(pStr3)
+
+def get_keyword_list():
+    rankKey = {}
+    rankKeyR = {}
+    # Open database connection
+    try:
+        db = pymysql.connect(host=key_value.host
+                             , port=key_value.port
+                             , user=key_value.user
+                             , passwd=key_value.password
+                             , db=key_value.db
+                             , charset=key_value.charset
+                             , autocommit=True)
+
+        curs = db.cursor()
+        sql = "select * from flybeach.keyword "
+        # sql += "where find_key = '남자래쉬가드' "
+        sql += "order by pc_mb desc "
+        curs.execute(sql)
+        rowsKey = curs.fetchall()
+        for rows in rowsKey:
+            id = rows[0].upper() + ':' + rows[1]
+            rankKey[id] = {'view': rows[2], 'click': rows[3], 'cost': rows[4], 'total_cost': rows[5]}
+
+        curs = db.cursor()
+        sql = "select * from flybeach.keywordR "
+        curs.execute(sql)
+        rowsKeyR = curs.fetchall()
+        for rows in rowsKeyR:
+            rankKeyR[rows[0]] = {'pc_cnt': rows[1], 'mb_cnt': rows[2]}
+        return db, rowsKey, rowsKeyR, rankKey, rankKeyR
+    except:
+        print('db connection error............................................')
+        return None, None, None, None, None
 
 def insert_history(db, input_data):
     if db is None:
@@ -194,25 +229,25 @@ def find_page(strTxtPrint, findKey, pg, db):
     if pg % crolling.pagePrintCnt == 0:
         print('Process Page:' + str(pg))
 
-def set_make_title(rowsKey, rowsKeyR, findKey):
+def set_make_title(rankKey, rankKeyR, findKey):
     rd = ''
-    if findKey in rowsKeyR.keys():
-        rd = str(rowsKeyR[findKey])
+    if findKey in rankKeyR.keys():
+        rd = str(rankKeyR[findKey])
 
     pcFindKey = 'PC:' + findKey
     pcrd = ''
     mbFindKey = 'MB:' + findKey
     mbrd = ''
-    if pcFindKey in rowsKey.keys():
-        pcrd = str(rowsKey[pcFindKey])
-    if mbFindKey in rowsKey.keys():
-        mbrd = str(rowsKey[mbFindKey])
+    if pcFindKey in rankKey.keys():
+        pcrd = str(rankKey[pcFindKey])
+    if mbFindKey in rankKey.keys():
+        mbrd = str(rankKey[mbFindKey])
     strTxtPrint = findKey + '( ' + rd + ')' + '          ( PC:' + pcrd + ')' + '     ( MB:' + mbrd + ')'
     return strTxtPrint
 
-def get_rank_common(sIdx, eIdx, rowsKey, rowsKeyR, findKeyArr, db):
+def get_rank_common(sIdx, eIdx, findKeyArr, rankKey, rankKeyR, db):
     for findKey in findKeyArr:
-        strTxtPrint = set_make_title(rowsKey, rowsKeyR, findKey)
+        strTxtPrint = set_make_title(rankKey, rankKeyR, findKey)
         print_find_text(str(strTxtPrint))
         for pg in range(sIdx, eIdx + 1):
             find_page(strTxtPrint, findKey, pg, db)
@@ -230,7 +265,7 @@ def get_rank_pwlink(rowsKey, rankKey, rankKeyR, db):
         total_cost = findKeyArr[5]
 
         findKeyCnt += 1
-        strTxtPrint = str(findKeyCnt) + '. ' + set_make_title(rankKey, rankKeyR, findKey)
+        strTxtPrint = pc_mb.upper() + ':' + str(findKeyCnt) + '. ' + set_make_title(rankKey, rankKeyR, findKey)
         print_find_text(str(strTxtPrint))
 
         idx = 0
@@ -275,11 +310,13 @@ def get_rank_pwlink(rowsKey, rankKey, rankKeyR, db):
                         pStr = 'INDEX:' + println(str(idx), 10)
                         pStr += println(tagTxt,100)
                         print(pStr)
+                        findFlag = 'Y'
                         input_data = {'find_key': findKey, 'main_sub': 'main', 'idx': idx
                             , 'view': view, 'click': click, 'cost': cost, 'total_cost': total_cost
                             , 'item': tagTxt.split('$')[1], 'item_desc': tagTxt, 'pc_mb': 'mb'}
-            input_data['idx_total'] = idx
-            insert_history_pwlink(db, input_data)
+            if findFlag == 'Y':
+                input_data['idx_total'] = idx
+                insert_history_pwlink(db, input_data)
 
 def get_rank_pwlink_sub(findKey, pg, db, idx_total, view, click, cost, total_cost):
     pStr = ' - Sub Page:' + str(pg) + '............................................................................'

@@ -26,17 +26,24 @@ except:
 if db is not None:
     curs = db.cursor()
     sql =  "select * from flybeach.history_pwlink "
-    sql += "where update_date=%s  and pc_mb=%s "
-    sql += "order by idx "
-    curs.execute(sql, (upStr, 'pc'))
+    sql += "where update_date=%s  "
+    sql += "order by pc_mb desc, main_sub, idx "
+    curs.execute(sql, (upStr))
     rows = curs.fetchall()
 
     for row in rows:
-        rd = ''
-        if row[0] in crolling.rankData.keys():
-            rd = str(crolling.rankData[row[0]])
-        strTxtPrint = row[0] + ' (' + rd + ')'
-        print(println(row[8],5)+':'+println(strTxtPrint,50) + println(str(row[2])+' Index',20) + println(row[3],30) + println(row[4],30))
+        pStr = println(row[0].upper(), 5)
+        pStr += println(row[1], 7)
+        pStr += println(row[2], 30)
+        pStr += println('idx'+str(row[3]), 10)
+        pStr += println('idxTotal' + str(row[4]), 10)
+        pStr += println('view' + str(row[5]), 10)
+        pStr += println('click' + str(row[6]), 10)
+        pStr += println('cost' + str(row[7]), 10)
+        pStr += println('total_cost' + str(row[8]), 10)
+        pStr += println('item' + str(row[9]), 40)
+        pStr += println('item_Desc' + str(row[10]), 100)
+        print(pStr)
 
 
 
