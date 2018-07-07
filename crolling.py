@@ -53,11 +53,12 @@ def get_rank_keywordR():
 def get_rank_keyword(pc_mb):
     rankData = {}
     if pc_mb == 'pc':
-        rank_list = sorted(os.listdir(keyword_pc_path), reverse=True)
+        keyword_path = keyword_pc_path
     else:
-        rank_list = sorted(os.listdir(keyword_mb_path), reverse=True)
+        keyword_path = keyword_mb_path
+    rank_list = sorted(os.listdir(keyword_path), reverse=True)
     for dir in rank_list:
-        file = keyword_mb_path + '/' + dir
+        file = keyword_path + '/' + dir
         if file.find('xlsx') > 0 and file.find('키워드 목록') > 0 and file.find('~$키워드 목록') == -1:
             wb = openpyxl.load_workbook(file)
             ws = wb.active
