@@ -19,11 +19,12 @@ try:
 
     curs = db.cursor()
     sql = "select * from flybeach.keyword "
+    sql += "order by pc_mb desc "
     curs.execute(sql)
     rowsKey = curs.fetchall()
     for rows in rowsKey:
         id = rows[0].upper() + ':' + rows[1]
-        rankKey[id] = {'view':rows[3], 'click':rows[4], 'cost':rows[2], 'total_cost':rows[5]}
+        rankKey[id] = {'view':rows[2], 'click':rows[3], 'cost':rows[4], 'total_cost':rows[5]}
 
     curs = db.cursor()
     sql = "select * from flybeach.keywordR "

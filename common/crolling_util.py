@@ -119,6 +119,10 @@ def insert_history_pwlink(db, input_data):
     item = input_data['item']
     item_desc = input_data['item_desc']
     pc_mb = input_data['pc_mb']
+    view = input_data['view']
+    click = input_data['click']
+    cost = input_data['cost']
+    total_cost = input_data['total_cost']
 
     now = datetime.date.today()
     upStr = now.strftime("%Y-%m-%d")
@@ -136,13 +140,14 @@ def insert_history_pwlink(db, input_data):
         #Update
         sql = "update flybeach.history_pwlink "
         sql += "set main_sub='" + main_sub + "', idx=" + str(idx) + ", idx_total=" + str(idx_total) + ", last_update_date='" + nowTimeStr + "' "
+        sql += ", view=" + str(view) + ", click=" + str(click) + ", cost=" + str(cost) + ", total_cost=" + str(total_cost) + " "
         sql += "where update_date=%s and find_key=%s "
         curs.execute(sql, (upStr, find_key))
     else:
         # Insert
-        sql = "insert into flybeach.history_pwlink(find_key, main_sub, idx, idx_total, item, item_desc, update_date, pc_mb) "
-        sql += "values (%s, %s, %s, %s, %s, %s, %s, %s)"
-        curs.execute(sql, (find_key, main_sub, idx, idx_total, item, item_desc, upStr, pc_mb))
+        sql = "insert into flybeach.history_pwlink(find_key, main_sub, idx, idx_total, item, item_desc, update_date, pc_mb, view, click, cost, total_cost) "
+        sql += "values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        curs.execute(sql, (find_key, main_sub, idx, idx_total, item, item_desc, upStr, pc_mb, view, click, cost, total_cost))
 
     db.commit()
     # except Exception as e:
@@ -214,11 +219,18 @@ def get_rank_common(sIdx, eIdx, rowsKey, rowsKeyR, findKeyArr, db):
 
         print('')
 
-def get_rank_pwlink(pc_mb, rowsKey, rowsKeyR, findKeyArr, db):
+def get_rank_pwlink(rowsKey, rankKey, rankKeyR, db):
     findKeyCnt = 0
-    for findKey in findKeyArr:
+    for findKeyArr in rowsKey:
+        pc_mb = findKeyArr[0]
+        findKey = findKeyArr[1]
+        view = findKeyArr[2]
+        click = findKeyArr[3]
+        cost = findKeyArr[4]
+        total_cost = findKeyArr[5]
+
         findKeyCnt += 1
-        strTxtPrint = str(findKeyCnt) + '. ' + set_make_title(rowsKey, rowsKeyR, findKey)
+        strTxtPrint = str(findKeyCnt) + '. ' + set_make_title(rankKey, rankKeyR, findKey)
         print_find_text(str(strTxtPrint))
 
         idx = 0
@@ -245,10 +257,11 @@ def get_rank_pwlink(pc_mb, rowsKey, rowsKeyR, findKeyArr, db):
                             print(pStr)
                             findFlag = 'Y'
                             input_data = {'find_key': findKey, 'main_sub': 'main', 'idx': idx, 'idx_total':idx
+                                          , 'view': view, 'click': click, 'cost': cost, 'total_cost': total_cost
                                 , 'item': tagTit.contents[0], 'item_desc': tagdscTxt, 'pc_mb': 'pc'}
 
             if findFlag == 'N':
-                get_rank_pwlink_sub(findKey, 1, db, idx)
+                get_rank_pwlink_sub(findKey, 1, db, idx, view, click, cost, total_cost)
             else:
                 input_data['idx_total'] = idx
                 insert_history_pwlink(db, input_data)
@@ -263,11 +276,12 @@ def get_rank_pwlink(pc_mb, rowsKey, rowsKeyR, findKeyArr, db):
                         pStr += println(tagTxt,100)
                         print(pStr)
                         input_data = {'find_key': findKey, 'main_sub': 'main', 'idx': idx
+                            , 'view': view, 'click': click, 'cost': cost, 'total_cost': total_cost
                             , 'item': tagTxt.split('$')[1], 'item_desc': tagTxt, 'pc_mb': 'mb'}
             input_data['idx_total'] = idx
             insert_history_pwlink(db, input_data)
 
-def get_rank_pwlink_sub(findKey, pg, db, idx_total):
+def get_rank_pwlink_sub(findKey, pg, db, idx_total, view, click, cost, total_cost):
     pStr = ' - Sub Page:' + str(pg) + '............................................................................'
     print(pStr)
     soup = get_soup_pwlinkSub(findKey, pg)
@@ -285,6 +299,7 @@ def get_rank_pwlink_sub(findKey, pg, db, idx_total):
                     pStr += println(tagdsc.text, 90)
                 pStr += println(tagUrl.text, 90)
                 input_data = {'find_key': findKey, 'main_sub': 'sub', 'idx': tag.find(class_='no').text, 'idx_total':str(idx_total)
+                    , 'view': view, 'click': click, 'cost': cost, 'total_cost': total_cost
                     , 'item': tagTit.contents[0], 'item_desc': tagdsc.text, 'pc_mb':'pc'}
                 insert_history_pwlink(db, input_data)
                 print(pStr)
@@ -295,7 +310,7 @@ def get_rank_pwlink_sub(findKey, pg, db, idx_total):
         return
     else:
         pg += 1
-        get_rank_pwlink_sub(findKey, pg, db)
+        get_rank_pwlink_sub(findKey, pg, db, idx_total, view, click, cost, total_cost)
 
 def get_rank_pwimg(findKeyArr, db):
     None

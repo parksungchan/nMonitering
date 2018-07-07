@@ -14,13 +14,15 @@ try:
                          , db=key_value.db
                          , charset=key_value.charset
                          , autocommit=True)
+
     curs = db.cursor()
     sql = "select * from flybeach.keyword "
+    sql += "order by pc_mb desc "
     curs.execute(sql)
     rowsKey = curs.fetchall()
     for rows in rowsKey:
         id = rows[0].upper() + ':' + rows[1]
-        rankKey[id] = {'view': rows[3], 'click': rows[4], 'cost': rows[2], 'total_cost': rows[5]}
+        rankKey[id] = {'view': rows[2], 'click': rows[3], 'cost': rows[4], 'total_cost': rows[5]}
 
     curs = db.cursor()
     sql = "select * from flybeach.keywordR "
@@ -42,9 +44,7 @@ nowStr = str(now).replace('-','').replace(' ','_').replace(':','').replace('.','
 print('Start:'+nowStr)
 print('')
 
-crolling_util.get_rank_pwlink('pc', rowsKey, rowsKeyR, findKeyArr, db)
-
-# crolling_util.get_rank_pwlink(pwLinkDataMb, db, 'mb')
+crolling_util.get_rank_pwlink(rowsKey, rankKey, rankKeyR, db)
 
 print('')
 end = datetime.datetime.now()
