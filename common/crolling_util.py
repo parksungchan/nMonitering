@@ -188,21 +188,28 @@ def find_page(findKey, pg, db):
     if pg % crolling.pagePrintCnt == 0:
         print('Process Page:' + str(pg))
 
-def get_rank_common(sIdx, eIdx, findKeyArr, db):
-
+def get_rank_common(sIdx, eIdx, rowsKey, rowsKeyR, findKeyArr, db):
     for findKey in findKeyArr:
         rd = ''
-        if findKey in crolling.rankData.keys():
-            rd = str(crolling.rankData[findKey])
-        strTxtPrint = findKey + '( ' + rd + ')'
+        if findKey in rowsKeyR.keys():
+            rd = str(rowsKeyR[findKey])
+
+        pcFindKey = 'PC:'+findKey
+        pcrd = ''
+        mbFindKey = 'MB:' + findKey
+        mbrd = ''
+        if pcFindKey in rowsKey.keys():
+            pcrd = str(rowsKey[pcFindKey])
+        if mbFindKey in rowsKey.keys():
+            mbrd = str(rowsKey[mbFindKey])
+        strTxtPrint = findKey + '( ' + rd + ')' + '( PC:' + pcrd + ')' +'( MB:' + mbrd + ')'
         print_find_text(str(strTxtPrint))
         for pg in range(sIdx, eIdx + 1):
             find_page(findKey, pg, db)
 
         print('')
 
-
-def get_rank_pwlink(findKeyArr, db, pc_mb):
+def get_rank_pwlink(rankData, findKeyArr, db, pc_mb):
     findKeyCnt = 0
     for findKey in findKeyArr:
         findKeyCnt += 1
