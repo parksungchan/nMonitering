@@ -3,6 +3,8 @@ import crolling as crolling
 from common import crolling_util as crolling_util
 import pymysql
 from common import key_value as key_value
+rankKey = {}
+rankKeyR = {}
 # Open database connection
 try:
     db = pymysql.connect(host=key_value.host
@@ -12,6 +14,20 @@ try:
                          , db=key_value.db
                          , charset=key_value.charset
                          , autocommit=True)
+    curs = db.cursor()
+    sql = "select * from flybeach.keyword "
+    curs.execute(sql)
+    rowsKey = curs.fetchall()
+    for rows in rowsKey:
+        id = rows[0].upper() + ':' + rows[1]
+        rankKey[id] = {'view': rows[3], 'click': rows[4], 'cost': rows[2], 'total_cost': rows[5]}
+
+    curs = db.cursor()
+    sql = "select * from flybeach.keywordR "
+    curs.execute(sql)
+    rowsKeyR = curs.fetchall()
+    for rows in rowsKeyR:
+        rankKeyR[rows[0]] = {'pc_cnt': rows[1], 'mb_cnt': rows[2]}
 except:
     print('db connection error............................................')
     db = None
@@ -26,12 +42,9 @@ nowStr = str(now).replace('-','').replace(' ','_').replace(':','').replace('.','
 print('Start:'+nowStr)
 print('')
 
-pwLinkDataPc, pwLinkDataMb = crolling.get_rank_key_pwlink()
-pwLinkDataPc = ['10CM왕뽕비키니', '래쉬가드']
-crolling_util.get_rank_pwlink(pwLinkDataPc, db, 'pc')
+crolling_util.get_rank_pwlink('pc', rowsKey, rowsKeyR, findKeyArr, db)
 
-pwLinkDataMb = ['20대비키니쇼핑몰']
-crolling_util.get_rank_pwlink(pwLinkDataMb, db, 'mb')
+# crolling_util.get_rank_pwlink(pwLinkDataMb, db, 'mb')
 
 print('')
 end = datetime.datetime.now()

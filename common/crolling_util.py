@@ -71,6 +71,7 @@ def insert_history(db, input_data):
     if db is None:
         return
     # try:
+    title = input_data['title'].replace("'", "")
     find_key = input_data['find_key']
     ad = input_data['ad']
     site = input_data['site']
@@ -94,14 +95,14 @@ def insert_history(db, input_data):
     if len(rows) > 0:
         #Update
         sql = "update flybeach.history "
-        sql += "set page=" + str(page) + ", last_update_date='" + nowTimeStr + "' "
+        sql += "set title='" + title + "', page=" + str(page) + ", last_update_date='" + nowTimeStr + "' "
         sql += "where update_date=%s and find_key=%s and mid1=%s "
         curs.execute(sql, (upStr, find_key, mid1))
     else:
         # Insert
-        sql = "insert into flybeach.history(find_key, ad, site, item, page, idx, mid1, url, update_date) "
-        sql += "values (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
-        curs.execute(sql, (find_key, ad, site, item, page, idx, mid1, url, upStr))
+        sql = "insert into flybeach.history(title, find_key, ad, site, item, page, idx, mid1, url, update_date) "
+        sql += "values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        curs.execute(sql, (title, find_key, ad, site, item, page, idx, mid1, url, upStr))
 
     db.commit()
     # except Exception as e:
@@ -147,7 +148,7 @@ def insert_history_pwlink(db, input_data):
     # except Exception as e:
     #     print(e)
 
-def find_page(findKey, pg, db):
+def find_page(strTxtPrint, findKey, pg, db):
     idx = 0
     soup = get_soup(findKey, pg)
     for tag in soup.select('li'):
@@ -180,7 +181,7 @@ def find_page(findKey, pg, db):
                 pStr += 'INDEX:' + println(str(idx), 5)
                 pStr += 'MID:' + println(tag.attrs['data-nv-mid'], 20)
                 pStr += '      ' + pageurl
-                input_data = {'find_key':findKey, 'ad':ad, 'site':site, 'item':str(imgName), 'page':pg, 'idx':idx
+                input_data = {'title':strTxtPrint, 'find_key':findKey, 'ad':ad, 'site':site, 'item':str(imgName), 'page':pg, 'idx':idx
                                 , 'mid1':tag.attrs['data-nv-mid'], 'url':pageurl}
                 insert_history(db, input_data)
                 print(pStr)
@@ -188,35 +189,36 @@ def find_page(findKey, pg, db):
     if pg % crolling.pagePrintCnt == 0:
         print('Process Page:' + str(pg))
 
+def set_make_title(rowsKey, rowsKeyR, findKey):
+    rd = ''
+    if findKey in rowsKeyR.keys():
+        rd = str(rowsKeyR[findKey])
+
+    pcFindKey = 'PC:' + findKey
+    pcrd = ''
+    mbFindKey = 'MB:' + findKey
+    mbrd = ''
+    if pcFindKey in rowsKey.keys():
+        pcrd = str(rowsKey[pcFindKey])
+    if mbFindKey in rowsKey.keys():
+        mbrd = str(rowsKey[mbFindKey])
+    strTxtPrint = findKey + '( ' + rd + ')' + '          ( PC:' + pcrd + ')' + '     ( MB:' + mbrd + ')'
+    return strTxtPrint
+
 def get_rank_common(sIdx, eIdx, rowsKey, rowsKeyR, findKeyArr, db):
     for findKey in findKeyArr:
-        rd = ''
-        if findKey in rowsKeyR.keys():
-            rd = str(rowsKeyR[findKey])
-
-        pcFindKey = 'PC:'+findKey
-        pcrd = ''
-        mbFindKey = 'MB:' + findKey
-        mbrd = ''
-        if pcFindKey in rowsKey.keys():
-            pcrd = str(rowsKey[pcFindKey])
-        if mbFindKey in rowsKey.keys():
-            mbrd = str(rowsKey[mbFindKey])
-        strTxtPrint = findKey + '( ' + rd + ')' + '( PC:' + pcrd + ')' +'( MB:' + mbrd + ')'
+        strTxtPrint = set_make_title(rowsKey, rowsKeyR, findKey)
         print_find_text(str(strTxtPrint))
         for pg in range(sIdx, eIdx + 1):
-            find_page(findKey, pg, db)
+            find_page(strTxtPrint, findKey, pg, db)
 
         print('')
 
-def get_rank_pwlink(rankData, findKeyArr, db, pc_mb):
+def get_rank_pwlink(pc_mb, rowsKey, rowsKeyR, findKeyArr, db):
     findKeyCnt = 0
     for findKey in findKeyArr:
         findKeyCnt += 1
-        rd = ''
-        if findKey in crolling.rankData.keys():
-            rd = str(crolling.rankData[findKey])
-        strTxtPrint = str(findKeyCnt) + '. ' + findKey + '( ' + rd + ')' + ' [' + pc_mb + ']'
+        strTxtPrint = str(findKeyCnt) + '. ' + set_make_title(rowsKey, rowsKeyR, findKey)
         print_find_text(str(strTxtPrint))
 
         idx = 0
