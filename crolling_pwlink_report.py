@@ -26,7 +26,7 @@ except:
 if db is not None:
     curs = db.cursor()
     sql =  "select * from flybeach.history_pwlink "
-    sql += "where update_date=%s  and pc_m=%s "
+    sql += "where update_date=%s  and pc_mb=%s "
     sql += "order by idx "
     curs.execute(sql, (upStr, 'pc'))
     rows = curs.fetchall()
