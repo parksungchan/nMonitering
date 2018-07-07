@@ -50,29 +50,55 @@ def get_rank_keywordR():
                 rankData[name] = {'pc': pc, 'mb': mb}
     return rankData
 
-# rankData = get_rank_key_count()
-
-def get_rank_key_pwlink():
-    pwLinkDataPc = []
-    pwLinkDataMb = []
-    rank_list = sorted(os.listdir(data_path), reverse=True)
+def get_rank_keyword(pc_mb):
+    rankData = {}
+    if pc_mb == 'pc':
+        rank_list = sorted(os.listdir(keyword_pc_path), reverse=True)
+    else:
+        rank_list = sorted(os.listdir(keyword_mb_path), reverse=True)
     for dir in rank_list:
-        file = data_path + '/' + dir
-        if file.find('pwLinkData.xlsx') > 0:
+        file = keyword_mb_path + '/' + dir
+        if file.find('xlsx') > 0 and file.find('키워드 목록') > 0 and file.find('~$키워드 목록') == -1:
             wb = openpyxl.load_workbook(file)
             ws = wb.active
             for row in ws.rows:
-                pc_mb = row[0].value
-                name = row[1].value
-                if pc_mb == '플라이비치':
-                    if name in pwLinkDataPc:
-                        continue
-                    pwLinkDataPc.append(name)
-                else:
-                    if name in pwLinkDataMb:
-                        continue
-                    pwLinkDataMb.append(name)
-    return pwLinkDataPc, pwLinkDataMb
+                id = row[0].value
+                status = row[1].value
+                find_key = row[2].value
+                cost = row[4].value
+                view = row[6].value
+                click = row[7].value
+                total_cost = row[11].value
+                if id == '' or id == '키워드 ID' or find_key in rankData:
+                    continue
+                if status != '노출가능':
+                    continue
+                rankData[find_key] = {'status': status, 'cost': cost, 'view': view, 'click': click, 'total_cost': total_cost}
+    return rankData
+
+# rankData = get_rank_key_count()
+
+# def get_rank_key_pwlink():
+#     pwLinkDataPc = []
+#     pwLinkDataMb = []
+#     rank_list = sorted(os.listdir(data_path), reverse=True)
+#     for dir in rank_list:
+#         file = data_path + '/' + dir
+#         if file.find('pwLinkData.xlsx') > 0:
+#             wb = openpyxl.load_workbook(file)
+#             ws = wb.active
+#             for row in ws.rows:
+#                 pc_mb = row[0].value
+#                 name = row[1].value
+#                 if pc_mb == '플라이비치':
+#                     if name in pwLinkDataPc:
+#                         continue
+#                     pwLinkDataPc.append(name)
+#                 else:
+#                     if name in pwLinkDataMb:
+#                         continue
+#                     pwLinkDataMb.append(name)
+#     return pwLinkDataPc, pwLinkDataMb
 ########################################################################################################################
 # 스포츠/레저 > 수영 > 여성수영복 > 비키니
 VK = ['왕뽕비키니', '하이웨스트비키니', '비키니']
