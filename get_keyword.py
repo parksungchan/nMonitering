@@ -6,6 +6,13 @@ import pymysql
 
 from common import key_value as key_value
 
+for file in os.listdir(crolling.down_path):
+    filefull = crolling.down_path + '/' + file
+    if filefull.find('xlsx') > 0 and filefull.find('연관키워드') > 0:
+        os.remove(crolling.down_path + '/' + file)
+    if filefull.find('xlsx') > 0 and filefull.find('키워드 목록') > 0:
+        os.remove(crolling.down_path + '/' + file)
+
 # Chrome의 경우 | 아까 받은 chromedriver의 위치를 지정해준다.
 driver = webdriver.Chrome(crolling.data_path+"\chromedriver")
 # PhantomJS의 경우 | 아까 받은 PhantomJS의 위치를 지정해준다.
