@@ -318,16 +318,16 @@ def find_page(strTxtPrint, findKey, pg, db):
 
 def set_make_title(rankKey, rankKeyR, findKey):
     rd = ''
-    if findKey in rankKeyR.keys():
+    if rankKeyR is not None and findKey in rankKeyR.keys():
         rd = str(rankKeyR[findKey])
 
     pcFindKey = 'PC:' + findKey
     pcrd = ''
     mbFindKey = 'MB:' + findKey
     mbrd = ''
-    if pcFindKey in rankKey.keys():
+    if rankKey is not None and pcFindKey in rankKey.keys():
         pcrd = str(rankKey[pcFindKey])
-    if mbFindKey in rankKey.keys():
+    if rankKey is not None and mbFindKey in rankKey.keys():
         mbrd = str(rankKey[mbFindKey])
     strTxtPrint = findKey + '( ' + rd + ')' + '          ( PC:' + pcrd + ')' + '     ( MB:' + mbrd + ')'
     return strTxtPrint
