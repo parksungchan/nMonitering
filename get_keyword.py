@@ -1,6 +1,7 @@
 from selenium import webdriver
 from bs4 import BeautifulSoup
 import crolling
+from common import crolling_util as crolling_util
 import time, os, shutil
 import pymysql
 
@@ -156,7 +157,7 @@ except:
 
 print('연관 키워드 등록 Start .........')
 # 연관 키워드를 db에 등록해 주는 역할을 해준다.
-keywordR = crolling.get_rank_keywordR()
+keywordR = crolling_util.get_rank_keywordR()
 
 curs = db.cursor()
 sql = "delete from flybeach.keywordR "
@@ -177,8 +178,8 @@ for input_data in keywordR:
 db.commit()
 
 # PC 키워드를 db에 등록해 주는 역할을 해준다.
-keywordPC = crolling.get_rank_keyword('pc')
-keywordMB = crolling.get_rank_keyword('mb')
+keywordPC = crolling_util.get_rank_keyword('pc')
+keywordMB = crolling_util.get_rank_keyword('mb')
 curs = db.cursor()
 sql = "delete from flybeach.keyword "
 curs.execute(sql)
