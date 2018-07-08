@@ -1,7 +1,5 @@
 import datetime
 from common import crolling_util as crolling_util
-
-db, rowsKey, rowsKeyR, rankKey, rankKeyR = crolling_util.get_keyword_list()
 ########################################################################################################################
 # Main Function
 ########################################################################################################################
@@ -10,7 +8,11 @@ nowStr = str(now).replace('-','').replace(' ','_').replace(':','').replace('.','
 print('Start:'+nowStr)
 print('')
 
-crolling_util.get_rank_pwlink(rowsKey, rankKey, rankKeyR, db)
+# db, rowsKey, rowsKeyR, rankKey, rankKeyR = crolling_util.get_keyword_list('pc')
+# crolling_util.get_rank_pwlink(rowsKey, rankKey, rankKeyR, db)
+
+db, rowsKey, rowsKeyR, rankKey, rankKeyR = crolling_util.get_keyword_list('mb')
+crolling_util.get_rank_pwlink_mb(rowsKey, rankKey, rankKeyR, db)
 
 print('')
 end = datetime.datetime.now()

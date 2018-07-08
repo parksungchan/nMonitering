@@ -35,7 +35,7 @@ driver.find_element_by_xpath('//*[@id="container"]/div/div/fieldset/span/button'
 # 키워드연관 다운로드
 driver.get('https://manage.searchad.naver.com/customers/927013/tool/keyword-planner')
 
-keyword_arr =['래쉬가드', '모노키니', '비키니', '비치웨어', '비치원피스', '신혼여행커플룩']
+keyword_arr =['래쉬가드', '모노키니', '비키니', '비치웨어', '비치원피스', '신혼여행커플룩', '방수팩', '비치타올']
 
 for keyword in keyword_arr:
     driver.find_element_by_xpath('//*[@id="wrap"]/div/div/div[1]/div[1]/div/div/div/div[2]/div[1]/div[1]/div[2]/form/div[1]/div/div/textarea').send_keys(keyword)

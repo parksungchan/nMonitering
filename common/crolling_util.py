@@ -5,6 +5,7 @@ import os
 import crolling as crolling
 import pymysql
 import openpyxl
+from selenium import webdriver
 
 def make_dir(dir):
     if not os.path.exists(dir):
@@ -160,7 +161,7 @@ def print_find_text(strKey):
     print(pStr2)
     print(pStr3)
 
-def get_keyword_list():
+def get_keyword_list(pc_mb = None):
     rankKey = {}
     rankKeyR = {}
     # Open database connection
@@ -175,7 +176,8 @@ def get_keyword_list():
 
         curs = db.cursor()
         sql = "select * from flybeach.keyword "
-        # sql += "where find_key = '남자래쉬가드' "
+        if pc_mb is not None:
+            sql += "where pc_mb = '"+pc_mb+"' "
         sql += "order by pc_mb desc "
         curs.execute(sql)
         rowsKey = curs.fetchall()
@@ -441,6 +443,66 @@ def get_rank_pwlink_sub(findKey, pg, db, idx_total, view, click, cost, total_cos
         pg += 1
         get_rank_pwlink_sub(findKey, pg, db, idx_total, view, click, cost, total_cost)
 
-def get_rank_pwimg(findKeyArr, db):
-    None
+def get_rank_pwlink_mb(rowsKey, rankKey, rankKeyR, db):
+    # Chrome의 경우 | 아까 받은 chromedriver의 위치를 지정해준다.
+    driver = webdriver.Chrome(data_path + "\chromedriver")
+
+    driver.implicitly_wait(3)
+
+    driver.get('https://m.ad.search.naver.com/search.naver?where=m_expd&query=')  # url에 접근한다.
+
+    findKeyCnt = 0
+    for findKeyArr in rowsKey:
+        pc_mb = findKeyArr[0]
+        findKey = findKeyArr[1]
+        view = findKeyArr[2]
+        click = findKeyArr[3]
+        cost = findKeyArr[4]
+        total_cost = findKeyArr[5]
+
+        findKeyCnt += 1
+        strTxtPrint = pc_mb.upper() + ':' + str(findKeyCnt) + '. ' + set_make_title(rankKey, rankKeyR, findKey)
+        print_find_text(str(strTxtPrint))
+
+        idx = 0
+        findFlag = 'N'
+        input_data = {}
+
+        # 텍스트 입력
+        driver.find_element_by_xpath('//*[@id="query"]').clear()
+        driver.find_element_by_xpath('//*[@id="query"]').send_keys(findKey)
+
+        # 버튼을 눌러주자.
+        driver.find_element_by_xpath('//*[@id="search"]/button').click()
+
+        viewIdx = 0
+        while True:
+            viewIdx += 1
+            if viewIdx > 10:
+                break
+            try:
+                element = driver.find_element_by_xpath('//*[@id="_get_more"]')
+                element.click()
+            except:
+                break
+
+        html = driver.page_source
+        soup = BeautifulSoup(html, 'lxml')
+
+        for tag in soup.select('li'):
+            tagTxt = tag.text.replace('\n', '$').replace('$$', '$').replace('$$', '$').replace('$$', '$').replace('$$', '$')
+            if tagTxt.find('모바일') > -1:
+                idx += 1
+                if tagTxt.find('flybeach.co.kr') > -1:
+                    pStr = 'INDEX:' + println(str(idx), 10)
+                    pStr += println(tagTxt, 100)
+                    print(pStr)
+                    findFlag = 'Y'
+                    input_data = {'find_key': findKey, 'main_sub': 'main', 'idx': idx
+                        , 'view': view, 'click': click, 'cost': cost, 'total_cost': total_cost
+                        , 'item': tagTxt.split('$')[1], 'item_desc': tagTxt, 'pc_mb': 'mb'}
+        if findFlag == 'Y':
+            input_data['idx_total'] = idx
+            insert_history_pwlink(db, input_data)
+
 
