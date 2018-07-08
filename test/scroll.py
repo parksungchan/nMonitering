@@ -1,10 +1,10 @@
 from selenium import webdriver
 from bs4 import BeautifulSoup
-import crolling
+from common import crolling_util as crolling_util
 import time
 
 # Chrome의 경우 | 아까 받은 chromedriver의 위치를 지정해준다.
-driver = webdriver.Chrome(crolling.data_path+"\chromedriver")
+driver = webdriver.Chrome(crolling_util.data_path+"\chromedriver")
 
 driver.implicitly_wait(3)
 

@@ -23,7 +23,7 @@ now = datetime.datetime.now()
 nowStr = str(now).replace('-','').replace(' ','_').replace(':','').replace('.','_')
 print('Start:'+nowStr)
 print('')
-findKeyArr = crolling.key
+
 findKeyArr = ['레쉬가드','래시가드']
 crolling_util.get_rank_pwimg(findKeyArr, None)
 
