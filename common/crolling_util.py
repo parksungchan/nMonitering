@@ -4,7 +4,6 @@ from bs4 import BeautifulSoup
 import os
 import crolling as crolling
 import pymysql
-from common import key_value as key_value
 import openpyxl
 
 key_value_file = crolling.common_path + '/' + 'key_value.py'
@@ -18,6 +17,8 @@ if not os.path.exists(key_value_file):
         f.write("charset='utf8mb4'\n")
         f.write("nv_ad_id = ''\n")
         f.write("nv_ad_pw = ''\n")
+
+from common import key_value as key_value
 
 def println(strTxt, cnt):
     if len(strTxt) > cnt:
