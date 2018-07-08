@@ -5,7 +5,19 @@ import os
 import crolling as crolling
 import pymysql
 from common import key_value as key_value
-# import selenium
+import openpyxl
+
+key_value_file = crolling.common_path + '/' + 'key_value.py'
+if not os.path.exists(key_value_file):
+    with open(key_value_file, 'w') as f:
+        f.write("host='0.0.0.0'\n")
+        f.write("port=3307\n")
+        f.write("user='hee'\n")
+        f.write("password=''\n")
+        f.write("db=''\n")
+        f.write("charset='utf8mb4'\n")
+        f.write("nv_ad_id = ''\n")
+        f.write("nv_ad_pw = ''\n")
 
 def println(strTxt, cnt):
     if len(strTxt) > cnt:
@@ -31,6 +43,36 @@ def get_strArr_sub(strArr, strArrKey, strArrKeySub):
         for strRS in strArrKeySub:
             strArr.append(strR + strRS)
     return strArr
+
+def get_key_nv_list():
+    for keyJson in crolling.keyNv:
+        pStr = println('Key:' + keyJson['key'], 30)
+        pStr += println('Name:' + keyJson['name'], 40)
+        pStr += println('Mid1:' + keyJson['mid1'], 30)
+        pStr += println('Mid2:' + keyJson['mid2'], 30)
+        pStr += keyJson['cnt']
+        print(pStr)
+    print('')
+
+    findKeyArr = []  # 검색 키워드
+    for keyJson in crolling.keyNv:
+        if keyJson['key'] in findKeyArr:
+            None
+        else:
+            findKeyArr.append(keyJson['key'])
+
+        if keyJson['mid2'] == '':
+            keyJson['mid2'] = '사용안함'
+        print('검색명=' + keyJson['key'] + '상품명=' + keyJson['mid1'] + '구매처=' + keyJson['mid2'] + '페이지=' + keyJson['cnt'])
+    print('')
+    for key in crolling.keyList:
+        if key in findKeyArr:
+            None
+        else:
+            findKeyArr.append(key)
+    if crolling.nv_flag is False:
+        return crolling.keyList
+    return findKeyArr
 
 def get_soup(strTxt, pg):
     url = 'https://search.shopping.naver.com/search/all.nhn?origQuery=' + strTxt
@@ -59,6 +101,50 @@ def get_soup_pwlinkMainMB(strTxt):
     html = requests.get(url, headers=headers).text
     soup = BeautifulSoup(html, 'lxml')
     return soup
+
+def get_rank_keywordR():
+    rankData = {}
+    rank_list = sorted(os.listdir(crolling.keyword_r_path), reverse=True)
+    for dir in rank_list:
+        file = crolling.keyword_r_path + '/' + dir
+        if file.find('xlsx') > 0 and file.find('연관키워드') > 0:
+            wb = openpyxl.load_workbook(file)
+            ws = wb.active
+            for row in ws.rows:
+                name = row[0].value
+                pc = row[1].value
+                mb = row[2].value
+                if name in rankData:
+                    continue
+                rankData[name] = {'pc': pc, 'mb': mb}
+    return rankData
+
+def get_rank_keyword(pc_mb):
+    rankData = {}
+    if pc_mb == 'pc':
+        keyword_path = crolling.keyword_pc_path
+    else:
+        keyword_path = crolling.keyword_mb_path
+    rank_list = sorted(os.listdir(keyword_path), reverse=True)
+    for dir in rank_list:
+        file = keyword_path + '/' + dir
+        if file.find('xlsx') > 0 and file.find('키워드 목록') > 0 and file.find('~$키워드 목록') == -1:
+            wb = openpyxl.load_workbook(file)
+            ws = wb.active
+            for row in ws.rows:
+                id = row[0].value
+                status = row[1].value
+                find_key = row[2].value
+                cost = row[4].value
+                view = row[6].value
+                click = row[7].value
+                total_cost = row[11].value
+                if id == '' or id == '키워드 ID' or find_key in rankData:
+                    continue
+                if status != '노출가능':
+                    continue
+                rankData[find_key] = {'status': status, 'cost': cost, 'view': view, 'click': click, 'total_cost': total_cost}
+    return rankData
 
 def print_find_text(strKey):
     pStr1 = '============================================================================================'

@@ -1,6 +1,6 @@
 import datetime, pymysql
-import crolling as crolling
 from common import key_value as key_value
+
 sIdx = 1
 eIdx = 20
 # 2018-07-06

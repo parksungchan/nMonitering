@@ -1,8 +1,4 @@
 import datetime
-import crolling as crolling
-from common import crolling_util as crolling_util
-import pymysql
-from common import key_value as key_value
 # # Open database connection
 # try:
 #     db = pymysql.connect(host=key_value.host
