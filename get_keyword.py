@@ -217,4 +217,4 @@ for input_data in keywordMB:
     pIdx += 1
 db.commit()
 
-print(None)
+print('')
