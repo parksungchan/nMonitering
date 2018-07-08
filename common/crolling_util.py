@@ -1,4 +1,4 @@
-import datetime
+import datetime, time
 import requests
 from bs4 import BeautifulSoup
 import os
@@ -459,6 +459,7 @@ def get_rank_pwlink_mb(rowsKey, rankKey, rankKeyR, db):
         click = findKeyArr[3]
         cost = findKeyArr[4]
         total_cost = findKeyArr[5]
+        # findKey = '망사비치웨어'
 
         findKeyCnt += 1
         strTxtPrint = pc_mb.upper() + ':' + str(findKeyCnt) + '. ' + set_make_title(rankKey, rankKeyR, findKey)
@@ -498,11 +499,10 @@ def get_rank_pwlink_mb(rowsKey, rankKey, rankKeyR, db):
                     pStr += println(tagTxt, 100)
                     print(pStr)
                     findFlag = 'Y'
-                    input_data = {'find_key': findKey, 'main_sub': 'main', 'idx': idx
+                    input_data = {'find_key': findKey, 'main_sub': 'main', 'idx': idx, 'idx_total': idx*viewIdx
                         , 'view': view, 'click': click, 'cost': cost, 'total_cost': total_cost
                         , 'item': tagTxt.split('$')[1], 'item_desc': tagTxt, 'pc_mb': 'mb'}
-        if findFlag == 'Y':
-            input_data['idx_total'] = idx
-            insert_history_pwlink(db, input_data)
+                    insert_history_pwlink(db, input_data)
+                    break
 
 
