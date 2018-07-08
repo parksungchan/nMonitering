@@ -29,6 +29,4 @@ for findKey in findKeyArr:
         print(element)
         element.click()
 
-    '//*[@id="query"]'
-
     print('')
