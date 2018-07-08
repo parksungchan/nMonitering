@@ -1,28 +1,13 @@
-import os
-
-def make_dir(dir):
-    if not os.path.exists(dir):
-        os.makedirs(dir)
-    return dir
-
-pagePrintCnt = 50
-prj_path = os.path.dirname(os.path.abspath(__file__))
-down_path = 'C:\\Users\\chan\\Downloads'
-common_path = prj_path+'/common'
-data_path = prj_path+'/data'
-keyword_pc_path = make_dir(data_path + '/keywordPC')
-keyword_mb_path = make_dir(data_path + '/keywordMB')
-keyword_r_path = make_dir(data_path + '/keywordR')
-
 # True 이면 순위 체크 리스트 프린트 -> 지정 키워드가 프린트 된다.
 # False 이면 지정 키워드가 프린트
 nv_flag = True
-keyList = []
+
 def add_key(keyArr):
     for key in keyArr:
         keyList.append(key)
     return keyList
 ########################################################################################################################
+keyList = []
 # 스포츠/레저 > 수영 > 여성수영복 > 비키니
 add_key( ['왕뽕비키니', '하이웨스트비키니', '비키니'] )
 add_key( ['수영복', '여성수영복', '여자수영복'] )

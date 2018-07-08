@@ -6,7 +6,21 @@ import crolling as crolling
 import pymysql
 import openpyxl
 
-key_value_file = crolling.common_path + '/' + 'key_value.py'
+def make_dir(dir):
+    if not os.path.exists(dir):
+        os.makedirs(dir)
+    return dir
+
+pagePrintCnt = 50
+prj_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+down_path = 'C:\\Users\\chan\\Downloads'
+common_path = prj_path+'/common'
+data_path = prj_path+'/data'
+keyword_pc_path = make_dir(data_path + '/keywordPC')
+keyword_mb_path = make_dir(data_path + '/keywordMB')
+keyword_r_path = make_dir(data_path + '/keywordR')
+
+key_value_file = common_path + '/' + 'key_value.py'
 if not os.path.exists(key_value_file):
     with open(key_value_file, 'w') as f:
         f.write("host='0.0.0.0'\n")
@@ -24,15 +38,6 @@ def println(strTxt, cnt):
     if len(strTxt) > cnt:
         cnt = len(strTxt)+1
     return (strTxt + " " * cnt)[:cnt]
-
-def printS(strTxt):
-    print(strTxt)
-    crolling.searchArrList.dict['list'].append(strTxt)
-
-def make_dir(dir):
-    if not os.path.exists(dir):
-        os.makedirs(dir)
-    return dir
 
 def get_strArr(strArr, strArrKey):
     for strStr in strArrKey:
@@ -105,9 +110,9 @@ def get_soup_pwlinkMainMB(strTxt):
 
 def get_rank_keywordR():
     rankData = {}
-    rank_list = sorted(os.listdir(crolling.keyword_r_path), reverse=True)
+    rank_list = sorted(os.listdir(keyword_r_path), reverse=True)
     for dir in rank_list:
-        file = crolling.keyword_r_path + '/' + dir
+        file = keyword_r_path + '/' + dir
         if file.find('xlsx') > 0 and file.find('연관키워드') > 0:
             wb = openpyxl.load_workbook(file)
             ws = wb.active
@@ -123,9 +128,9 @@ def get_rank_keywordR():
 def get_rank_keyword(pc_mb):
     rankData = {}
     if pc_mb == 'pc':
-        keyword_path = crolling.keyword_pc_path
+        keyword_path = keyword_pc_path
     else:
-        keyword_path = crolling.keyword_mb_path
+        keyword_path = keyword_mb_path
     rank_list = sorted(os.listdir(keyword_path), reverse=True)
     for dir in rank_list:
         file = keyword_path + '/' + dir
@@ -313,7 +318,7 @@ def find_page(strTxtPrint, findKey, pg, db):
                 insert_history(db, input_data)
                 print(pStr)
 
-    if pg % crolling.pagePrintCnt == 0:
+    if pg % pagePrintCnt == 0:
         print('Process Page:' + str(pg))
 
 def set_make_title(rankKey, rankKeyR, findKey):
@@ -438,66 +443,4 @@ def get_rank_pwlink_sub(findKey, pg, db, idx_total, view, click, cost, total_cos
 
 def get_rank_pwimg(findKeyArr, db):
     None
-# def find_page_multi(strTxt, sIdx, eIdx): # 블로그의 게시글 링크들을 가져옵니다.
-#     data = []
-#     for pg in range(sIdx, eIdx + 1):
-#         url = 'https://search.shopping.naver.com/search/all.nhn?origQuery=' + strTxt
-#         url += '&pagingIndex=' + str(pg) + '&pagingSize=40&viewType=list&sort=rel&frm=NVSHPAG&query=' + strTxt
-#         data.append(url)
-#     return data
-#
-# def get_content(url):
-#     pg1 = url.find('&pagingIndex=')+len('&pagingIndex=')
-#     pg2 = url.find('&pagingSize=')
-#     pg = url[pg1:pg2]
-#     html = requests.get(url).text
-#     soup = BeautifulSoup(html, 'html.parser')
-#     idx = 0
-#     for tag in soup.select('li'):
-#         tagImg = tag.find(class_='img')
-#         if tagImg:
-#             idx += 1
-#             ct = tagImg.contents[1]
-#             imgName = ct.get('alt')
-#             pageurl = tagImg.attrs['href']
-#             fbIdx = tag.text.find('FLYBEACH')
-#             fbsIdxH = tag.text.find('플라이비치')
-#             adIdx = str(tag).find('ad _itemSection')
-#
-#             site = None
-#             if fbIdx > -1:
-#                 site = 'FLYBEACH    '
-#             elif fbsIdxH > -1:
-#                 site = '플라이비치  '
-#
-#             if site is not None and adIdx > 0:
-#                 site = '(광고)' + site
-#
-#             if site is not None:
-#                 pStr = site
-#                 pStr += println(str(imgName), 25)
-#                 pStr += 'Page:' + println(str(pg), 5)
-#                 pStr += 'INDEX:' + println(str(idx), 5)
-#                 pStr += 'MID:' + println(tag.attrs['data-nv-mid'], 20)
-#                 pStr += '      ' + pageurl
-#
-#                 print(pStr)
-#                 crolling.searchArrList.dict['list'].append(pStr)
-#
-# def get_rank_multi(sIdx, eIdx, findKeyArr, itemKeyArr = None, logPath = 'logKey'):
-#     for findKey in findKeyArr:
-#         printS('')
-#         pStr1 = '============================================================================================'
-#         pStr2 = str(findKey)
-#         pStr3 = '--------------------------------------------------------------------------------------------'
-#         printS(pStr1)
-#         printS(pStr2)
-#         printS(pStr3)
-#
-#         if crolling.multi:
-#             pool = Pool(processes=32) # 4개의 프로세스를 사용합니다.
-#             pool.map(get_content, find_page_multi(findKey, sIdx, eIdx)) # get_contetn 함수를 넣어줍시다.
-#         else:
-#             for link in find_page_multi(findKey, sIdx, eIdx):
-#                 get_content(link)
 

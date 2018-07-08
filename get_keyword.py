@@ -7,15 +7,15 @@ import pymysql
 
 from common import key_value as key_value
 
-for file in os.listdir(crolling.down_path):
-    filefull = crolling.down_path + '/' + file
+for file in os.listdir(crolling_util.down_path):
+    filefull = crolling_util.down_path + '/' + file
     if filefull.find('xlsx') > 0 and filefull.find('연관키워드') > 0:
-        os.remove(crolling.down_path + '/' + file)
+        os.remove(crolling_util.down_path + '/' + file)
     if filefull.find('xlsx') > 0 and filefull.find('키워드 목록') > 0:
-        os.remove(crolling.down_path + '/' + file)
+        os.remove(crolling_util.down_path + '/' + file)
 
 # Chrome의 경우 | 아까 받은 chromedriver의 위치를 지정해준다.
-driver = webdriver.Chrome(crolling.data_path+"\chromedriver")
+driver = webdriver.Chrome(crolling_util.data_path+"\chromedriver")
 # PhantomJS의 경우 | 아까 받은 PhantomJS의 위치를 지정해준다.
 # driver = webdriver.PhantomJS('/Users/beomi/Downloads/phantomjs-2.1.1-macosx/bin/phantomjs')
 
@@ -48,12 +48,12 @@ for keyword in keyword_arr:
 time.sleep(3)
 #######################################################################################################################
 # File Move
-for file in os.listdir(crolling.keyword_r_path):
-    os.remove(crolling.keyword_r_path + '/' + file)
-filelist = os.listdir(crolling.down_path)
+for file in os.listdir(crolling_util.keyword_r_path):
+    os.remove(crolling_util.keyword_r_path + '/' + file)
+filelist = os.listdir(crolling_util.down_path)
 for file in filelist:
     if file.find('연관키워드') > -1:
-        shutil.move(crolling.down_path + '/' + file, crolling.keyword_r_path + '/' + file)
+        shutil.move(crolling_util.down_path + '/' + file, crolling_util.keyword_r_path + '/' + file)
 #######################################################################################################################
 # PC
 linkArr = [
@@ -92,12 +92,12 @@ for link in linkArr:
 time.sleep(3)
 #######################################################################################################################
 # File Move
-for file in os.listdir(crolling.keyword_pc_path):
-    os.remove(crolling.keyword_pc_path + '/' + file)
-filelist = os.listdir(crolling.down_path)
+for file in os.listdir(crolling_util.keyword_pc_path):
+    os.remove(crolling_util.keyword_pc_path + '/' + file)
+filelist = os.listdir(crolling_util.down_path)
 for file in filelist:
     if file.find('키워드 목록') > -1:
-        shutil.move(crolling.down_path + '/' + file, crolling.keyword_pc_path + '/' + file)
+        shutil.move(crolling_util.down_path + '/' + file, crolling_util.keyword_pc_path + '/' + file)
 time.sleep(3)
 #######################################################################################################################
 # Mobile
@@ -135,12 +135,12 @@ for link in linkArr:
 time.sleep(3)
 #######################################################################################################################
 # File Move
-for file in os.listdir(crolling.keyword_mb_path):
-    os.remove(crolling.keyword_mb_path + '/' + file)
-filelist = os.listdir(crolling.down_path)
+for file in os.listdir(crolling_util.keyword_mb_path):
+    os.remove(crolling_util.keyword_mb_path + '/' + file)
+filelist = os.listdir(crolling_util.down_path)
 for file in filelist:
     if file.find('키워드 목록') > -1:
-        shutil.move(crolling.down_path + '/' + file, crolling.keyword_mb_path + '/' + file)
+        shutil.move(crolling_util.down_path + '/' + file, crolling_util.keyword_mb_path + '/' + file)
 time.sleep(3)
 #######################################################################################################################
 try:
