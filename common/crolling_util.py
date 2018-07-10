@@ -6,6 +6,7 @@ import crolling as crolling
 import pymysql
 import openpyxl
 from selenium import webdriver
+import getpass
 
 def make_dir(dir):
     if not os.path.exists(dir):
@@ -14,7 +15,11 @@ def make_dir(dir):
 
 pagePrintCnt = 50
 prj_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-down_path = 'C:\\Users\\chan\\Downloads'
+
+
+user = getpass.getuser()
+
+down_path = 'C:\\Users\\'+user+'\\Downloads'
 common_path = prj_path+'/common'
 data_path = prj_path+'/data'
 keyword_pc_path = make_dir(data_path + '/keywordPC')
