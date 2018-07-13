@@ -229,7 +229,7 @@ def insert_history(db, input_data):
     if len(rows) > 0:
         #Update
         sql = "update flybeach.history "
-        sql += "set title='" + title + "', page=" + str(page) + ", last_update_date='" + nowTimeStr + "' "
+        sql += "set title='" + title + "', page=" + str(page) + "', idx=" + str(idx) + ", last_update_date='" + nowTimeStr + "' "
         sql += "where update_date=%s and find_key=%s and mid1=%s "
         curs.execute(sql, (upStr, find_key, mid1))
     else:
