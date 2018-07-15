@@ -14,6 +14,7 @@ print('Start:'+nowStr)
 print('')
 
 findKeyArr = crolling_util.get_key_nv_list()
+# findKeyArr = ['커플래쉬가드']
 crolling_util.get_rank_common(sIdx, eIdx, findKeyArr, rankKey, rankKeyR, db)
 
 print('')
