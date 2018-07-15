@@ -193,9 +193,10 @@ for input_data in keywordPC:
     view = keywordPC[input_data]['view']
     click = keywordPC[input_data]['click']
     total_cost = keywordPC[input_data]['total_cost']
-    sql = "insert into flybeach.keyword(pc_mb, find_key, cost, view, click, total_cost) "
-    sql += "values (%s, %s, %s, %s, %s, %s)"
-    curs.execute(sql, ('pc', input_data, cost, view, click, total_cost))
+    file_name = keywordPC[input_data]['file_name']
+    sql = "insert into flybeach.keyword(pc_mb, find_key, cost, view, click, total_cost, file_name) "
+    sql += "values (%s, %s, %s, %s, %s, %s, %s)"
+    curs.execute(sql, ('pc', input_data, cost, view, click, total_cost, file_name))
     if pIdx%500 == 0:
         print('Process:' + str(pIdx))
     pIdx += 1

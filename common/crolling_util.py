@@ -155,7 +155,7 @@ def get_rank_keyword(pc_mb):
                     continue
                 if status != '노출가능':
                     continue
-                rankData[find_key] = {'status': status, 'cost': cost, 'view': view, 'click': click, 'total_cost': total_cost}
+                rankData[find_key] = {'status': status, 'cost': cost, 'view': view, 'click': click, 'total_cost': total_cost, 'file_name':file}
     return rankData
 
 def print_find_text(strKey):
