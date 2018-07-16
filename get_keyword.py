@@ -7,13 +7,13 @@ import pymysql
 
 from common import key_value as key_value
 
-for file in os.listdir(crolling_util.down_path):
-    filefull = crolling_util.down_path + '/' + file
-    if filefull.find('xlsx') > 0 and filefull.find('연관키워드') > 0:
-        os.remove(crolling_util.down_path + '/' + file)
-    if filefull.find('xlsx') > 0 and filefull.find('키워드 목록') > 0:
-        os.remove(crolling_util.down_path + '/' + file)
-
+# for file in os.listdir(crolling_util.down_path):
+#     filefull = crolling_util.down_path + '/' + file
+#     if filefull.find('xlsx') > 0 and filefull.find('연관키워드') > 0:
+#         os.remove(crolling_util.down_path + '/' + file)
+#     if filefull.find('xlsx') > 0 and filefull.find('키워드 목록') > 0:
+#         os.remove(crolling_util.down_path + '/' + file)
+#
 # Chrome의 경우 | 아까 받은 chromedriver의 위치를 지정해준다.
 driver = webdriver.Chrome(crolling_util.data_path+"\chromedriver")
 # PhantomJS의 경우 | 아까 받은 PhantomJS의 위치를 지정해준다.
@@ -86,7 +86,8 @@ for link in linkArr:
     driver.get(link)
     html = driver.page_source
     soup = BeautifulSoup(html, 'lxml')
-    time.sleep(3)
+    time.sleep(4)
+    print('PC:'+link)
     driver.find_element_by_xpath('//*[@id="wrap"]/div/div/div[1]/div[1]/div/div/div/div[4]/div/div[1]/div/div/div/div[1]/div[2]/button').click()
 
 time.sleep(3)
@@ -129,7 +130,8 @@ for link in linkArr:
     driver.get(link)
     html = driver.page_source
     soup = BeautifulSoup(html, 'lxml')
-    time.sleep(3)
+    time.sleep(4)
+    print('MB:'+link)
     driver.find_element_by_xpath('//*[@id="wrap"]/div/div/div[1]/div[1]/div/div/div/div[4]/div/div[1]/div/div/div/div[1]/div[2]/button').click()
 
 time.sleep(3)
