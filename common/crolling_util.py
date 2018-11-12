@@ -183,7 +183,7 @@ def get_keyword_list(pc_mb = None):
         sql = "select * from flybeach.keyword "
         if pc_mb is not None:
             sql += "where pc_mb = '"+pc_mb+"' "
-        sql += "order by pc_mb desc "
+        sql += "order by pc_mb desc, view desc "
         curs.execute(sql)
         rowsKey = curs.fetchall()
         for rows in rowsKey:
