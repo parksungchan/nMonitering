@@ -37,6 +37,8 @@ if not os.path.exists(key_value_file):
         f.write("charset='utf8mb4'\n")
         f.write("nv_ad_id = ''\n")
         f.write("nv_ad_pw = ''\n")
+        f.write("du_ad_id = ''\n")
+        f.write("du_ad_pw = ''\n")
 
 from common import key_value as key_value
 
