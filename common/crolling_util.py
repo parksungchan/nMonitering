@@ -22,9 +22,14 @@ user = getpass.getuser()
 down_path = 'C:\\Users\\'+user+'\\Downloads'
 common_path = prj_path+'/common'
 data_path = prj_path+'/data'
+
+keyword_r_path = make_dir(data_path + '/keywordR')
+
 keyword_pc_path = make_dir(data_path + '/keywordPC')
 keyword_mb_path = make_dir(data_path + '/keywordMB')
-keyword_r_path = make_dir(data_path + '/keywordR')
+
+keyword_pcd_path = make_dir(data_path + '/keywordPCD')
+keyword_mbd_path = make_dir(data_path + '/keywordMBD')
 
 key_value_file = common_path + '/' + 'key_value.py'
 if not os.path.exists(key_value_file):
