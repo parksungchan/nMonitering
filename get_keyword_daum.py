@@ -26,7 +26,7 @@ driver.find_element_by_xpath('//*[@id="loginForm"]/fieldset/button').click()
 # PC
 linkArr = [
   'https://clix.biz.daum.net/report/top.do#/ADGROUP/10242684|TYPE=KEYWORD'  # 00. 자사명
-, 'https://clix.biz.daum.net/report/top.do#/ADGROUP/11227226|TYPE=KEYWORD' # 01-1. 비치드레스
+# , 'https://clix.biz.daum.net/report/top.do#/ADGROUP/11227226|TYPE=KEYWORD' # 01-1. 비치드레스
 # , 'https://clix.biz.daum.net/report/top.do#/ADGROUP/12688527|TYPE=KEYWORD' # 01-2. 수영복(커플)
 # , 'https://clix.biz.daum.net/report/top.do#/ADGROUP/10242220|TYPE=KEYWORD' # 01-3. 비치웨어(커플)
 # , 'https://clix.biz.daum.net/report/top.do#/ADGROUP/12214441|TYPE=KEYWORD' # 02-1. 경쟁사
@@ -41,7 +41,7 @@ linkArr = [
 # , 'https://clix.biz.daum.net/report/top.do#/ADGROUP/10242349|TYPE=KEYWORD' # 06. 비치용품
 # , 'https://clix.biz.daum.net/report/top.do#/ADGROUP/10242340|TYPE=KEYWORD' # 07. 남자옷
 ]
-from selenium.webdriver.support.ui import Select
+
 for link in linkArr:
     driver.get(link)
     html = driver.page_source
@@ -64,7 +64,7 @@ time.sleep(3)
 # MB
 linkArr = [
   'https://clix.biz.daum.net/report/top.do#/ADGROUP/12243276|TYPE=KEYWORD'  # 00. 자사명
-, 'https://clix.biz.daum.net/report/top.do#/ADGROUP/11248121|TYPE=KEYWORD' # 01-1. 비치드레스
+# , 'https://clix.biz.daum.net/report/top.do#/ADGROUP/11248121|TYPE=KEYWORD' # 01-1. 비치드레스
 # , 'https://clix.biz.daum.net/report/top.do#/ADGROUP/11227819|TYPE=KEYWORD' # 01-2. 수영복(커플)
 # , 'https://clix.biz.daum.net/report/top.do#/ADGROUP/12214543|TYPE=KEYWORD' # 01-3. 비치웨어(커플)
 # , 'https://clix.biz.daum.net/report/top.do#/ADGROUP/12214532|TYPE=KEYWORD' # 02-1. 경쟁사
@@ -78,7 +78,7 @@ linkArr = [
 # , 'https://clix.biz.daum.net/report/top.do#/ADGROUP/11227827|TYPE=KEYWORD' # 07. 남자옷
 # , 'https://clix.biz.daum.net/report/top.do#/ADGROUP/11227821|TYPE=KEYWORD' # 07-2.남자수영복
 ]
-from selenium.webdriver.support.ui import Select
+
 for link in linkArr:
     driver.get(link)
     html = driver.page_source
@@ -98,6 +98,62 @@ for file in filelist:
         shutil.move(crolling_util.down_path + '/' + file, crolling_util.keyword_mbd_path + '/' + file)
 time.sleep(3)
 #######################################################################################################################
+try:
+    db = pymysql.connect(host=key_value.host
+                         , port=key_value.port
+                         , user=key_value.user
+                         , passwd=key_value.password
+                         , db=key_value.db
+                         , charset=key_value.charset
+                         , autocommit=True)
+except:
+    print('db connection error............................................')
+    db = None
+
+# PC 키워드를 db에 등록해 주는 역할을 해준다.
+keywordPC = crolling_util.get_rank_keyword_daum('pcd')
+keywordMB = crolling_util.get_rank_keyword_daum('mbd')
+curs = db.cursor()
+sql = "delete from flybeach.keyword where pc_mb in('pcd', 'mbd') "
+curs.execute(sql)
+db.commit()
+
+print('PC 키워드 등록 Start .........')
+pIdx = 1
+print('Total Cnt:'+str(len(keywordPC.keys())))
+for input_data in keywordPC:
+    cost = keywordPC[input_data]['cost']
+    view = keywordPC[input_data]['view']
+    click = keywordPC[input_data]['click']
+    total_cost = keywordPC[input_data]['total_cost']
+    file_name = keywordPC[input_data]['file_name']
+    sql = "insert into flybeach.keyword(pc_mb, find_key, cost, view, click, total_cost, file_name) "
+    sql += "values (%s, %s, %s, %s, %s, %s, %s)"
+    curs.execute(sql, ('pc', input_data, cost, view, click, total_cost, file_name))
+    if pIdx%500 == 0:
+        print('Process:' + str(pIdx))
+    pIdx += 1
+db.commit()
+
+print('MB 키워드 등록 Start .........')
+pIdx = 1
+print('Total Cnt:'+str(len(keywordMB.keys())))
+for input_data in keywordMB:
+    cost = keywordMB[input_data]['cost']
+    view = keywordMB[input_data]['view']
+    click = keywordMB[input_data]['click']
+    total_cost = keywordMB[input_data]['total_cost']
+    sql = "insert into flybeach.keyword(pc_mb, find_key, cost, view, click, total_cost) "
+    sql += "values (%s, %s, %s, %s, %s, %s)"
+    curs.execute(sql, ('mb', input_data, cost, view, click, total_cost))
+    if pIdx%500 == 0:
+        print('Process:' + str(pIdx))
+    pIdx += 1
+db.commit()
+
+print('')
+
+
 
 
 

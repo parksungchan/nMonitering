@@ -1,4 +1,4 @@
-import datetime, time
+import datetime, csv
 import requests
 from bs4 import BeautifulSoup
 import os
@@ -148,6 +148,33 @@ def get_rank_keyword(pc_mb):
     for dir in rank_list:
         file = keyword_path + '/' + dir
         if file.find('xlsx') > 0 and file.find('키워드 목록') > 0 and file.find('~$키워드 목록') == -1:
+            wb = openpyxl.load_workbook(file)
+            ws = wb.active
+            for row in ws.rows:
+                id = row[0].value
+                status = row[1].value
+                find_key = row[2].value
+                cost = row[4].value
+                view = row[6].value
+                click = row[7].value
+                total_cost = row[11].value
+                if id == '' or id == '키워드 ID' or find_key in rankData:
+                    continue
+                if status != '노출가능':
+                    continue
+                rankData[find_key] = {'status': status, 'cost': cost, 'view': view, 'click': click, 'total_cost': total_cost, 'file_name':file}
+    return rankData
+
+def get_rank_keyword_daum(pc_mb):
+    rankData = {}
+    if pc_mb == 'pcd':
+        keyword_path = keyword_pcd_path
+    else:
+        keyword_path = keyword_mbd_path
+    rank_list = sorted(os.listdir(keyword_path), reverse=True)
+    for dir in rank_list:
+        file = keyword_path + '/' + dir
+        if file.find('csv') > 0 and file.find('현황보고서') > 0 and file.find('~$현황보고서') == -1:
             wb = openpyxl.load_workbook(file)
             ws = wb.active
             for row in ws.rows:
