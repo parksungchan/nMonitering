@@ -190,7 +190,7 @@ db.commit()
 keywordPC = crolling_util.get_rank_keyword('pc')
 keywordMB = crolling_util.get_rank_keyword('mb')
 curs = db.cursor()
-sql = "delete from flybeach.keyword "
+sql = "delete from flybeach.keyword where pc_mb in('pc', 'mb') "
 curs.execute(sql)
 db.commit()
 
