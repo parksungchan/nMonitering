@@ -29,7 +29,7 @@ driver.find_element_by_name('id').send_keys(key_value.nv_ad_id)
 driver.find_element_by_name('pw').send_keys(key_value.nv_ad_pw)
 
 # 로그인 버튼을 눌러주자.
-driver.find_element_by_xpath('//*[@id="container"]/div/div/fieldset/span/button').click()
+driver.find_element_by_xpath('//*[@id="container"]/div/div/fieldset/div/span/button').click()
 
 #######################################################################################################################
 # 키워드연관 다운로드
@@ -57,33 +57,34 @@ for file in filelist:
 #######################################################################################################################
 # PC
 linkArr = [
-  'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001628491798' # 파워링크 광고그룹: 00. 자사명
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232606' # 파워링크 광고그룹: 01. 기본키워드
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232816' # 광고그룹 : 02-1. 경쟁업체(성과)
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232790' # 광고그룹 : 02-2. 경쟁업체(일반)
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232784' # 광고그룹 : 03-1. 허니문(성과)
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000001128493' # 광고그룹 : 03-2. 허니문(추가)
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232605' # 광고그룹 : 03-3. 비치드레스
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232608' # 광고그룹 : 03-4. 비치웨어
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000002188028' # 광고그룹 : 03-5. 비치/원피스_가디건
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629445851' # 광고그룹 : 04-1. 래쉬가드_주요
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629445833' # 광고그룹 : 04-2. 래쉬가드_여자
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232865' # 광고그룹 : 04-3. 래쉬가드_남자
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000008552465' # 광고그룹 : 04-3. 래쉬가드_커플
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000008552648' # 광고그룹 : 04-3. 래쉬가드_워터레깅스
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000008563121' # 광고그룹 : 04-3. 래쉬가드_하의
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232674' # 광고그룹 : 05-1. 비키니(성과)
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232615' # 광고그룹 : 05-2. 비키니(일반1)
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232614' # 광고그룹 : 05-2. 비키니(일반2)
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000006865309' # 광고그룹 : 05-4. 하이웨스트
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232786' # 광고그룹 : 06. 비치용품
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232641' # 광고그룹 : 07. 남자옷
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232604' # 광고그룹 : 08. 550원설정키워드
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001798581417' # 광고그룹 : 09. 배송키워드
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232772' # 광고그룹 : 11. 긴키워드
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000004586344' # 광고그룹 : 12. 7자키워드(은)
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000004587199' # 광고그룹 : 13. 7자키워드(는)
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000005497368' # 광고그룹 : 14. 비치타올방수팩
+  'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001628491798' # 00. 자사명
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232606' # 01. 수영복
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000010571064' # 01. 수영복 - 남자
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001798581417' # 01.수영복-커플
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232790' # 02-1. 경쟁업체
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232784' # 03-1. 허니문_커플
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000001128493' # 03-2. 허니문
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232605' # 03-3. 비치드레스
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232608' # 03-4. 비치웨어
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000002188028' # 03-5. 비치_가디건탑
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629445851' # 04-1. 래쉬가드_주요
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629445833' # 04-2. 래쉬가드_여자
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232865' # 04-3. 래쉬가드_남자
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000008552465' # 04-4. 래쉬가드_커플
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000008552648' # 04-5. 래쉬가드_워터래깅스
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000008563121' # 04-5. 래쉬가드_하의
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232674' # 05-1. 비키니(성과)
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232615' # 05-2. 비키니(일반1)
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232614' # 05-2. 비키니(일반2)
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000006865309' # 05-4. 하이웨스트
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000010488655' # 05-5. 모노키니
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232786' # 06. 비치용품
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232641' # 07. 남자옷
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232604' # 08. 여름옷
+# , '' # 11.
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000004586344' # 12. 신혼여행커플룩
+# , '' # 13.
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000005497368' # 14. 비치타올방수팩
 ]
 for link in linkArr:
     driver.get(link)
@@ -106,32 +107,33 @@ time.sleep(3)
 #######################################################################################################################
 # Mobile
 linkArr = [
-  'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000001802249' # 파워링크 광고그룹: 00. 자사명
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825993620' # 광고그룹 : 02-1. 경쟁업체(성과)
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825993574' # 광고그룹 : 02-2. 경쟁업체(일반)
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825993762' # 광고그룹 : 03-1. 허니문(성과)
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825993741' # 광고그룹 : 03-2. 허니문(일반)
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825994099' # 광고그룹 : 03-3. 비치드레스
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000002189778' # 광고그룹 : 03-4. 비치웨어
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000002196392' # 광고그룹 : 03-5. 비치/원피스_가디건
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825993874' # 광고그룹 : 03-6. 커플수영복
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825994341' # 광고그룹 : 04-1. 래쉬가드_주요
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825994256' # 광고그룹 : 04-1. 래쉬가드_여자
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000008553018'  # 광고그룹 : 04-1. 래쉬가드_남자
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000008553070'  # 광고그룹 : 04-1. 래쉬가드_커플
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000008553077'  # 광고그룹 : 04-1. 래쉬가드_워터레깅스
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000008556260'  # 광고그룹 : 04-1. 래쉬가드_하의
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825994792' # 광고그룹 : 05-1. 비키니(성과)
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825994355' # 광고그룹 : 05-2. 비키니(일반1)
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825998258' # 광고그룹 : 05-3. 원피스수영복
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000006865251' # 광고그룹 : 05-4. 하이웨스트
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825995386' # 광고그룹 : 06. 비치용품
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825995470' # 광고그룹 : 07. 남자옷
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825995597' # 광고그룹 : 08. 550원설정키워드
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825994721' # 광고그룹 : 09. 배송키워드
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825994218' # 광고그룹 : 11. 긴키워드
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000004586405' # 광고그룹 : 12. 신혼여행커플룩
-, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000005497491' # 광고그룹 : 13. 비치타올방수팩
+'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000001802249' # 00. 자사명
+# , '' # 02-1.
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825993574' # 02-1. 경쟁업체
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825993762' # 03-1. 허니문(성과)
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825993741' # 3-2. 허니문(일반)
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825994099' # 03-3. 비치드레스
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000002189778' # 03-4. 비치웨어
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000002196392' # 03-5. 비치/원피스_가디건탑
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825993874' # 03-6. 커플수영복
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825994341' # 04-1. 래쉬가드_주요
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825994256' # 04-2. 래쉬가드-여자
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000008553018' # 04-3. 래쉬가드_남자
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000008553070' # 04-4. 래쉬가드-커플
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000008553077' # 04-5. 래쉬가드-워터래깅스
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000008556260' # 04-6. 래쉬가드-하의
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825994792' # 05-1. 비키니(성과)
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825994355' # 05-2. 비키니(일반1)
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825998258' # 05-3. 원피스수영복
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000006865251' # 05-4. 하이웨스트
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000010488667' # 05-5. 모노키니
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825995386' # 06. 비치용품
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825995470' # 07. 남자옷
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825995597' # 08. 550원설정키워드
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825994721' # 09. 배송키워드
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825994218' # 11. 긴키워드
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000004586405' # 12. 신혼여행커플룩
+, 'https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000005497491' # 13. 비치타올방수팩
 ]
 for link in linkArr:
     driver.get(link)
