@@ -462,7 +462,7 @@ def get_rank_pwlink_sub(findKey, pg, db, idx_total, view, click, cost, total_cos
         tagUrl = tag.find(class_='url')
         tagdsc = tag.find(class_='ad_dsc')
         if tagTit:
-            if tagUrl.text.find('www.flybeach.co.kr') > -1:
+            if tagUrl.text.find('www.flybeach.co.kr') > -1 and tag.find(class_='no') is not None:
                 pStr = println('  '+tag.find(class_='no').text, 5)
                 pStr += println(' '+tagTit.text, 60)
                 if tagdsc.text is not None:
