@@ -13,7 +13,7 @@ nowStr = str(now).replace('-','').replace(' ','_').replace(':','').replace('.','
 print('Start:'+nowStr)
 print('')
 
-findKeyArr = ['비키니', '래쉬가드']
+findKeyArr = ['래쉬가드', '비키니','모노키니','하이웨스트비키니']
 crolling_util.get_rank_common(sIdx, eIdx, findKeyArr, rankKey, rankKeyR, db)
 
 print('')
