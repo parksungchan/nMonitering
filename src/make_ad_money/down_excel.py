@@ -41,10 +41,25 @@ driver.find_element(By.XPATH, '//*[@id="container"]/div/div/fieldset/div/div/but
 # 광고 시스템 클릭
 driver.find_element(By.XPATH, '//*[@id="container"]/my-screen/div/div[1]/div/my-screen-board/div/div[1]/ul/li[1]/a').click()
 
+# 기존 파일 삭제
+rootdir = 'C:Users'
+for rootdir, dirs, files in os.walk(rootdir):
+    if os.path.split(rootdir)[1] == 'Downloads':
+        for file in files:
+            if file.find('키워드 목록') > -1:
+                file_path = os.path.join(rootdir, file)
+                os.remove(file_path)
+        break
+        
 # 상세 광고로 이동 하여 excel download
 for pc_mb in config.nv_ad_url.__dict__:
-    for link in config.nv_ad_url.__dict__[pc_mb]:
-        driver.get(link)
+    for link in config.nv_ad_url.__dict__[pc_mb].__dict__:
+        lk = config.nv_ad_url.__dict__[pc_mb].__dict__[link]
+        if lk == '':
+            continue
+        print(lk)
+        driver.get(lk)
+        time.sleep(2)
         driver.find_element(By.XPATH, '//*[@id="root"]/div/div[2]/div/div[1]/div[4]/div/div[1]/div/div/div[1]/div[1]/div[2]/div/button').click()
 
 print('Complete')
