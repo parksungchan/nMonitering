@@ -2,7 +2,7 @@ import datetime
 import requests
 from bs4 import BeautifulSoup
 import os
-import crolling as crolling
+from src_test import crolling as crolling
 import pymysql
 import openpyxl
 from selenium import webdriver
