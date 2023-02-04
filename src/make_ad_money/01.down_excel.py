@@ -67,7 +67,7 @@ for pc_mb in config.nv_ad_url.__dict__:
         lk = config.nv_ad_url.__dict__[pc_mb].__dict__[link]
         if lk == '':
             continue
-        print(lk)
+        print(link, lk)
         driver.get(lk)
         time.sleep(2)
         driver.find_element(By.XPATH, '//*[@id="root"]/div/div[2]/div/div[1]/div[4]/div/div[1]/div/div/div[1]/div[1]/div[2]/div/button').click()
