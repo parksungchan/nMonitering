@@ -26,8 +26,8 @@ def get_cofig_init():
 
     config_path = os.path.join(dirs['config_dir'], 'config.json')
     if os.path.exists(config_path):
-        with open(config_path) as f:
-            config_dict = json.loads(f.read())
+        with open(config_path, 'r', encoding="UTF-8") as fp:
+            config_dict = json.load(fp)
 
         config = CustomClass(config_dict)
 
