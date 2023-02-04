@@ -5,3 +5,4 @@ openpyxl
 selenium
 numpy
 pyperclip
+pandas
