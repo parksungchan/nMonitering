@@ -19,6 +19,17 @@ from selenium.webdriver.common.keys import Keys
     http://chromedriver.storage.googleapis.com/index.html
     
 '''
+# 기존 다운 받으려는 키워드 목록 파일 삭제
+rootdir = 'C:Users'
+for rootdir, dirs, files in os.walk(rootdir):
+    if os.path.split(rootdir)[1] == 'Downloads':
+        for file in files:
+            if file.find('키워드 목록') > -1:
+                file_path = os.path.join(rootdir, file)
+                os.remove(file_path)
+        break
+
+# Load Chrome Driver
 driver_dir = config.dirs.chromedriver_dir
 driver_path = os.path.join(driver_dir, 'chromedriver.exe')
 driver = webdriver.Chrome(executable_path=driver_path)
@@ -40,16 +51,6 @@ driver.find_element(By.XPATH, '//*[@id="container"]/div/div/fieldset/div/div/but
 
 # 광고 시스템 클릭
 driver.find_element(By.XPATH, '//*[@id="container"]/my-screen/div/div[1]/div/my-screen-board/div/div[1]/ul/li[1]/a').click()
-
-# 기존 파일 삭제
-rootdir = 'C:Users'
-for rootdir, dirs, files in os.walk(rootdir):
-    if os.path.split(rootdir)[1] == 'Downloads':
-        for file in files:
-            if file.find('키워드 목록') > -1:
-                file_path = os.path.join(rootdir, file)
-                os.remove(file_path)
-        break
         
 # 상세 광고로 이동 하여 excel download
 for pc_mb in config.nv_ad_url.__dict__:
