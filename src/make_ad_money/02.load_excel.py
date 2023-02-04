@@ -26,6 +26,7 @@ for md in money_dir_list:
 
         str_expr = "상태 == '노출가능'"
         df = df.query(str_expr)  # 조건 부합 데이터 추출
+        df.insert(0, '파일경로', os.path.splitext(file)[0])
         if df_main is None:
             df_main = df
         else:
