@@ -63,6 +63,7 @@ driver.find_element(By.XPATH, '//*[@id="container"]/my-screen/div/div[1]/div/my-
         
 # 상세 광고로 이동 하여 excel download
 for pc_mb in config.nv_ad_url.__dict__:
+    print('[Connect Start] ' + pc_mb)
     for link in config.nv_ad_url.__dict__[pc_mb].__dict__:
         lk = config.nv_ad_url.__dict__[pc_mb].__dict__[link]
         if lk == '':
@@ -83,7 +84,8 @@ for pc_mb in config.nv_ad_url.__dict__:
             src_path = os.path.join(download_dir, move)
             trg_path = os.path.join(money_dir, link + '.xlsx')
             shutil.move(src_path, trg_path)
-
+    print('[Connect Complete] ' + pc_mb)
+    print('')
     time.sleep(2)
 
 print('[Complete] Download Excel.')
