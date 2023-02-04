@@ -1,0 +1,7 @@
+requests
+bs4
+pymysql
+openpyxl
+selenium
+numpy
+pyperclip

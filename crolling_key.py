@@ -1,6 +1,5 @@
 import datetime
-import crolling as crolling
-from common import crolling_util as crolling_util
+from src_test.common import crolling_util as crolling_util
 
 sIdx = 1
 eIdx = 20

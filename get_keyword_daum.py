@@ -1,14 +1,11 @@
 from selenium import webdriver
 from bs4 import BeautifulSoup
-import crolling
-from common import crolling_util as crolling_util
+from src_test.common import crolling_util as crolling_util, key_value as key_value
 import time, os, shutil
 import pymysql
 
-from common import key_value as key_value
-
 # Chrome의 경우 | 아까 받은 chromedriver의 위치를 지정해준다.
-driver = webdriver.Chrome(crolling_util.data_path+"\chromedriver")
+driver = webdriver.Chrome(crolling_util.data_path + "\chromedriver")
 
 driver.implicitly_wait(3)
 
