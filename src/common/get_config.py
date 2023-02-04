@@ -21,6 +21,7 @@ def get_cofig_init():
     dirs['src_dir'] = os.path.dirname(dirs['common_dir'])
     dirs['pjt_dir'] = os.path.dirname(dirs['src_dir'])
     dirs['config_dir'] = os.path.join(dirs['pjt_dir'], 'config')
+    dirs['data_dir'] = os.path.join(dirs['pjt_dir'], 'data')
     dirs['master_dir'] = os.path.join(dirs['pjt_dir'], 'master')
     dirs['chromedriver_dir'] = os.path.join(dirs['master_dir'], 'chromedriver')
 
