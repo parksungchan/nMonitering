@@ -19,14 +19,14 @@ from selenium.webdriver.common.keys import Keys
     http://chromedriver.storage.googleapis.com/index.html
     
 '''
-# 기존 다운 받으려는 키워드 목록 파일 삭제
+# 기존 다운 받으려는 키워드 파일 삭제
 rootdir = 'C:Users'
 download_dir = ''
 for rootdir, dirs, files in os.walk(rootdir):
     if os.path.split(rootdir)[1] == 'Downloads':
         download_dir = copy.deepcopy(rootdir)
         for file in files:
-            if file.find('키워드 목록') > -1:
+            if file.find('키워드') > -1:
                 file_path = os.path.join(rootdir, file)
                 os.remove(file_path)
         break
@@ -71,17 +71,19 @@ for pc_mb in config.nv_ad_url.__dict__:
         driver.get(lk)
         time.sleep(2)
         driver.find_element(By.XPATH, '//*[@id="root"]/div/div[2]/div/div[1]/div[4]/div/div[1]/div/div/div[1]/div[1]/div[2]/div/button').click()
+        time.sleep(2)
+
+        # move file
+        # pc 와 모바일을 구분해서 저장해주어야 한다. download에 있는 파일을 data 폴더의 money로 옮겨준다.
+        money_dir = os.path.join(config.dirs.data_dir, 'money_' + pc_mb)
+        os.makedirs(money_dir, exist_ok=True)
+
+        move_list = [x for x in os.listdir(download_dir) if x.find('키워드') > -1]
+        for move in move_list:
+            src_path = os.path.join(download_dir, move)
+            trg_path = os.path.join(money_dir, link + '.xlsx')
+            shutil.move(src_path, trg_path)
+
     time.sleep(2)
 
-    #pc 와 모바일을 구분해서 저장해주어야 한다. pc가 끝나고 download에 있는 파일을 data 폴더의 money로 옮겨준다.
-    money_dir = os.path.join(config.dirs.data_dir, 'money_' + pc_mb)
-    os.makedirs(money_dir, exist_ok=True)
-
-    move_list = [x for x in os.listdir(download_dir) if x.find('키워드 목록') > -1]
-    for move in move_list:
-        src_path = os.path.join(download_dir, move)
-        trg_path = os.path.join(money_dir, move)
-        shutil.move(src_path, trg_path)
-    time.sleep(2)
-
-print('Complete')
+print('[Complete] Download Excel.')
