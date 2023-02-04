@@ -24,9 +24,18 @@ for md in money_dir_list:
         file_path = os.path.join(money_dir, file)
         df = pd.read_excel(file_path, engine='openpyxl')
 
+        # 노출 가능인 데이터만 추출
         str_expr = "상태 == '노출가능'"
-        df = df.query(str_expr)  # 조건 부합 데이터 추출
+        df = df.query(str_expr)
+
+        # 파일 명칭 컬럼 앞에 추가
         df.insert(0, '파일경로', os.path.splitext(file)[0])
+
+        # 불필요 컬럼 앞에 삭제
+        df = df.drop(['키워드 ID'], axis=1)
+        df = df.drop(['상태'], axis=1)
+        df = df.drop(['입찰가 유형'], axis=1)
+
         if df_main is None:
             df_main = df
         else:
