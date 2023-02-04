@@ -36,7 +36,7 @@ print('[Complete] Download Folder keyword list delete.')
 
 # 키워드 분석한 결과 money 디렉토리 삭제
 for dr in os.listdir(config.dirs.data_dir):
-    if dr.find('money') > -1:
+    if dr.find('money_nv') > -1:
         shutil.rmtree(os.path.join(config.dirs.data_dir, dr))
 print('[Complete] Money Folder delete.')
 
@@ -85,7 +85,7 @@ for pc_mb in config.nv_ad_url.__dict__:
         time.sleep(2)
 
         # download에 있는 파일을 data 폴더의 money로 옮겨준다.
-        money_dir = os.path.join(config.dirs.data_dir, 'money', 'money_' + pc_mb)
+        money_dir = os.path.join(config.dirs.data_dir, 'money_nv', 'money_' + pc_mb)
         os.makedirs(money_dir, exist_ok=True)
         move_list = [x for x in os.listdir(download_dir) if x.find('키워드') > -1]
         for move in move_list:
