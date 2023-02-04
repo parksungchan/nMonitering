@@ -1,4 +1,4 @@
-import os, copy
+import os, copy, datetime
 import time, shutil
 
 import pyperclip
@@ -65,6 +65,9 @@ driver.find_element(By.XPATH, '//*[@id="container"]/div/div/fieldset/div/div/but
 driver.find_element(By.XPATH, '//*[@id="container"]/my-screen/div/div[1]/div/my-screen-board/div/div[1]/ul/li[1]/a').click()
         
 # 상세 광고로 이동 하여 pc, mobile excel 을 구분 해서 저장해 주어야 한다
+now = datetime.datetime.now()
+now7 = (now - datetime.timedelta(days=7)).strftime("%Y.%m.%d")
+now1 = (now - datetime.timedelta(days=1)).strftime("%Y.%m.%d")
 for pc_mb in config.nv_ad_url.__dict__:
     print('[Connect Start] ' + pc_mb)
     for link in config.nv_ad_url.__dict__[pc_mb].__dict__:
@@ -82,12 +85,12 @@ for pc_mb in config.nv_ad_url.__dict__:
         time.sleep(2)
 
         # download에 있는 파일을 data 폴더의 money로 옮겨준다.
-        money_dir = os.path.join(config.dirs.data_dir, 'money_' + pc_mb)
+        money_dir = os.path.join(config.dirs.data_dir, 'money', 'money_' + pc_mb)
         os.makedirs(money_dir, exist_ok=True)
         move_list = [x for x in os.listdir(download_dir) if x.find('키워드') > -1]
         for move in move_list:
             src_path = os.path.join(download_dir, move)
-            trg_path = os.path.join(money_dir, link + '.xlsx')
+            trg_path = os.path.join(money_dir, link + now7 + '-' + now1 + '.xlsx')
             shutil.move(src_path, trg_path)
 
     print('[Connect Complete] ' + pc_mb)
