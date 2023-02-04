@@ -36,7 +36,7 @@ print('[Complete] Download Folder keyword list delete.')
 
 # 키워드 분석한 결과 money 디렉토리 삭제
 for dr in os.listdir(config.dirs.data_dir):
-    if dr.find('money_') > -1:
+    if dr.find('money') > -1:
         shutil.rmtree(os.path.join(config.dirs.data_dir, dr))
 print('[Complete] Money Folder delete.')
 
