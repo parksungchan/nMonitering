@@ -254,7 +254,7 @@ def nv_load_excel():
 
 
 '''
-1. 아래 명렬어를 밖으로 옮긴다.
+1. 아래 명렬어 주석을 제거한다.
     nv_down_excel()
     time.sleep(2)
     nv_load_excel()
@@ -264,3 +264,6 @@ def nv_load_excel():
     
     
 '''
+# nv_down_excel()
+# time.sleep(2)
+# nv_load_excel()
