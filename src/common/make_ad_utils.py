@@ -13,8 +13,6 @@ get_cofig_init()
 from src.common.get_config import config
 
 
-
-
 def nv_down_excel():
     '''
         크롬창에 url 넣어서 버전 확인 한다.
