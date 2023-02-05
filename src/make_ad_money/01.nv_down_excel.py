@@ -74,7 +74,7 @@ for pc_mb in config.nv_ad_url.__dict__:
         lk = config.nv_ad_url.__dict__[pc_mb].__dict__[link]
         if lk == '':
             continue
-        print(link, lk)
+        print(pc_mb, link, lk)
 
         # download page로 이동
         driver.get(lk)
