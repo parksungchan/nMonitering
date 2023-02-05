@@ -25,6 +25,8 @@ def get_cofig_init():
     dirs['master_dir'] = os.path.join(dirs['pjt_dir'], 'master')
     dirs['chromedriver_dir'] = os.path.join(dirs['master_dir'], 'chromedriver')
 
+    os.makedirs(dirs['data_dir'], exist_ok=True)
+
     config_path = os.path.join(dirs['config_dir'], 'config.json')
     if os.path.exists(config_path):
         with open(config_path, 'r', encoding="UTF-8") as fp:
