@@ -6,3 +6,4 @@ selenium
 numpy
 pyperclip
 pandas
+pyinstaller
