@@ -8,9 +8,118 @@ from selenium.webdriver.common.keys import Keys
 
 pjt_dir = os.path.dirname(os.path.abspath(__file__))
 
-from src.common.get_config import get_cofig_init
-get_cofig_init()
-from src.common.get_config import config
+config_info = {
+  "nv_ad_info": {"id" : "flybeach", "pw": "flyhub85!@"}
+  , "nv_ad_url": {
+      "pc": {
+        "자사명": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001628491798",
+        "01.수영복": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232606",
+        "01.수영복-남자": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000010571064",
+        "01.수영복-커플": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001798581417",
+        "02.1.경쟁업체": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232790",
+        "03-1.허니문_커플": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232784",
+        "03-2.허니문": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000001128493",
+        "03-3.비치드레스": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232605",
+        "03-4.비치웨어": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232608",
+        "03-5.비치_가디건탑": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000002188028",
+        "04-1.래쉬가드_주요": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629445851",
+        "04-2.래쉬가드_여자": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629445833",
+        "04-3.래쉬가드_남자": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232865",
+        "04-4.래쉬가드_커플": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000008552465",
+        "04-5.래쉬가드_워터": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000008552648",
+        "04-6.래쉬가드_하의": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000008563121",
+        "05-1.비키니(성과)": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232674",
+        "05-2.비티니(일반1)": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232615",
+        "05-2.비티니(일반2)": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232614",
+        "05-4.하이웨스트": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000006865309",
+        "05-5.모노키니": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000010488655",
+        "05-6.원피스수영복": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000010698531",
+        "06.비치용품": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232786",
+        "07.남자옷": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232641",
+        "08.여름옷": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232604",
+        "09.배송키워드": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000019258264",
+        "11.긴키워드": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001629232772",
+        "12.신혼여행커플룩": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000004586344",
+        "13.비치타올": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000004587199",
+        "14.비치타올방수팩": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000005497368",
+        "H.래쉬가드(세부)": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000011077736",
+        "H.모노키니(세부)": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000011077305",
+        "H.바캉스(세부)": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000011078122",
+        "H.비키니색상(세부)": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000011076504",
+        "H.수영복(세부)": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000011077101",
+        "H.와이어": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000011342874"
+      },
+      "mb": {
+        "자사명": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000001802249",
+        "02.1.경쟁업체": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825993574",
+        "03-1.허니문(성과)": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825993762",
+        "03-2.허니문(일반)": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825993741",
+        "03-3.비치드레스": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825994099",
+        "03-4.비치웨어": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000002189778",
+        "03-5.비치_원피스": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000002196392",
+        "03-6.커플수영복": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825993874",
+        "04-1.래쉬가드_주요": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825994341",
+        "04-2.래쉬가드_여자": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825994256",
+        "04-3.래쉬가드_남자": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000008553018",
+        "04-4.래쉬가드_커플": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000008553070",
+        "04-5.래쉬가드_워터": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000008553077",
+        "04-6.래쉬가드_하의": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000008556260",
+        "05-1.비키니(성과)": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825994792",
+        "05-2.비티니(일반1)": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825994355",
+        "05-3.수영복": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825998258",
+        "05-4.하이웨스트": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000006865251",
+        "05-5.모노키니": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000010488667",
+        "05-6.원피스수영복": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000010698635",
+        "06.비치용품": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825995386",
+        "07.남자옷": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825995470",
+        "08.550원설정키워드": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825995597",
+        "09.배송키워드": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825994721",
+        "11.긴키워드": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-m001-01-000001825994218",
+        "12.신혼여행커플룩": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000004586405",
+        "13.비치타올방수팩": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000005497491",
+        "H.래쉬가드(세부)": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000011078469",
+        "H.모노키니(세부)": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000011078471",
+        "H.바캉스(세부)": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000011078473",
+        "H.비키니색상(세부)": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000011078474",
+        "H.수영복(세부)": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000011078475",
+        "H.와이어": "https://manage.searchad.naver.com/customers/927013/adgroups/grp-a001-01-000000011342923"
+      }
+    }
+}
+
+config = None
+
+
+class CustomClass:
+    def __init__(self, config_dict):
+        for con in config_dict:
+            if type(config_dict[con]) is dict:
+                self.__setattr__(con, CustomClass(config_dict[con]))
+            else:
+                self.__setattr__(con, config_dict[con])
+
+
+def get_cofig_init():
+    global config
+    config = CustomClass({})
+
+    # dir list
+    dirs = {}
+    dirs['common_dir'] = os.path.dirname(os.path.abspath(__file__))
+    dirs['src_dir'] = os.path.dirname(dirs['common_dir'])
+    dirs['pjt_dir'] = os.path.dirname(dirs['src_dir'])
+    dirs['config_dir'] = os.path.join(dirs['pjt_dir'], 'config')
+    dirs['data_dir'] = os.path.join(dirs['pjt_dir'], 'data')
+    dirs['master_dir'] = os.path.join(dirs['pjt_dir'], 'master')
+    dirs['chromedriver_dir'] = os.path.join(dirs['master_dir'], 'chromedriver')
+
+    os.makedirs(dirs['data_dir'], exist_ok=True)
+
+    config = CustomClass(config_info)
+
+    config.__setattr__('dirs', CustomClass({}))
+    for ds in dirs:
+        config.dirs.__setattr__(ds, dirs[ds])
 
 
 def nv_down_excel():
@@ -24,7 +133,7 @@ def nv_down_excel():
         config.json에서 nv_ad_info, nv_ad_url 가 작성되어 있어야 한다.
 
     '''
-
+    get_cofig_init()
     # 기존 다운 받으려는 키워드 파일 삭제
     rootdir = 'C:Users'
     download_dir = ''
