@@ -1,12 +1,10 @@
-import os, copy, datetime
+import os, copy, datetime, sys
 import time, shutil, getpass
 import pandas as pd
 import pyperclip
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-
-pjt_dir = os.path.dirname(os.path.abspath(__file__))
 
 config_info = {
   "nv_ad_info": {"id" : "flybeach", "pw": "flyhub85!@"}
@@ -105,8 +103,12 @@ def get_cofig_init():
 
     # dir list
     dirs = {}
-    dirs['common_dir'] = os.path.dirname(os.path.abspath(__file__))
-    dirs['src_dir'] = os.path.dirname(dirs['common_dir'])
+    if getattr(sys, 'frozen', False):
+        # .exe로 실행한 경우,.exe를 보관한 디렉토리의 full path를 취득
+        dirs['cur_dir'] = os.path.split(os.path.dirname(os.path.abspath(sys.executable)))[0]
+    else:
+        dirs['cur_dir'] = os.path.split(os.path.realpath(__file__))[0]
+    dirs['src_dir'] = os.path.dirname(dirs['cur_dir'])
     dirs['pjt_dir'] = os.path.dirname(dirs['src_dir'])
     dirs['config_dir'] = os.path.join(dirs['pjt_dir'], 'config')
     dirs['data_dir'] = os.path.join(dirs['pjt_dir'], 'data')
@@ -138,7 +140,10 @@ def nv_down_excel():
     download_dir = os.path.join('C:Users', getpass.getuser(), 'Downloads')
     print('[Complete] Download Folder keyword list delete.')
 
-    # 키워드 분석한 결과 money 디렉토리 삭제
+    # # 키워드 분석한 결과 money 디렉토리 삭제
+    # with open("E:\\0105.python\\nMonitering\\src\\common\\foo.txt", "w") as f:
+    #     f.write(config.dirs.data_dir)
+
     for dr in os.listdir(config.dirs.data_dir):
         if dr.find('money_nv') > -1:
             shutil.rmtree(os.path.join(config.dirs.data_dir, dr))
@@ -254,16 +259,11 @@ def nv_load_excel():
 
 
 '''
-1. 아래 명렬어 주석을 제거한다.
-    nv_down_excel()
-    time.sleep(2)
-    nv_load_excel()
-    
-2. comon 폴더에서 아래 명령어를 실행한다.
-    pyinstaller -w -F make_ad_utils.py # 실행 파일 하나만 만들기
+    1. src/make_ad_money 폴더에서 아래 명령어를 실행한다.
+    pyinstaller -w -F make_nv_excel.py # 실행 파일 하나만 만들기
     
     
 '''
-# nv_down_excel()
-# time.sleep(2)
-# nv_load_excel()
+nv_down_excel()
+time.sleep(2)
+nv_load_excel()
