@@ -119,8 +119,8 @@ def nv_load_excel():
     money_dir_list = [x for x in sorted(os.listdir(money_dir))
                       if x.find('money_') > -1 and x.find('result') < 0]
 
-    df_main = None
     for md in money_dir_list:
+        df_main = None
         m_dir = os.path.join(money_dir, md)
         file_list = sorted(os.listdir(m_dir))
         for file in file_list:
