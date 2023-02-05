@@ -1,5 +1,5 @@
 import os, copy, datetime
-import time, shutil
+import time, shutil, getpass
 import pandas as pd
 import pyperclip
 from selenium import webdriver
@@ -135,16 +135,7 @@ def nv_down_excel():
     '''
     get_cofig_init()
     # 기존 다운 받으려는 키워드 파일 삭제
-    rootdir = 'C:Users'
-    download_dir = ''
-    for rootdir, dirs, files in os.walk(rootdir):
-        if os.path.split(rootdir)[1] == 'Downloads':
-            download_dir = copy.deepcopy(rootdir)
-            for file in files:
-                if file.find('키워드') > -1:
-                    file_path = os.path.join(rootdir, file)
-                    os.remove(file_path)
-            break
+    download_dir = os.path.join('C:Users', getpass.getuser(), 'Downloads')
     print('[Complete] Download Folder keyword list delete.')
 
     # 키워드 분석한 결과 money 디렉토리 삭제
