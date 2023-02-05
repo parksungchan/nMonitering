@@ -263,9 +263,7 @@ def nv_load_excel():
 
 '''
 1. src->make_ad_money 에 들어 가서 아래 명렬어를 친다.
-    pyinstaller 04.nv_exe_excel.py
-    pyinstaller -w 04.nv_exe_excel.py # 콘솔창 없애기
-    pyinstaller -w -F 04.nv_exe_excel.py # 실행 파일 하나만 만들기
+    pyinstaller -w -F 03.nv_all_excel.py # 실행 파일 하나만 만들기
 '''
 nv_down_excel()
 time.sleep(2)
