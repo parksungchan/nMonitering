@@ -251,3 +251,16 @@ def nv_load_excel():
             df_main.to_excel(writer, sheet_name='sheet1')
 
         print('[Complete] Make Excel File: ' + save_path)
+
+
+'''
+1. 아래 명렬어를 밖으로 옮긴다.
+    nv_down_excel()
+    time.sleep(2)
+    nv_load_excel()
+    
+2. comon 폴더에서 아래 명령어를 실행한다.
+    pyinstaller -w -F make_ad_utils.py # 실행 파일 하나만 만들기
+    
+    
+'''
