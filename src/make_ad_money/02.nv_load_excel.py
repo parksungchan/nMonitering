@@ -29,8 +29,11 @@ for md in money_dir_list:
         str_expr = "상태 == '노출가능'"
         df = df.query(str_expr)
 
-        # 파일 명칭 컬럼 앞에 추가
-        df.insert(0, '파일경로', os.path.splitext(file)[0])
+        # data 앞에 파일경로, 수집 날짜 추가
+        file_s = file.split('$')
+        df.insert(0, '파일경로', file_s[0])
+        df.insert(0, 'End', file_s[2])
+        df.insert(0, 'Start', file_s[1])
 
         # 불필요 컬럼 앞에 삭제
         df = df.drop(['키워드 ID'], axis=1)
