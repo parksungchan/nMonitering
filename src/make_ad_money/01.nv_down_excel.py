@@ -85,12 +85,12 @@ for pc_mb in config.nv_ad_url.__dict__:
         time.sleep(2)
 
         # download에 있는 파일을 data 폴더의 money로 옮겨준다.
-        money_dir = os.path.join(config.dirs.data_dir, 'money_nv', 'money_' + pc_mb)
+        money_dir = os.path.join(config.dirs.data_dir, 'money_nv', 'money_nv_' + pc_mb)
         os.makedirs(money_dir, exist_ok=True)
         move_list = [x for x in os.listdir(download_dir) if x.find('키워드') > -1]
         for move in move_list:
             src_path = os.path.join(download_dir, move)
-            trg_path = os.path.join(money_dir, link + now7 + '-' + now1 + '.xlsx')
+            trg_path = os.path.join(money_dir, link + '-' + now7 + '-' + now1 + '.xlsx')
             shutil.move(src_path, trg_path)
 
     print('[Connect Complete] ' + pc_mb)

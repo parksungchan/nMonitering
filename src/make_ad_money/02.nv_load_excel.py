@@ -7,21 +7,22 @@ from src.common.get_config import get_cofig_init
 get_cofig_init()
 from src.common.get_config import config
 
-result_dir = os.path.join(config.dirs.data_dir, 'money_result')
+money_dir = os.path.join(config.dirs.data_dir, 'money_nv')
+result_dir = os.path.join(money_dir, 'money_nv_result')
 if os.path.exists(result_dir):
     shutil.rmtree(result_dir)
     time.sleep(1)
 os.makedirs(result_dir, exist_ok=True)
 
-money_dir_list = [x for x in sorted(os.listdir(config.dirs.data_dir))
-                    if x.find('money_') > -1 and x.find('money_result') < 0]
+money_dir_list = [x for x in sorted(os.listdir(money_dir))
+                    if x.find('money_') > -1 and x.find('result') < 0]
 
 df_main = None
 for md in money_dir_list:
-    money_dir = os.path.join(config.dirs.data_dir, md)
-    file_list = sorted(os.listdir(money_dir))
+    m_dir = os.path.join(money_dir, md)
+    file_list = sorted(os.listdir(m_dir))
     for file in file_list:
-        file_path = os.path.join(money_dir, file)
+        file_path = os.path.join(m_dir, file)
         df = pd.read_excel(file_path, engine='openpyxl')
 
         # 노출 가능인 데이터만 추출
