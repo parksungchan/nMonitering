@@ -250,6 +250,8 @@ def nv_load_excel():
             else:
                 df_main = pd.concat([df_main, df])
         df_main = df_main.sort_values(by=['입찰가'], axis=0, ascending=False)
+        kws = df_main[['키워드']]
+        kws.to_csv(os.path.join(config.dirs.data_dir, md + '_key.txt'), index=False)
 
         save_path = os.path.join(result_dir, md + '.xlsx')
         with pd.ExcelWriter(save_path) as writer:
