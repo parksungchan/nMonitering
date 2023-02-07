@@ -1,4 +1,9 @@
-import os, copy, datetime, sys
+import os, copy, datetime, sys, shutil, time
+import requests
+from bs4 import BeautifulSoup
+from tqdm import tqdm
+import pandas as pd
+
 config = None
 config_info = {}
 
@@ -38,9 +43,8 @@ def get_cofig_init():
         config.dirs.__setattr__(ds, dirs[ds])
 
 
-def nv_down_seq():
+def get_key_list():
     key_list = []
-    get_cofig_init()
     for dr in os.listdir(config.dirs.data_dir):
         if dr.find('_key.txt') > -1:
             file_path = os.path.join(config.dirs.data_dir, dr)
@@ -50,10 +54,48 @@ def nv_down_seq():
             for line in lines:
                 if line not in key_list:
                     key_list.append(line.replace('\n', ''))
+    return key_list
 
 
+def nv_down_seq():
+    get_cofig_init()
+    pl_dir = os.path.join(config.dirs.data_dir, 'power_link_nv')
+    if os.path.exists(pl_dir):
+        shutil.rmtree(pl_dir)
+        time.sleep(1)
+    os.makedirs(pl_dir, exist_ok=True)
+
+    key_list = get_key_list()
+
+    # key_list = ['비치원피스', '플라이비치']
+    print('[Start] ', datetime.datetime.now())
+    time.sleep(1)
+    key_pd = []
+    for strTxt_cnt in tqdm(range(len(key_list)), desc='Total: ' + str(len(key_list))):
+        strTxt = key_list[strTxt_cnt]
+        pg_list = [1, 2]
+        idx = 1
+        for pg in pg_list:
+            url = 'https://ad.search.naver.com/search.naver?where=ad&query=' + strTxt + '&pagingIndex=' + str(pg)
+            page = requests.get(url)
+            soup = BeautifulSoup(page.content, "html.parser")
+
+            for tag in soup.select('li'):
+                tagImg = tag.find(class_='tit_wrap') # lnk_tit
+                if tagImg is not None:
+                    sub_tagImg = tagImg.find(class_='lnk_tit')
+                    if str(sub_tagImg).find('플라이비치') > -1:
+                        # print(idx, sub_tagImg)
+                        key_pd.append({'tag': strTxt, 'val': idx})
+
+                    idx += 1
+    df = pd.DataFrame(key_pd)
+    df_main = df.sort_values(by=df.columns[1], ascending=True)
+    save_path = os.path.join(pl_dir, 'pc_power_link' + '.xlsx')
+    with pd.ExcelWriter(save_path) as writer:
+        df_main.to_excel(writer, sheet_name='sheet1')
+    time.sleep(1)
+    print('[Complete] ', datetime.datetime.now())
     print('a')
-
-
 
 nv_down_seq()
