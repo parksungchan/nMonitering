@@ -46,7 +46,7 @@ def get_cofig_init():
 def get_key_list():
     key_list = []
     for dr in os.listdir(config.dirs.data_dir):
-        if dr.find('_key.txt') > -1:
+        if dr.find('pc_key.txt') > -1:
             file_path = os.path.join(config.dirs.data_dir, dr)
             with open(file_path, 'r', encoding='UTF8') as f:
                 lines = f.readlines()[1:]
@@ -68,11 +68,10 @@ def nv_down_seq():
     key_list = get_key_list()
 
     # key_list = ['비치원피스', '플라이비치']
-    print('[Start] ', datetime.datetime.now())
     time.sleep(1)
     key_pd = []
     for strTxt_cnt in tqdm(range(len(key_list)), desc='Total: ' + str(len(key_list))):
-        strTxt = key_list[strTxt_cnt]
+        strTxt, cost = key_list[strTxt_cnt].split(',')
         pg_list = [1, 2]
         idx = 1
         for pg in pg_list:
@@ -86,7 +85,7 @@ def nv_down_seq():
                     sub_tagImg = tagImg.find(class_='lnk_tit')
                     if str(sub_tagImg).find('플라이비치') > -1:
                         # print(idx, sub_tagImg)
-                        key_pd.append({'tag': strTxt, 'val': idx})
+                        key_pd.append({'tag': strTxt, 'val': idx, 'cost': int(float(cost))})
 
                     idx += 1
     df = pd.DataFrame(key_pd)
@@ -95,11 +94,13 @@ def nv_down_seq():
     with pd.ExcelWriter(save_path) as writer:
         df_main.to_excel(writer, sheet_name='sheet1')
     time.sleep(1)
-    print('[Complete] ', datetime.datetime.now())
+
 
 
 '''
     1. src/make_ad_seq 폴더에서 아래 명령어를 실행한다.
     pyinstaller -w -F make_ad_seq.py # 실행 파일 하나만 만들기
 '''
+print('[Start] ', datetime.datetime.now())
 nv_down_seq()
+print('[Complete] ', datetime.datetime.now())
