@@ -151,7 +151,7 @@ def nv_down_excel():
         if dr.find('money_nv') > -1:
             d = os.path.join(config.dirs.data_dir, dr)
             if os.path.isdir(d):
-                shutil.rmtree()
+                shutil.rmtree(d)
     print('[Complete] Money Folder delete.')
 
     # Load Chrome Driver
