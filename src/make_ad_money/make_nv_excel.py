@@ -273,6 +273,8 @@ def nv_load_excel():
     
     
 '''
+print('[Start] ', datetime.datetime.now())
 nv_down_excel()
 time.sleep(2)
 nv_load_excel()
+print('[Complete] ', datetime.datetime.now())
