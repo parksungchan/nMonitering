@@ -98,4 +98,8 @@ def nv_down_seq():
     print('[Complete] ', datetime.datetime.now())
 
 
+'''
+    1. src/make_ad_seq 폴더에서 아래 명령어를 실행한다.
+    pyinstaller -w -F make_ad_seq.py # 실행 파일 하나만 만들기
+'''
 nv_down_seq()
