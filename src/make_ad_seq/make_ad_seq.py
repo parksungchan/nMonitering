@@ -93,6 +93,7 @@ def nv_down_seq():
     save_path = os.path.join(pl_dir, 'pc_power_link' + '.xlsx')
     with pd.ExcelWriter(save_path) as writer:
         df_main.to_excel(writer, sheet_name='sheet1')
+    print('[Download]', save_path)
     time.sleep(1)
 
 
