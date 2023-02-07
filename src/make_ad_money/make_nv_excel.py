@@ -149,7 +149,9 @@ def nv_down_excel():
 
     for dr in os.listdir(config.dirs.data_dir):
         if dr.find('money_nv') > -1:
-            shutil.rmtree(os.path.join(config.dirs.data_dir, dr))
+            d = os.path.join(config.dirs.data_dir, dr)
+            if os.path.isdir(d):
+                shutil.rmtree()
     print('[Complete] Money Folder delete.')
 
     # Load Chrome Driver
@@ -253,8 +255,10 @@ def nv_load_excel():
             else:
                 df_main = pd.concat([df_main, df])
         df_main = df_main.sort_values(by=['입찰가'], axis=0, ascending=False)
-        kws = df_main[['키워드']]
-        kws.to_csv(os.path.join(config.dirs.data_dir, md + '_key.txt'), index=False)
+        kws = df_main[['키워드', '입찰가']]
+        txt_path = os.path.join(config.dirs.data_dir, md + '_key.txt')
+        kws.to_csv(txt_path, index=False)
+        print('[Complete] Make key File: ' + txt_path)
 
         save_path = os.path.join(result_dir, md + '.xlsx')
         with pd.ExcelWriter(save_path) as writer:
