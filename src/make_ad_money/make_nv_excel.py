@@ -270,8 +270,6 @@ def nv_load_excel():
 '''
     1. src/make_ad_money 폴더에서 아래 명령어를 실행한다.
     pyinstaller -w -F make_nv_excel.py # 실행 파일 하나만 만들기
-    
-    
 '''
 print('[Start] ', datetime.datetime.now())
 nv_down_excel()
