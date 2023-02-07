@@ -96,6 +96,6 @@ def nv_down_seq():
         df_main.to_excel(writer, sheet_name='sheet1')
     time.sleep(1)
     print('[Complete] ', datetime.datetime.now())
-    print('a')
+
 
 nv_down_seq()
