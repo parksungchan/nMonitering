@@ -6,6 +6,9 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
+'''
+    네이버 광고 사이트에 각 키워드 별로 얼마의 금액이 책정되어 있는지 확인할 수 있다.
+'''
 config_info = {
   "nv_ad_info": {"id" : "flybeach", "pw": "flyhub85!@"}
   , "nv_ad_url": {
