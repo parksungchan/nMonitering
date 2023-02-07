@@ -67,7 +67,7 @@ def nv_down_seq():
 
     key_list = get_key_list()
 
-    # key_list = ['비치원피스', '플라이비치']
+    # key_list = ['큐티수영복,130.0', '플라이비치,150.0']
     time.sleep(1)
     key_pd = []
     for strTxt_cnt in tqdm(range(len(key_list)), desc='Total: ' + str(len(key_list))):
