@@ -93,7 +93,7 @@ def nv_down_seq():
         key_pd.append(key_json)
 
     df = pd.DataFrame(key_pd)
-    df_main = df.sort_values(by=df.columns[1], ascending=True)
+    df_main = df.sort_values(by=df.columns[2], ascending=True)
     save_path = os.path.join(pl_dir, 'pc_power_link' + '.xlsx')
     with pd.ExcelWriter(save_path) as writer:
         df_main.to_excel(writer, sheet_name='sheet1')
