@@ -74,6 +74,7 @@ def nv_down_seq():
         strTxt, cost = key_list[strTxt_cnt].split(',')
         pg_list = [1, 2]
         idx = 1
+        key_json = {}
         for pg in pg_list:
             url = 'https://ad.search.naver.com/search.naver?where=ad&query=' + strTxt + '&pagingIndex=' + str(pg)
             page = requests.get(url)
@@ -85,9 +86,12 @@ def nv_down_seq():
                     sub_tagImg = tagImg.find(class_='lnk_tit')
                     if str(sub_tagImg).find('플라이비치') > -1:
                         # print(idx, sub_tagImg)
-                        key_pd.append({'tag': strTxt, 'val': idx, 'cost': int(float(cost))})
+                        key_json = {'tag': strTxt, 'cost': int(float(cost)), 'val': idx}
 
                     idx += 1
+        key_json['ToTalIdx'] = idx
+        key_pd.append(key_json)
+
     df = pd.DataFrame(key_pd)
     df_main = df.sort_values(by=df.columns[1], ascending=True)
     save_path = os.path.join(pl_dir, 'pc_power_link' + '.xlsx')
