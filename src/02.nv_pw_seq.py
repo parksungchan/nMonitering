@@ -90,7 +90,7 @@ def nv_down_seq():
                 save_json['TotalIdx'] = loc_idx - 1
                 key_pd.append(save_json)
                 key_idx += 1
-                print('[Progrss]', str(key_idx) + '/' + str(key_cnt_json['total']), save_json)
+                print('[Progrss]', mp, str(key_idx) + '/' + str(key_cnt_json['total']), save_json)
 
         df = pd.DataFrame(key_pd)
         df_main = df.sort_values(by=['idx', 'TotalIdx'], ascending=[True, True])
