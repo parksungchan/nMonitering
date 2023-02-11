@@ -112,7 +112,9 @@ def nv_down_seq():
     print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
     print('')
 
-
-print('[Start] ', datetime.datetime.now())
+start = datetime.datetime.now()
+# print('[Start] ', start)
 nv_down_seq()
+print('[Start] ', start)
 print('[Complete] ', datetime.datetime.now())
+print('[Total] ', datetime.datetime.now() - start)
