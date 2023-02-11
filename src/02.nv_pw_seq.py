@@ -54,9 +54,10 @@ def nv_down_seq():
     pg_list = [1, 2]  # 총 2page 의 50건에 대해서만 체크 한다.
     url_json = {'pc': 'https://ad.search.naver.com/search.naver?where=ad&query='
                 , 'mb': 'https://m.ad.search.naver.com/search.naver?where=m_expd&query='}
+
+    key_idx = 0
     for mp in key_json:
         key_pd = []
-        key_idx = 0
         ct_json = key_json[mp]
         for ct in ct_json:
             k_json = ct_json[ct]
