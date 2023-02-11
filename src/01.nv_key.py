@@ -176,22 +176,20 @@ def nv_down_excel():
 
 
 def nv_load_excel():
-    money_dir = os.path.join(config.dirs.data_dir, 'money_nv')
-    result_dir = os.path.join(money_dir, 'money_nv_result')
+    result_dir = config.dirs.result_nv_key
     if os.path.exists(result_dir):
         shutil.rmtree(result_dir)
         time.sleep(1)
     os.makedirs(result_dir, exist_ok=True)
 
-    money_dir_list = [x for x in sorted(os.listdir(money_dir))
-                      if x.find('money_') > -1 and x.find('result') < 0]
+    key_dir_list = [x for x in sorted(os.listdir(config.dirs.data_sub_dir))]
 
-    for md in money_dir_list:
+    for mp in key_dir_list:
         df_main = None
-        m_dir = os.path.join(money_dir, md)
-        file_list = sorted(os.listdir(m_dir))
+        mp_dir = os.path.join(config.dirs.data_sub_dir, mp)
+        file_list = sorted(os.listdir(mp_dir))
         for file in file_list:
-            file_path = os.path.join(m_dir, file)
+            file_path = os.path.join(mp_dir, file)
             df = pd.read_excel(file_path, engine='openpyxl')
 
             # 노출 가능인 데이터만 추출
@@ -213,13 +211,8 @@ def nv_load_excel():
                 df_main = df
             else:
                 df_main = pd.concat([df_main, df])
-        df_main = df_main.sort_values(by=['입찰가'], axis=0, ascending=False)
-        kws = df_main[['키워드', '입찰가']]
-        txt_path = os.path.join(config.dirs.data_dir, md + '_key.txt')
-        kws.to_csv(txt_path, index=False)
-        print('[Complete] Make key File: ' + txt_path)
 
-        save_path = os.path.join(result_dir, md + '.xlsx')
+        save_path = os.path.join(result_dir, mp + '.xlsx')
         with pd.ExcelWriter(save_path) as writer:
             df_main.to_excel(writer, sheet_name='sheet1')
 
@@ -231,7 +224,13 @@ def nv_load_excel():
     pyinstaller -w -F 01.nv_key.py # 실행 파일 하나만 만들기
 '''
 print('[Start] ', datetime.datetime.now())
-nv_down_excel()
-time.sleep(2)
-# nv_load_excel()
+# nv_down_excel()
+# time.sleep(2)
+nv_load_excel()
 print('[Complete] ', datetime.datetime.now())
+
+# df_main = df_main.sort_values(by=['입찰가'], axis=0, ascending=False)
+# kws = df_main[['키워드', '입찰가']]
+# txt_path = os.path.join(config.dirs.data_dir, md + '_key.txt')
+# kws.to_csv(txt_path, index=False)
+# print('[Complete] Make key File: ' + txt_path)
