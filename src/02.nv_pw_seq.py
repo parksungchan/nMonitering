@@ -89,6 +89,8 @@ def nv_down_seq():
                 if '키워드' not in save_json:
                     save_json['Category'] = ct
                     save_json['키워드'] = key
+                    save_json['idx'] = 0
+                    save_json['입찰가'] = 0
                 save_json['TotalIdx'] = loc_idx - 1
                 key_pd.append(save_json)
                 key_idx += 1
