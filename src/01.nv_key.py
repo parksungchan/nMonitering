@@ -219,10 +219,6 @@ def nv_load_excel():
         print('[Complete] Make Excel File: ' + save_path)
 
 
-'''
-    1. src/make_ad_money 폴더에서 아래 명령어를 실행한다.
-    pyinstaller -w -F 01.nv_key.py # 실행 파일 하나만 만들기
-'''
 print('[Start] ', datetime.datetime.now())
 nv_down_excel()
 time.sleep(2)
