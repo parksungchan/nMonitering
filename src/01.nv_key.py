@@ -115,8 +115,7 @@ def nv_down_excel():
     print('[Complete] Key Folder delete.')
 
     # Load Chrome Driver
-    driver_dir = config.dirs.chromedriver_dir
-    driver_path = os.path.join(driver_dir, 'chromedriver.exe')
+    driver_path = os.path.join(config.dirs.common_dir, 'chromedriver.exe')
     driver = webdriver.Chrome(executable_path=driver_path)
     driver.implicitly_wait(3)
     print('[Complete] Driever Load.')
