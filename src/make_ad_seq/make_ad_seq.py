@@ -69,7 +69,7 @@ def nv_down_seq():
 
     key_list = get_key_list()
 
-    # key_list = ['큐티수영복,130.0', '플라이비치,150.0']
+    # key_list = ['검정색이쁜모노키니,130.0', '플라이비치,150.0']
     time.sleep(1)
     key_pd = []
     key_idx = 0
@@ -93,7 +93,7 @@ def nv_down_seq():
                         key_json = {'tag': strTxt, 'cost': int(float(cost)), 'val': idx}
 
                     idx += 1
-        key_json['ToTalIdx'] = idx
+        key_json['TotalIdx'] = idx - 1
         key_pd.append(key_json)
         key_idx += 1
         print('[Progrss]', str(key_idx) + '/' + str(total_idx))
