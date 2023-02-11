@@ -218,14 +218,10 @@ def nv_load_excel():
         print('[Complete] Make Excel File: ' + save_path)
 
 
-print('[Start] ', datetime.datetime.now())
+start = datetime.datetime.now()
 nv_down_excel()
 time.sleep(2)
 nv_load_excel()
+print('[Start] ', start)
 print('[Complete] ', datetime.datetime.now())
-
-# df_main = df_main.sort_values(by=['입찰가'], axis=0, ascending=False)
-# kws = df_main[['키워드', '입찰가']]
-# txt_path = os.path.join(config.dirs.data_dir, md + '_key.txt')
-# kws.to_csv(txt_path, index=False)
-# print('[Complete] Make key File: ' + txt_path)
+print('[Total] ', datetime.datetime.now() - start)
