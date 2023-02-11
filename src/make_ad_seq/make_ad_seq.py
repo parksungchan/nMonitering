@@ -1,7 +1,10 @@
 import os, copy, datetime, sys, shutil, time
 import requests
+import pyperclip
 from bs4 import BeautifulSoup
-# from tqdm import tqdm
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 import pandas as pd
 
 config = None
@@ -58,7 +61,6 @@ def get_key_list():
 
 
 def nv_down_seq():
-    get_cofig_init()
     pl_dir = os.path.join(config.dirs.data_dir, 'power_link_nv')
     if os.path.exists(pl_dir):
         shutil.rmtree(pl_dir)
@@ -111,5 +113,7 @@ def nv_down_seq():
     pyinstaller -w -F make_ad_seq.py # 실행 파일 하나만 만들기
 '''
 print('[Start] ', datetime.datetime.now())
+get_cofig_init()
+time.sleep(1)
 nv_down_seq()
 print('[Complete] ', datetime.datetime.now())
