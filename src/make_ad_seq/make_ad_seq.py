@@ -69,7 +69,7 @@ def nv_down_seq():
 
     key_list = get_key_list()
 
-    key_list = ['검정색이쁜모노키니,130.0', '플라이비치,150.0']
+    # key_list = ['검정색이쁜모노키니,130.0', '플라이비치,150.0']
     time.sleep(1)
     key_pd = []
     key_idx = 0
