@@ -78,7 +78,7 @@ def nv_down_seq():
                     for tag in soup.select('li'):
                         url_content = tag.find(class_='tit_wrap')
                         if url_content is not None:
-                            if url_content is not None and url_content.text.find('flybeach.co.kr') > 0 and iflag:
+                            if url_content.text.find('flybeach.co.kr') > 0 and iflag:
                                 save_json = {'Category': ct, '키워드': key
                                             , '입찰가': int(key_val['입찰가'])
                                             , '평균클릭비용': int(key_val['평균클릭비용'])
