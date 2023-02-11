@@ -1,7 +1,7 @@
 import os, copy, datetime, sys, shutil, time
 import requests
 from bs4 import BeautifulSoup
-from tqdm import tqdm
+# from tqdm import tqdm
 import pandas as pd
 
 config = None
@@ -70,7 +70,9 @@ def nv_down_seq():
     # key_list = ['큐티수영복,130.0', '플라이비치,150.0']
     time.sleep(1)
     key_pd = []
-    for strTxt_cnt in tqdm(range(len(key_list)), desc='Total: ' + str(len(key_list))):
+    key_idx = 0
+    total_idx = str(len(key_list))
+    for strTxt_cnt in range(total_idx):
         strTxt, cost = key_list[strTxt_cnt].split(',')
         pg_list = [1, 2]
         idx = 1
@@ -91,6 +93,8 @@ def nv_down_seq():
                     idx += 1
         key_json['ToTalIdx'] = idx
         key_pd.append(key_json)
+        key_idx += 1
+        print('[Progrss]', str(key_idx) + '/' + str(total_idx))
 
     df = pd.DataFrame(key_pd)
     df_main = df.sort_values(by=df.columns[2], ascending=True)
