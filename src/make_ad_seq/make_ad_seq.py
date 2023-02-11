@@ -71,7 +71,7 @@ def nv_down_seq():
     time.sleep(1)
     key_pd = []
     key_idx = 0
-    total_idx = str(len(key_list))
+    total_idx = len(key_list)
     for strTxt_cnt in range(total_idx):
         strTxt, cost = key_list[strTxt_cnt].split(',')
         pg_list = [1, 2]
