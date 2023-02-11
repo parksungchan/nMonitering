@@ -97,7 +97,7 @@ def nv_down_seq():
                 print('[Progrss]', mp, str(key_idx) + '/' + str(key_cnt_json['total']), save_json)
 
         df = pd.DataFrame(key_pd)
-        df_main = df.sort_values(by=['Category', 'idx', 'TotalIdx'], ascending=[True, True, True])
+        df_main = df.sort_values(by=['Category', 'idx', 'TotalIdx', '입찰가'], ascending=[True, True, True, True])
         save_path = os.path.join(config.dirs.result_nv_seq, mp + '.xlsx')
         with pd.ExcelWriter(save_path) as writer:
             df_main.to_excel(writer, sheet_name='sheet1')
