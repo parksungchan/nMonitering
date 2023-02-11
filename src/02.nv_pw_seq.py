@@ -56,6 +56,7 @@ def nv_down_seq():
                 , 'mb': 'https://m.ad.search.naver.com/search.naver?where=m_expd&query='}
 
     key_idx = 0
+    down_list = []
     for mp in key_json:
         key_pd = []
         ct_json = key_json[mp]
@@ -100,12 +101,16 @@ def nv_down_seq():
         save_path = os.path.join(config.dirs.result_nv_seq, mp + '.xlsx')
         with pd.ExcelWriter(save_path) as writer:
             df_main.to_excel(writer, sheet_name='sheet1')
-        print('')
-        print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-        print('[Download]', save_path)
-        print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-        print('')
+        down_list.append(save_path)
+
         time.sleep(1)
+
+    print('')
+    print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+    for down in down_list:
+        print('[Download]', down)
+    print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+    print('')
 
 
 print('[Start] ', datetime.datetime.now())
