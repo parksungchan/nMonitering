@@ -95,6 +95,8 @@ def nv_down_seq():
                         iflag = False
 
                     idx += 1
+        if 'tag' not in key_json:
+            key_json['tag'] = strTxt
         key_json['TotalIdx'] = idx - 1
         key_pd.append(key_json)
         key_idx += 1
