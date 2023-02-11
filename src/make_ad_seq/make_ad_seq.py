@@ -69,7 +69,7 @@ def nv_down_seq():
 
     key_list = get_key_list()
 
-    # key_list = ['검정색이쁜모노키니,130.0', '플라이비치,150.0']
+    key_list = ['검정색이쁜모노키니,130.0', '플라이비치,150.0']
     time.sleep(1)
     key_pd = []
     key_idx = 0
@@ -79,6 +79,7 @@ def nv_down_seq():
         pg_list = [1, 2]
         idx = 1
         key_json = {}
+        iflag = True
         for pg in pg_list:
             url = 'https://ad.search.naver.com/search.naver?where=ad&query=' + strTxt + '&pagingIndex=' + str(pg)
             page = requests.get(url)
@@ -88,18 +89,19 @@ def nv_down_seq():
                 tagImg = tag.find(class_='tit_wrap') # lnk_tit
                 if tagImg is not None:
                     sub_tagImg = tagImg.find(class_='lnk_tit')
-                    if str(sub_tagImg).find('플라이비치') > -1:
+                    if str(sub_tagImg).find('플라이비치') > -1 and iflag:
                         # print(idx, sub_tagImg)
-                        key_json = {'tag': strTxt, 'cost': int(float(cost)), 'val': idx}
+                        key_json = {'tag': strTxt, 'cost': int(float(cost)), 'idx': idx}
+                        iflag = False
 
                     idx += 1
         key_json['TotalIdx'] = idx - 1
         key_pd.append(key_json)
         key_idx += 1
-        print('[Progrss]', str(key_idx) + '/' + str(total_idx))
+        print('[Progrss]', str(key_idx) + '/' + str(total_idx), key_json)
 
     df = pd.DataFrame(key_pd)
-    df_main = df.sort_values(by=df.columns[2], ascending=True)
+    df_main = df.sort_values(by=['idx', 'TotalIdx'], ascending=[True, True])
     save_path = os.path.join(pl_dir, 'pc_power_link' + '.xlsx')
     with pd.ExcelWriter(save_path) as writer:
         df_main.to_excel(writer, sheet_name='sheet1')
