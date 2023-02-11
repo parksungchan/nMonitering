@@ -86,7 +86,7 @@ def nv_down_seq():
                                 iflag = False
 
                             loc_idx += 1
-                if '키워드' not in save_json:
+                if '키워드' not in save_json or 'idx' not in save_json or '입찰가' not in save_json:
                     save_json['Category'] = ct
                     save_json['키워드'] = key
                     save_json['idx'] = 0
