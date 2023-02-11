@@ -44,9 +44,9 @@ def nv_down_seq():
 
     key_json, key_cnt_json = get_key_json()
     '''
-    key_json = {'pc':
-                    {'01.수영복':
-                           {'30대수영복':{'입찰가': 300, '노출수': 6, '클릭수': 2, '평균클릭비용': 264
+    key_json = {'mb':
+                    {'02.1.경쟁업체':
+                           {'고고비치':{'입찰가': 300, '노출수': 6, '클릭수': 2, '평균클릭비용': 264
                                , '총비용': 528, '노출가능광고개수': 15,'start':'2023.02.04','end':'2023.02.10'}}
                     }
                 }
@@ -75,6 +75,8 @@ def nv_down_seq():
                         tagImg = tag.find(class_='tit_wrap') # lnk_tit
                         if tagImg is not None:
                             sub_tagImg = tagImg.find(class_='lnk_tit')
+                            if sub_tagImg is None:
+                                sub_tagImg = tagImg.find(class_='txt_link')
                             if str(sub_tagImg).find('플라이비치') > -1 and iflag:
                                 # print(idx, sub_tagImg)
                                 save_json = {'Category': ct, '키워드': key
@@ -97,7 +99,11 @@ def nv_down_seq():
         save_path = os.path.join(config.dirs.result_nv_seq, mp + '.xlsx')
         with pd.ExcelWriter(save_path) as writer:
             df_main.to_excel(writer, sheet_name='sheet1')
+        print('')
+        print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
         print('[Download]', save_path)
+        print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+        print('')
         time.sleep(1)
 
 
