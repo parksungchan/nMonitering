@@ -246,13 +246,14 @@ def nv_down_seq():
                                 save_json = {'Category': ct, '키워드': key
                                     , '입찰가': int(key_val['입찰가'])
                                     , '평균클릭비용': int(key_val['평균클릭비용'])
+                                    , '총비용': int(key_val['총비용'])
                                     , 'idx': loc_idx}
                                 iflag = False
 
                             loc_idx += 1
                 if '키워드' not in save_json or 'idx' not in save_json or '입찰가' not in save_json:
-                    save_json['Category'] = ct
                     save_json['키워드'] = key
+                    save_json['Category'] = ct
                     save_json['idx'] = 0
                     save_json['입찰가'] = 0
                 save_json['TotalIdx'] = loc_idx - 1
